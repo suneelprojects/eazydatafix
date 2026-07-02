@@ -1,3 +1,1 @@
-from .autofix import autofix
-
-__all__ = ["autofix"]
+__version__ = "0.1.0"

@@ -13,8 +13,7 @@ class ScoreCalculator:
     ) -> QualityScore:
 
         score = round(
-            (completeness_score * 0.60)
-            + (uniqueness_score * 0.40),
+            (completeness_score * 0.60) + (uniqueness_score * 0.40),
             2,
         )
 

@@ -12,24 +12,19 @@ class TypeMapper:
         "int16": DataType.INTEGER,
         "int32": DataType.INTEGER,
         "int64": DataType.INTEGER,
-
         # Decimal
         "float16": DataType.DECIMAL,
         "float32": DataType.DECIMAL,
         "float64": DataType.DECIMAL,
-
         # Text
         "object": DataType.TEXT,
         "string": DataType.TEXT,
         "str": DataType.TEXT,
-
         # Boolean
         "bool": DataType.BOOLEAN,
-
         # Date & Time
         "datetime64[ns]": DataType.DATETIME,
         "timedelta64[ns]": DataType.DURATION,
-
         # Category
         "category": DataType.CATEGORY,
     }

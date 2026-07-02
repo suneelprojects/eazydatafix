@@ -1,8 +1,8 @@
 from pathlib import Path
-from easydatafix.core.type_mapper import TypeMapper
 
 import pandas as pd
 
+from easydatafix.core.type_mapper import TypeMapper
 from easydatafix.models.dataset_profile import DatasetProfile
 
 
@@ -22,9 +22,6 @@ class DatasetProfiler:
             rows=len(df),
             columns=len(df.columns),
             column_names=df.columns.tolist(),
-            data_types=[
-    		TypeMapper.from_pandas(str(dtype))
-    		for dtype in df.dtypes
-	    ],
+            data_types=[TypeMapper.from_pandas(str(dtype)) for dtype in df.dtypes],
             memory_usage_bytes=int(df.memory_usage(deep=True).sum()),
         )

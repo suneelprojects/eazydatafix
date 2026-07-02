@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+easydatafix/__init__.py
+easydatafix.egg-info/PKG-INFO
+easydatafix.egg-info/SOURCES.txt
+easydatafix.egg-info/dependency_links.txt
+easydatafix.egg-info/requires.txt
+easydatafix.egg-info/top_level.txt

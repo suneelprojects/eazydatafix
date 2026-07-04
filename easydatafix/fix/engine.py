@@ -1,6 +1,9 @@
 import pandas as pd
 
 from easydatafix.assessment.engine import AssessmentEngine
+from easydatafix.core.dataset_loader import DatasetLoader
+from easydatafix.fix.strategies.factory import StrategyFactory
+from easydatafix.models.fix_config import FixConfig
 from easydatafix.models.fix_result import FixResult
 
 
@@ -9,58 +12,86 @@ class FixEngine:
     Coordinates automatic dataset cleaning.
     """
 
-    def fix(self, file_path: str, strategy: str = "smart") -> FixResult:
-        """
-        Automatically clean a dataset.
-        """
+    def fix(
+        self,
+        file_path: str,
+        config: FixConfig | None = None,
+    ) -> FixResult:
 
-        # Read dataset
-        df = pd.read_csv(file_path)
+        config = config or FixConfig()
 
-        # Assess before cleaning
-        before_report = AssessmentEngine().assess(file_path)
+        df = DatasetLoader.load(file_path)
 
-        # Work on a copy
+        assessment_engine = AssessmentEngine()
+
+        before_report = assessment_engine.assess_dataframe(df)
+
         cleaned_df = df.copy()
 
         applied_fixes: list[str] = []
 
-        # ------------------------------------------------------------------
-        # Strategy: Remove Duplicate Rows
-        # ------------------------------------------------------------------
-        duplicate_count = int(cleaned_df.duplicated().sum())
+        # ---------------------------------------------
+        # Remove duplicate rows
+        # ---------------------------------------------
+        if config.remove_duplicates:
 
-        if duplicate_count > 0:
-            cleaned_df = cleaned_df.drop_duplicates()
-            applied_fixes.append(
-                f"Removed {duplicate_count} duplicate row(s)."
-            )
+            duplicate_count = int(cleaned_df.duplicated().sum())
 
-        # ------------------------------------------------------------------
-        # Strategy: Fill Missing Values
-        # ------------------------------------------------------------------
-        for column in cleaned_df.columns:
+            if duplicate_count > 0:
+                cleaned_df = cleaned_df.drop_duplicates()
 
-            if cleaned_df[column].isna().sum() == 0:
-                continue
+                applied_fixes.append(
+                    f"Removed {duplicate_count} duplicate row(s)."
+                )
 
-            if pd.api.types.is_numeric_dtype(cleaned_df[column]):
-                value = cleaned_df[column].median()
-            else:
-                mode = cleaned_df[column].mode()
-                value = mode.iloc[0] if not mode.empty else ""
+        # ---------------------------------------------
+        # Remove empty rows
+        # ---------------------------------------------
+        if config.remove_empty_rows:
 
-            cleaned_df[column] = cleaned_df[column].fillna(value)
+            before = len(cleaned_df)
 
-            applied_fixes.append(
-                f"Filled missing values in '{column}'."
-            )
+            cleaned_df = cleaned_df.dropna(how="all")
 
-        # Save temporary cleaned file for reassessment
-        temp_file = "__easydatafix_temp__.csv"
-        cleaned_df.to_csv(temp_file, index=False)
+            removed = before - len(cleaned_df)
 
-        after_report = AssessmentEngine().assess(temp_file)
+            if removed > 0:
+                applied_fixes.append(
+                    f"Removed {removed} empty row(s)."
+                )
+
+        # ---------------------------------------------
+        # Remove empty columns
+        # ---------------------------------------------
+        if config.remove_empty_columns:
+
+            before = len(cleaned_df.columns)
+
+            cleaned_df = cleaned_df.dropna(axis=1, how="all")
+
+            removed = before - len(cleaned_df.columns)
+
+            if removed > 0:
+                applied_fixes.append(
+                    f"Removed {removed} empty column(s)."
+                )
+
+        # ---------------------------------------------
+        # Missing Value Strategy
+        # ---------------------------------------------
+        strategy = StrategyFactory.create(
+            config.missing_value_strategy
+        )
+
+        cleaned_df = strategy.apply(
+            cleaned_df,
+            applied_fixes,
+        )
+
+        # ---------------------------------------------
+        # Final Assessment
+        # ---------------------------------------------
+        after_report = assessment_engine.assess_dataframe(cleaned_df)
 
         return FixResult(
             dataframe=cleaned_df,

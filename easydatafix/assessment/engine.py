@@ -3,6 +3,7 @@ import pandas as pd
 from easydatafix.assessment.checks.completeness import CompletenessCheck
 from easydatafix.assessment.checks.uniqueness import UniquenessCheck
 from easydatafix.contracts.check import Check
+from easydatafix.core.dataset_loader import DatasetLoader
 from easydatafix.core.score_calculator import ScoreCalculator
 from easydatafix.models.assessment_report import AssessmentReport
 from easydatafix.recommendations.engine import RecommendationEngine
@@ -21,7 +22,16 @@ class AssessmentEngine:
         ]
 
     def assess(self, file_path: str) -> AssessmentReport:
-        df = pd.read_csv(file_path)
+        """
+        Assess a dataset from a file path.
+        """
+        df = DatasetLoader.load(file_path)
+        return self.assess_dataframe(df)
+
+    def assess_dataframe(self, df: pd.DataFrame) -> AssessmentReport:
+        """
+        Assess an already loaded DataFrame.
+        """
 
         results = {}
 

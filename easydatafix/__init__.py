@@ -2,7 +2,7 @@ from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
 from .fix.engine import FixEngine
 from .models.fix_config import FixConfig
-from .report import Report
+from .console_report import Report
 
 __version__ = "0.1.0"
 

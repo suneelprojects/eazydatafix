@@ -23,3 +23,21 @@ dist/
 
 # macOS
 .DS_Store
+
+# Environment Variables
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated Reports
+report.html
+report.pdf
+report.xlsx
+report.csv
+report.json
+report.md
+
+# Logs
+*.log

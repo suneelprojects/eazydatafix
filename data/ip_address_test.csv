@@ -1,0 +1,6 @@
+id,server,ip_address
+1,Server A,192.168.1.1
+2,Server B,10.0.0.1
+3,Server C,999.999.999.999
+4,Server D,abcd
+5,Server E,2001:db8::1

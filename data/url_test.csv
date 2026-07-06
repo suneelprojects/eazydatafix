@@ -1,0 +1,6 @@
+id,name,website
+1,Google,https://google.com
+2,OpenAI,https://openai.com
+3,Test,www.example
+4,ABC,not_a_url
+5,GitHub,https://github.com

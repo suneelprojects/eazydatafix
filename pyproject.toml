@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "easydatafix"
 version = "0.1.0"
-description = "A Python library to automatically clean and prepare datasets for analysis."
+description = "A modern Python library for data quality assessment, validation, and automated data cleaning."
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -15,10 +15,38 @@ authors = [
 
 license = { text = "MIT" }
 
+keywords = [
+    "data-quality",
+    "data-cleaning",
+    "data-validation",
+    "data-profiling",
+    "pandas",
+    "data-analysis",
+    "etl",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.26.0",
+    "openpyxl>=3.1.5",
+    "reportlab>=4.0.0",
 ]
+
 [tool.setuptools.packages.find]
 include = ["easydatafix*"]
 
@@ -42,3 +70,8 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+
+[tool.setuptools.package-data]
+easydatafix = [
+    "reporting/templates/*.html",
+]

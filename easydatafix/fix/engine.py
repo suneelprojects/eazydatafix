@@ -1,8 +1,12 @@
-import pandas as pd
-
 from easydatafix.assessment.engine import AssessmentEngine
 from easydatafix.core.dataset_loader import DatasetLoader
+from easydatafix.fix.column_normalizer import ColumnNormalizer
+from easydatafix.fix.datatype_converter import DataTypeConverter
+from easydatafix.fix.duplicate_remover import DuplicateRemover
+from easydatafix.fix.empty_column_remover import EmptyColumnRemover
+from easydatafix.fix.empty_row_remover import EmptyRowRemover
 from easydatafix.fix.strategies.factory import StrategyFactory
+from easydatafix.fix.whitespace_trimmer import WhitespaceTrimmer
 from easydatafix.models.fix_config import FixConfig
 from easydatafix.models.fix_result import FixResult
 
@@ -11,6 +15,16 @@ class FixEngine:
     """
     Coordinates automatic dataset cleaning.
     """
+
+    def __init__(self) -> None:
+
+        self.steps = [
+            ColumnNormalizer(),
+            WhitespaceTrimmer(),
+            DuplicateRemover(),
+            EmptyRowRemover(),
+            EmptyColumnRemover(),
+        ]
 
     def fix(
         self,
@@ -30,55 +44,20 @@ class FixEngine:
 
         applied_fixes: list[str] = []
 
-        # ---------------------------------------------
-        # Remove duplicate rows
-        # ---------------------------------------------
-        if config.remove_duplicates:
+        # -----------------------------
+        # Cleaning Pipeline
+        # -----------------------------
+        for step in self.steps:
 
-            duplicate_count = int(cleaned_df.duplicated().sum())
+            cleaned_df = step.run(
+                cleaned_df,
+                config,
+                applied_fixes,
+            )
 
-            if duplicate_count > 0:
-                cleaned_df = cleaned_df.drop_duplicates()
-
-                applied_fixes.append(
-                    f"Removed {duplicate_count} duplicate row(s)."
-                )
-
-        # ---------------------------------------------
-        # Remove empty rows
-        # ---------------------------------------------
-        if config.remove_empty_rows:
-
-            before = len(cleaned_df)
-
-            cleaned_df = cleaned_df.dropna(how="all")
-
-            removed = before - len(cleaned_df)
-
-            if removed > 0:
-                applied_fixes.append(
-                    f"Removed {removed} empty row(s)."
-                )
-
-        # ---------------------------------------------
-        # Remove empty columns
-        # ---------------------------------------------
-        if config.remove_empty_columns:
-
-            before = len(cleaned_df.columns)
-
-            cleaned_df = cleaned_df.dropna(axis=1, how="all")
-
-            removed = before - len(cleaned_df.columns)
-
-            if removed > 0:
-                applied_fixes.append(
-                    f"Removed {removed} empty column(s)."
-                )
-
-        # ---------------------------------------------
+        # -----------------------------
         # Missing Value Strategy
-        # ---------------------------------------------
+        # -----------------------------
         strategy = StrategyFactory.create(
             config.missing_value_strategy
         )
@@ -88,10 +67,12 @@ class FixEngine:
             applied_fixes,
         )
 
-        # ---------------------------------------------
+        # -----------------------------
         # Final Assessment
-        # ---------------------------------------------
-        after_report = assessment_engine.assess_dataframe(cleaned_df)
+        # -----------------------------
+        after_report = assessment_engine.assess_dataframe(
+            cleaned_df
+        )
 
         return FixResult(
             dataframe=cleaned_df,

@@ -8,8 +8,11 @@ class FixConfig:
     """
 
     missing_value_strategy: str = "smart"
+
     remove_duplicates: bool = True
     remove_empty_rows: bool = True
     remove_empty_columns: bool = True
+
     trim_whitespace: bool = True
-    normalize_column_names: bool = False
+    normalize_column_names: bool = True
+    convert_data_types: bool = True

@@ -1,0 +1,4 @@
+id,name,email,phone,joining_date,website,ip_address,pincode,aadhaar,pan,gstin
+1,Suneel,suneel@gmail.com,9876543210,2025-07-06,https://google.com,192.168.1.1,500081,234567890123,ABCDE1234F,27AAPFU0939F1ZV
+2,Rahul,rahul@gmail,12345,invalid,www.example,999.999.999.999,12345,123456789012,ABCDE12345,123456789
+3,John,,9999999999,2024-05-10,https://github.com,10.0.0.1,600001,345678901234,AAAPL1234C,07AAECS1234A1Z2

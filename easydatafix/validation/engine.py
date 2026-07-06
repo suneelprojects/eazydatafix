@@ -1,18 +1,29 @@
 import pandas as pd
 
+from easydatafix.assessment.checks.validity.engine import ValidityEngine
 from easydatafix.models.validation_result import ValidationResult
 
 
 class ValidationEngine:
     """
-    Executes validation rules against a dataset.
+    Executes all dataset validations.
     """
 
-    def validate(self, df: pd.DataFrame) -> list[ValidationResult]:
+    def __init__(self) -> None:
+
+        self._validity_engine = ValidityEngine()
+
+    def validate(
+        self,
+        df: pd.DataFrame,
+    ) -> list[ValidationResult]:
+
         results: list[ValidationResult] = []
 
         # Missing Values Validation
+
         for column in df.columns:
+
             missing_count = int(df[column].isna().sum())
 
             results.append(
@@ -27,5 +38,11 @@ class ValidationEngine:
                     ),
                 )
             )
+
+        # Validity Checks
+
+        results.extend(
+            self._validity_engine.evaluate(df)
+        )
 
         return results

@@ -10,10 +10,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 
 authors = [
-    { name = "Suneel Kumar" }
+    { name = "Suneel Kumar Kola" }
 ]
 
-license = { text = "MIT" }
+license = "MIT"
 
 keywords = [
     "data-quality",
@@ -21,15 +21,14 @@ keywords = [
     "data-validation",
     "data-profiling",
     "pandas",
-    "data-analysis",
     "etl",
+    "data-analysis",
 ]
 
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -47,8 +46,19 @@ dependencies = [
     "reportlab>=4.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/suneelprojects/easydatafix"
+Repository = "https://github.com/suneelprojects/easydatafix"
+Documentation = "https://github.com/suneelprojects/easydatafix"
+Issues = "https://github.com/suneelprojects/easydatafix/issues"
+
 [tool.setuptools.packages.find]
 include = ["easydatafix*"]
+
+[tool.setuptools.package-data]
+easydatafix = [
+    "reporting/templates/*.html",
+]
 
 [tool.ruff]
 line-length = 100
@@ -70,8 +80,3 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-
-[tool.setuptools.package-data]
-easydatafix = [
-    "reporting/templates/*.html",
-]

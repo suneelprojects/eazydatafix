@@ -49,8 +49,19 @@ class AssessmentEngine:
                 f"Dataset not found: {file_path}"
             ) from exc
 
-        dataset_info = DatasetInfo(
+        return self.assess_dataframe(
+            df=df,
             file_name=Path(file_path).name,
+        )
+
+    def assess_dataframe(
+        self,
+        df: pd.DataFrame,
+        file_name: str = "DataFrame",
+    ) -> AssessmentReport:
+
+        dataset_info = DatasetInfo(
+            file_name=file_name,
             rows=len(df),
             columns=len(df.columns),
             memory_usage_bytes=int(

@@ -167,4 +167,4 @@ MIT License
 
 ---
 
-Made with ❤️ by **Suneel Kumar**
+Made with ❤️ by **Suneel Kumar Kola**

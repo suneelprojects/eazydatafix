@@ -38,7 +38,10 @@ class FixEngine:
 
         assessment_engine = AssessmentEngine()
 
-        before_report = assessment_engine.assess_dataframe(df)
+        before_report = assessment_engine.assess_dataframe(
+            df=df,
+            file_name=file_path,
+        )
 
         cleaned_df = df.copy()
 
@@ -71,7 +74,8 @@ class FixEngine:
         # Final Assessment
         # -----------------------------
         after_report = assessment_engine.assess_dataframe(
-            cleaned_df
+            df=cleaned_df,
+            file_name=file_path,
         )
 
         return FixResult(

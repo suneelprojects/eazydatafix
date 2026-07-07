@@ -1,5 +1,12 @@
 # 🛠️ EasyDataFix
 
+[![PyPI version](https://img.shields.io/pypi/v/easydatafix)](https://pypi.org/project/easydatafix/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/easydatafix)](https://pypi.org/project/easydatafix/)
+[![License](https://img.shields.io/github/license/suneelprojects/easydatafix)](LICENSE)
+[![Downloads](https://img.shields.io/pypi/dm/easydatafix)](https://pypi.org/project/easydatafix/)
+[![GitHub Release](https://img.shields.io/github/v/release/suneelprojects/easydatafix)](https://github.com/suneelprojects/easydatafix/releases)
+[![GitHub Stars](https://img.shields.io/github/stars/suneelprojects/easydatafix?style=social)](https://github.com/suneelprojects/easydatafix)
+
 > A modern Python library for **data quality assessment, validation, and automated data cleaning**.
 
 EasyDataFix helps data analysts, data scientists, machine learning engineers, and ETL developers quickly identify data quality issues and generate professional reports with just a few lines of code.

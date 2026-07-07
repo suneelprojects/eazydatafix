@@ -3,13 +3,13 @@ name: EasyDataFix CI
 on:
   push:
     branches:
+      - develop
       - main
-      - master
 
   pull_request:
     branches:
+      - develop
       - main
-      - master
 
 jobs:
   test:

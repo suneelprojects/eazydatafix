@@ -1,0 +1,4 @@
+id,email,phone
+1,john@example.com,9876543210
+2,invalid-email,9876543210
+3,mary@example.com,12345

@@ -20,7 +20,7 @@ class PdfReport:
         output_file: str,
     ) -> None:
 
-        document = SimpleDocTemplate(output_file)
+        document = SimpleDocTemplate(str(output_file))
         styles = getSampleStyleSheet()
 
         story = []

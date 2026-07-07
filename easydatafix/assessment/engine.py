@@ -8,8 +8,8 @@ from easydatafix.assessment.checks.consistency.engine import ConsistencyEngine
 from easydatafix.assessment.checks.timeliness.engine import TimelinessEngine
 from easydatafix.assessment.checks.uniqueness import UniquenessCheck
 from easydatafix.contracts.check import Check
+from easydatafix.core.dataset_loader import DatasetLoader
 from easydatafix.core.score_calculator import ScoreCalculator
-from easydatafix.exceptions import DatasetNotFoundError
 from easydatafix.models.assessment_report import AssessmentReport
 from easydatafix.models.dataset_info import DatasetInfo
 from easydatafix.models.quality_dimensions import QualityDimensions
@@ -36,22 +36,20 @@ class AssessmentEngine:
 
     def assess(
         self,
-        file_path: str,
+        dataset,
     ) -> AssessmentReport:
 
-        try:
+        df = DatasetLoader.load(dataset)
 
-            df = pd.read_csv(file_path)
-
-        except FileNotFoundError as exc:
-
-            raise DatasetNotFoundError(
-                f"Dataset not found: {file_path}"
-            ) from exc
+        file_name = (
+            Path(dataset).name
+            if isinstance(dataset, (str, Path))
+            else "DataFrame"
+        )
 
         return self.assess_dataframe(
             df=df,
-            file_name=Path(file_path).name,
+            file_name=file_name,
         )
 
     def assess_dataframe(

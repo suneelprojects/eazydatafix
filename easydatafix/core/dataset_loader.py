@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 import pandas as pd
 
@@ -10,17 +10,40 @@ from easydatafix.exceptions import (
 
 class DatasetLoader:
     """
-    Loads datasets from supported file formats.
+    Loads datasets from supported sources.
     """
 
     @staticmethod
-    def load(file_path: str) -> pd.DataFrame:
+    def load(dataset) -> pd.DataFrame:
         """
         Load a dataset into a pandas DataFrame.
+
+        Supported inputs:
+
+        - CSV
+        - Excel (.xlsx/.xls)
+        - Pandas DataFrame
         """
 
+        # Already a DataFrame
+        if isinstance(dataset, pd.DataFrame):
+            return dataset.copy()
+
+        if not isinstance(dataset, (str, Path)):
+            raise InvalidDatasetError(
+                f"Unsupported dataset type: {type(dataset).__name__}"
+            )
+
+        file_path = Path(dataset)
+
+        if not file_path.exists():
+            raise DatasetNotFoundError(
+                f"Dataset not found: {file_path}"
+            )
+
+        extension = file_path.suffix.lower()
+
         try:
-            extension = os.path.splitext(file_path)[1].lower()
 
             if extension == ".csv":
                 return pd.read_csv(file_path)
@@ -31,11 +54,6 @@ class DatasetLoader:
             raise InvalidDatasetError(
                 f"Unsupported file format: {extension}"
             )
-
-        except FileNotFoundError as exc:
-            raise DatasetNotFoundError(
-                f"Dataset not found: {file_path}"
-            ) from exc
 
         except InvalidDatasetError:
             raise

@@ -31,12 +31,13 @@ dist/
 # Jupyter
 .ipynb_checkpoints/
 
-# Generated Reports
-report.html
-report.pdf
-report.xlsx
-report.json
-report.md
+# Generated Reports (project root only)
+/report.html
+/report.pdf
+/report.xlsx
+/report.json
+/report.md
+/report.csv
 
 # Logs
 *.log

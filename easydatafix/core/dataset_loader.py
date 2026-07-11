@@ -13,8 +13,16 @@ class DatasetLoader:
     Loads datasets from supported sources.
     """
 
-    @staticmethod
-    def load(dataset) -> pd.DataFrame:
+    LOADERS = {
+        ".csv": pd.read_csv,
+        ".xlsx": pd.read_excel,
+        ".xls": pd.read_excel,
+        ".json": pd.read_json,
+        ".parquet": pd.read_parquet,
+    }
+
+    @classmethod
+    def load(cls, dataset) -> pd.DataFrame:
         """
         Load a dataset into a pandas DataFrame.
 
@@ -22,6 +30,8 @@ class DatasetLoader:
 
         - CSV
         - Excel (.xlsx/.xls)
+        - JSON
+        - Parquet
         - Pandas DataFrame
         """
 
@@ -43,20 +53,15 @@ class DatasetLoader:
 
         extension = file_path.suffix.lower()
 
-        try:
+        loader = cls.LOADERS.get(extension)
 
-            if extension == ".csv":
-                return pd.read_csv(file_path)
-
-            if extension in [".xlsx", ".xls"]:
-                return pd.read_excel(file_path)
-
+        if loader is None:
             raise InvalidDatasetError(
                 f"Unsupported file format: {extension}"
             )
 
-        except InvalidDatasetError:
-            raise
+        try:
+            return loader(file_path)
 
         except Exception as exc:
             raise InvalidDatasetError(

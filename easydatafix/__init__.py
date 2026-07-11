@@ -4,7 +4,7 @@ from .console_report import Report
 from .fix.engine import FixEngine
 from .models.fix_config import FixConfig
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 
 def profile(dataset):

@@ -1,69 +1,12 @@
-from pathlib import Path
+"""
+Backward-compatible re-export of :class:`DatasetLoader`.
 
-import pandas as pd
+The dataset loading logic now lives in :mod:`easydatafix.datasources`.
+This module is kept so existing imports continue to work:
 
-from easydatafix.exceptions import (
-    DatasetNotFoundError,
-    InvalidDatasetError,
-)
+    from easydatafix.core.dataset_loader import DatasetLoader
+"""
 
+from easydatafix.datasources.loader import DatasetLoader
 
-class DatasetLoader:
-    """
-    Loads datasets from supported sources.
-    """
-
-    LOADERS = {
-        ".csv": pd.read_csv,
-        ".xlsx": pd.read_excel,
-        ".xls": pd.read_excel,
-        ".json": pd.read_json,
-        ".parquet": pd.read_parquet,
-    }
-
-    @classmethod
-    def load(cls, dataset) -> pd.DataFrame:
-        """
-        Load a dataset into a pandas DataFrame.
-
-        Supported inputs:
-
-        - CSV
-        - Excel (.xlsx/.xls)
-        - JSON
-        - Parquet
-        - Pandas DataFrame
-        """
-
-        # Already a DataFrame
-        if isinstance(dataset, pd.DataFrame):
-            return dataset.copy()
-
-        if not isinstance(dataset, (str, Path)):
-            raise InvalidDatasetError(
-                f"Unsupported dataset type: {type(dataset).__name__}"
-            )
-
-        file_path = Path(dataset)
-
-        if not file_path.exists():
-            raise DatasetNotFoundError(
-                f"Dataset not found: {file_path}"
-            )
-
-        extension = file_path.suffix.lower()
-
-        loader = cls.LOADERS.get(extension)
-
-        if loader is None:
-            raise InvalidDatasetError(
-                f"Unsupported file format: {extension}"
-            )
-
-        try:
-            return loader(file_path)
-
-        except Exception as exc:
-            raise InvalidDatasetError(
-                f"Unable to load dataset: {file_path}"
-            ) from exc
+__all__ = ["DatasetLoader"]

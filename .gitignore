@@ -41,3 +41,9 @@ dist/
 
 # Logs
 *.log
+memory/
+*.env
+credentials.json
+*.pem
+*.key
+.credentials

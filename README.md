@@ -39,6 +39,12 @@ EasyDataFix helps data analysts, data scientists, machine learning engineers, an
 pip install easydatafix
 ```
 
+For Parquet support:
+
+```bash
+pip install easydatafix[parquet]
+```
+
 ---
 
 # Quick Start
@@ -122,6 +128,47 @@ report.to_json()
 report.to_csv()
 
 report.to_markdown()
+```
+
+---
+
+# Supported Data Sources
+
+EasyDataFix accepts datasets in a variety of formats. `edf.assess(...)` and `edf.fix(...)` both work with:
+
+- Pandas `DataFrame`
+- CSV files
+- Excel files (`.xlsx` / `.xls`)
+- JSON files
+- Parquet files
+
+Loading is handled by the modular `easydatafix.datasources` package, which lets you plug in your own formats:
+
+```python
+import pandas as pd
+
+from easydatafix.datasources import (
+    DataSource,
+    DatasetLoader,
+    default_registry,
+)
+
+
+class TSVDataSource(DataSource):
+
+    name = "tsv"
+
+    def can_load(self, source) -> bool:
+        from pathlib import Path
+        return isinstance(source, Path) and source.suffix.lower() == ".tsv"
+
+    def load(self, source) -> pd.DataFrame:
+        return pd.read_csv(source, sep="\t")
+
+
+default_registry.register(TSVDataSource())
+
+# Now edf.assess(...) and edf.fix(...) accept .tsv files too.
 ```
 
 ---

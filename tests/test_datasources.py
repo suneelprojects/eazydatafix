@@ -185,9 +185,16 @@ class TestDatasetLoader:
         assert "Unsupported dataset type" in str(exc.value)
 
     def test_corrupt_file_raises(
-        self,
-        tmp_path: Path,
-    ) -> None:
+            self,
+            tmp_path: Path,
+        ) -> None:
+        """
+        With a Parquet backend installed, a corrupt ``.parquet`` file must
+        surface as a generic ``Unable to load dataset`` error from the
+        loader (i.e. the low-level pandas exception is wrapped).
+        """
+
+        pytest.importorskip("pyarrow")
 
         file_path = tmp_path / "data.parquet"
         file_path.write_text("not a real parquet file")
@@ -196,6 +203,36 @@ class TestDatasetLoader:
             DatasetLoader.load(file_path)
 
         assert "Unable to load dataset" in str(exc.value)
+
+    def test_parquet_without_backend_reports_friendly_error(
+            self,
+            tmp_path: Path,
+        ) -> None:
+        """
+        Without a Parquet backend installed, loading a ``.parquet`` file
+        must raise the friendly install-me error instead of the pandas
+        internal ImportError.
+        """
+
+        try:
+            import pyarrow  # noqa: F401
+            pytest.skip("pyarrow is installed; friendly error not applicable")
+        except ImportError:
+            pass
+
+        try:
+            import fastparquet  # noqa: F401
+            pytest.skip("fastparquet is installed; friendly error not applicable")
+        except ImportError:
+            pass
+
+        file_path = tmp_path / "data.parquet"
+        file_path.write_text("irrelevant contents")
+
+        with pytest.raises(InvalidDatasetError) as exc:
+            DatasetLoader.load(file_path)
+
+        assert "easydatafix[parquet]" in str(exc.value)
 
 
 # ---------------------------------------------------------------------------

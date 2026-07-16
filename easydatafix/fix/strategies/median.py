@@ -1,13 +1,22 @@
 import pandas as pd
 
+from easydatafix.plugins import Plugin
 from easydatafix.fix.strategies.base import MissingValueStrategy
 
 
-class MedianStrategy(MissingValueStrategy):
+class MedianStrategy(Plugin, MissingValueStrategy):
     """
     Fill missing values using median for numeric
     columns and mode for categorical columns.
     """
+
+    name = "median"
+    version = "0.2.0"
+    author = "EasyDataFix"
+    description = (
+        "Fill missing numeric values using median and "
+        "categorical values using mode."
+    )
 
     def apply(
         self,

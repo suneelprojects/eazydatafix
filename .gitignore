@@ -47,3 +47,20 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+
+# Test Virtual Environment
+testenv/
+
+# Python Cache
+**/__pycache__/
+
+# Temporary CSV files
+__easydatafix_temp__.csv
+
+# Personal datasets
+Engineering students dataset.xlsx
+Messy_Employee_dataset.csv
+employees.json
+employees.parquet
+employees_clean.csv

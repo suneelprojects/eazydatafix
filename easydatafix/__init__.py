@@ -3,6 +3,7 @@ from .assessment.profiler import DatasetProfiler
 from .console_report import Report
 from .fix.engine import FixEngine
 from .models.fix_config import FixConfig
+from .prepare.engine import PrepareEngine
 
 __version__ = "0.1.3"
 
@@ -29,3 +30,24 @@ def fix(dataset, config: FixConfig | None = None):
     """
     engine = FixEngine()
     return engine.fix(dataset, config)
+
+
+def analysis_ready(
+    dataset,
+    config: FixConfig | None = None,
+):
+    """
+    Clean and prepare a dataset for exploratory
+    data analysis (EDA).
+    """
+
+    cleaned = fix(
+        dataset,
+        config=config,
+    )
+
+    engine = PrepareEngine()
+
+    return engine.prepare(
+        cleaned.dataframe,
+    )

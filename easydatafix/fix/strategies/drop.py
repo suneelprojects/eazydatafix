@@ -1,10 +1,16 @@
+from easydatafix.plugins import Plugin
 from easydatafix.fix.strategies.base import MissingValueStrategy
 
 
-class DropStrategy(MissingValueStrategy):
+class DropStrategy(Plugin, MissingValueStrategy):
     """
     Drop rows containing missing values.
     """
+
+    name = "drop"
+    version = "0.2.0"
+    author = "EasyDataFix"
+    description = "Drop rows containing missing values."
 
     def apply(
         self,

@@ -1,13 +1,22 @@
 import pandas as pd
 
+from easydatafix.plugins import Plugin
 from easydatafix.fix.strategies.base import MissingValueStrategy
 
 
-class MeanStrategy(MissingValueStrategy):
+class MeanStrategy(Plugin, MissingValueStrategy):
     """
     Fill missing values using mean for numeric
     columns and mode for categorical columns.
     """
+
+    name = "mean"
+    version = "0.2.0"
+    author = "EasyDataFix"
+    description = (
+        "Fill missing numeric values using mean and "
+        "categorical values using mode."
+    )
 
     def apply(
         self,

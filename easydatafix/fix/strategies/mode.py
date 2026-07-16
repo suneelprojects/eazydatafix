@@ -1,10 +1,16 @@
+from easydatafix.plugins import Plugin
 from easydatafix.fix.strategies.base import MissingValueStrategy
 
 
-class ModeStrategy(MissingValueStrategy):
+class ModeStrategy(Plugin, MissingValueStrategy):
     """
     Fill missing values using mode.
     """
+
+    name = "mode"
+    version = "0.2.0"
+    author = "EasyDataFix"
+    description = "Fill missing values using mode."
 
     def apply(
         self,

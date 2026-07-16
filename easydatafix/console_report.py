@@ -15,7 +15,39 @@ class Report:
 
     def summary(self) -> None:
 
-        Console.title("🛠️ EASY DATA FIX REPORT")
+        Console.title("🚀 EASYDATAFIX DATA QUALITY REPORT")
+
+        # ------------------------------------------------------------------
+        # Dataset Information
+        # ------------------------------------------------------------------
+
+        Console.section("📁 DATASET INFORMATION")
+
+        Console.key_value(
+            "File Name",
+            self._report.dataset_info.file_name,
+        )
+
+        Console.key_value(
+            "Rows",
+            f"{self._report.dataset_info.rows:,}",
+        )
+
+        Console.key_value(
+            "Columns",
+            f"{self._report.dataset_info.columns:,}",
+        )
+
+        Console.key_value(
+            "Memory Usage",
+            Console.format_bytes(
+                self._report.dataset_info.memory_usage_bytes
+            ),
+        )
+
+        # ------------------------------------------------------------------
+        # Overall Quality
+        # ------------------------------------------------------------------
 
         Console.section("📊 OVERALL QUALITY")
 
@@ -28,6 +60,17 @@ class Report:
             "Grade",
             self._report.quality.grade,
         )
+
+        Console.key_value(
+            "Status",
+            Console.quality_status(
+                self._report.quality.score
+            ),
+        )
+
+        # ------------------------------------------------------------------
+        # Quality Dimensions
+        # ------------------------------------------------------------------
 
         Console.section("📈 QUALITY DIMENSIONS")
 
@@ -61,7 +104,13 @@ class Report:
             f"{self._report.quality_dimensions.timeliness:.2f}%",
         )
 
-        Console.section("💡 RECOMMENDATIONS")
+        # ------------------------------------------------------------------
+        # Recommendations
+        # ------------------------------------------------------------------
+
+        Console.section(
+            f"💡 RECOMMENDATIONS ({len(self._report.recommendations)})"
+        )
 
         if not self._report.recommendations:
 
@@ -71,6 +120,12 @@ class Report:
             )
 
         else:
+
+            priority_icons = {
+                "HIGH": "🔴 High",
+                "MEDIUM": "🟡 Medium",
+                "LOW": "🟢 Low",
+            }
 
             for index, recommendation in enumerate(
                 self._report.recommendations,
@@ -84,30 +139,33 @@ class Report:
 
                 Console.key_value(
                     "Priority",
-                    recommendation.priority,
-                    indent=3,
+                    priority_icons.get(
+                        recommendation.priority.upper(),
+                        recommendation.priority,
+                    ),
+                    indent=4,
                 )
 
                 Console.key_value(
                     "Category",
                     recommendation.category,
-                    indent=3,
+                    indent=4,
                 )
 
                 Console.key_value(
                     "Auto Fix",
-                    "Yes"
+                    "Yes ✅"
                     if recommendation.auto_fix_available
                     else "No",
-                    indent=3,
+                    indent=4,
                 )
 
                 Console.key_value(
                     "Description",
                     recommendation.description,
-                    indent=3,
+                    indent=4,
                 )
 
                 Console.blank()
 
-        Console.divider()
+        Console.divider("=")

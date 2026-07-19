@@ -1,15 +1,15 @@
-# 🛠️ EasyDataFix
+# 🛠️ EazyDataFix
 
-[![PyPI version](https://img.shields.io/pypi/v/easydatafix)](https://pypi.org/project/easydatafix/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/easydatafix)](https://pypi.org/project/easydatafix/)
-[![License](https://img.shields.io/github/license/suneelprojects/easydatafix)](LICENSE)
-[![Downloads](https://img.shields.io/pypi/dm/easydatafix)](https://pypi.org/project/easydatafix/)
-[![GitHub Release](https://img.shields.io/github/v/release/suneelprojects/easydatafix)](https://github.com/suneelprojects/easydatafix/releases)
-[![GitHub Stars](https://img.shields.io/github/stars/suneelprojects/easydatafix?style=social)](https://github.com/suneelprojects/easydatafix)
+[![PyPI version](https://img.shields.io/pypi/v/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![License](https://img.shields.io/github/license/suneelprojects/eazydatafix)](LICENSE)
+[![Downloads](https://img.shields.io/pypi/dm/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![GitHub Release](https://img.shields.io/github/v/release/suneelprojects/eazydatafix)](https://github.com/suneelprojects/eazydatafix/releases)
+[![GitHub Stars](https://img.shields.io/github/stars/suneelprojects/eazydatafix?style=social)](https://github.com/suneelprojects/eazydatafix)
 
 > A modern Python library for **data quality assessment, validation, and automated data cleaning**.
 
-EasyDataFix helps data analysts, data scientists, machine learning engineers, and ETL developers quickly identify data quality issues and generate professional reports with just a few lines of code.
+EazyDataFix helps data analysts, data scientists, machine learning engineers, and ETL developers quickly identify data quality issues and generate professional reports with just a few lines of code.
 
 ---
 
@@ -36,13 +36,13 @@ EasyDataFix helps data analysts, data scientists, machine learning engineers, an
 # Installation
 
 ```bash
-pip install easydatafix
+pip install eazydatafix
 ```
 
 For Parquet support:
 
 ```bash
-pip install easydatafix[parquet]
+pip install eazydatafix[parquet]
 ```
 
 ---
@@ -50,7 +50,7 @@ pip install easydatafix[parquet]
 # Quick Start
 
 ```python
-import easydatafix as edf
+import eazydatafix as edf
 
 report = edf.assess("employees.csv")
 
@@ -142,12 +142,12 @@ EasyDataFix accepts datasets in a variety of formats. `edf.assess(...)` and `edf
 - JSON files
 - Parquet files
 
-Loading is handled by the modular `easydatafix.datasources` package, which lets you plug in your own formats:
+Loading is handled by the modular `eazydatafix.datasources` package, which lets you plug in your own formats:
 
 ```python
 import pandas as pd
 
-from easydatafix.datasources import (
+from eazydatafix.datasources import (
     DataSource,
     DatasetLoader,
     default_registry,
@@ -173,11 +173,11 @@ default_registry.register(TSVDataSource())
 
 ---
 
-# Why EasyDataFix?
+# Why EazyDataFix?
 
-EasyDataFix is designed to make data quality assessment simple and accessible.
+EazyDataFix is designed to make data quality assessment simple and accessible.
 
-Whether you're validating datasets before machine learning, preparing ETL pipelines, or cleaning business reports, EasyDataFix provides a consistent way to measure and improve data quality.
+Whether you're validating datasets before machine learning, preparing ETL pipelines, or cleaning business reports, EazyDataFix provides a consistent way to measure and improve data quality.
 
 ---
 
@@ -211,7 +211,7 @@ Feel free to fork the repository, open issues, or submit pull requests.
 
 Repository:
 
-https://github.com/suneelprojects/easydatafix
+https://github.com/suneelprojects/eazydatafix
 
 ---
 

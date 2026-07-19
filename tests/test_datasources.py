@@ -1,5 +1,5 @@
 """
-Tests for the ``easydatafix.datasources`` package.
+Tests for the ``eazydatafix.datasources`` package.
 """
 
 from pathlib import Path
@@ -7,10 +7,10 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from easydatafix.core.dataset_loader import (
+from eazydatafix.core.dataset_loader import (
     DatasetLoader as ShimDatasetLoader,
 )
-from easydatafix.datasources import (
+from eazydatafix.datasources import (
     CSVDataSource,
     DataFrameDataSource,
     DataSource,
@@ -21,7 +21,7 @@ from easydatafix.datasources import (
     ParquetDataSource,
     default_registry,
 )
-from easydatafix.exceptions import (
+from eazydatafix.exceptions import (
     DatasetNotFoundError,
     InvalidDatasetError,
 )
@@ -232,7 +232,7 @@ class TestDatasetLoader:
         with pytest.raises(InvalidDatasetError) as exc:
             DatasetLoader.load(file_path)
 
-        assert "easydatafix[parquet]" in str(exc.value)
+        assert "eazydatafix[parquet]" in str(exc.value)
 
 
 # ---------------------------------------------------------------------------

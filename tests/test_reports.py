@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import easydatafix as edf
+import eazydatafix as edf
 
 
 def test_report_exporters(

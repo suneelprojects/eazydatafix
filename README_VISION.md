@@ -29,7 +29,7 @@ Make dataset preparation effortless.
 Instead of writing hundreds of lines of pandas code, users should be able to write:
 
 ```python
-import easydatafix as edf
+import eazydatafix as edf
 
 report = edf.assess("sales.csv")
 report.summary()

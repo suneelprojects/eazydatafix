@@ -1,4 +1,4 @@
-from easydatafix.validation.engine import ValidationEngine
+from eazydatafix.validation.engine import ValidationEngine
 import pandas as pd
 
 

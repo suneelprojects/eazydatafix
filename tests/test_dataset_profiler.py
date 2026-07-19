@@ -1,4 +1,4 @@
-from easydatafix.assessment.profiler import DatasetProfiler
+from eazydatafix.assessment.profiler import DatasetProfiler
 
 
 def test_dataset_profiler(

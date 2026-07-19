@@ -39,7 +39,7 @@ Easy Data Fix will become a complete ecosystem consisting of:
 ## Public API Philosophy
 
 ```python
-import easydatafix as edf
+import eazydatafix as edf
 
 report = edf.analyze("employees.csv")
 

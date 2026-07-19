@@ -1,4 +1,4 @@
-# EasyDataFix Architecture
+# EazyDataFix Architecture
 
 **Version:** 1.0
 **Status:** Approved
@@ -262,11 +262,11 @@ The registry:
 The following public APIs must remain stable.
 
 ```
-easydatafix.fix()
+eazydatafix.fix()
 
-easydatafix.assess()
+eazydatafix.assess()
 
-easydatafix.profile()
+eazydatafix.profile()
 ```
 
 Internal implementation may evolve without affecting users.

@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from easydatafix.assessment.profiler import DatasetProfiler
+from eazydatafix.assessment.profiler import DatasetProfiler
 
 
 @pytest.fixture

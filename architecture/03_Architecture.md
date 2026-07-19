@@ -160,7 +160,7 @@ Final Data Quality Report
 # Public Workflow
 
 ```python
-import easydatafix as edf
+import eazydatafix as edf
 
 report = edf.assess("employees.csv")
 

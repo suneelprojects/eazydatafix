@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "easydatafix"
+name = "eazydatafix"
 version = "0.2.0"
 description = "A modern Python library for data quality assessment, validation, and automated data cleaning."
 readme = "README.md"
@@ -50,16 +50,16 @@ dependencies = [
 parquet = ["pyarrow>=14.0.0"]
 
 [project.urls]
-Homepage = "https://github.com/suneelprojects/easydatafix"
-Repository = "https://github.com/suneelprojects/easydatafix"
-Documentation = "https://github.com/suneelprojects/easydatafix"
-Issues = "https://github.com/suneelprojects/easydatafix/issues"
+Homepage = "https://eazydatafix.com"
+Repository = "https://github.com/suneelprojects/eazydatafix"
+Documentation = "https://eazydatafix.com/docs"
+Issues = "https://github.com/suneelprojects/eazydatafix/issues"
 
 [tool.setuptools.packages.find]
-include = ["easydatafix*"]
+include = ["eazydatafix*"]
 
 [tool.setuptools.package-data]
-easydatafix = [
+eazydatafix = [
     "reporting/templates/*.html",
 ]
 

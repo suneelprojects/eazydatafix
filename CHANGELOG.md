@@ -14,7 +14,7 @@ https://semver.org/
 
 ### Added
 
-- Modular Data Source architecture under `easydatafix.datasources`
+- Modular Data Source architecture under `eazydatafix.datasources`
   (`DataSource`, `DataSourceRegistry`, `DatasetLoader`, `default_registry`,
   `build_default_registry`).
 - JSON data source (`.json`) — accepted by `edf.assess`, `edf.fix`, and
@@ -25,18 +25,18 @@ https://semver.org/
   only `edf.assess(...)` and `edf.fix(...)` supported DataFrames).
 - Extensibility: user-defined data sources can be plugged in via
   `default_registry.register(...)`.
-- Optional install extra `easydatafix[parquet]` which pulls in `pyarrow`.
+- Optional install extra `eazydatafix[parquet]` which pulls in `pyarrow`.
 - Friendly, actionable error when a user attempts to load a `.parquet`
   file without a backend installed (tells them to run
-  `pip install easydatafix[parquet]`).
+  `pip install eazydatafix[parquet]`).
 - Regression test suite covering every data source across the public API
   (`tests/test_datasources.py`, `tests/test_dataset_profiler_formats.py`).
 
 ### Changed
 
-- `easydatafix.core.dataset_loader.DatasetLoader` is now a thin
+- `eazydatafix.core.dataset_loader.DatasetLoader` is now a thin
   backward-compatible re-export of the new
-  `easydatafix.datasources.loader.DatasetLoader`. Existing imports
+  `eazydatafix.datasources.loader.DatasetLoader`. Existing imports
   continue to work unchanged.
 - `DatasetProfiler` now routes all inputs through `DatasetLoader`, so
   `edf.profile(...)` supports every format the library supports

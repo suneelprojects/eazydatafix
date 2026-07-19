@@ -1,5 +1,5 @@
-from easydatafix.core.score_calculator import ScoreCalculator
-from easydatafix.models.validation_result import ValidationResult
+from eazydatafix.core.score_calculator import ScoreCalculator
+from eazydatafix.models.validation_result import ValidationResult
 
 
 def test_score_calculator_perfect() -> None:

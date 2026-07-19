@@ -1,4 +1,4 @@
-name: EasyDataFix CI
+name: EazyDataFix CI
 
 on:
   push:

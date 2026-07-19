@@ -1,4 +1,4 @@
-import easydatafix as edf
+import eazydatafix as edf
 
 datasets = [
     "datasets/titanic.csv",

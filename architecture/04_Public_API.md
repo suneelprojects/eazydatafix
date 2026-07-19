@@ -17,7 +17,7 @@ Users should never interact with internal modules.
 # Framework Entry Point
 
 ```python
-import easydatafix as edf
+import eazydatafix as edf
 ```
 
 ---

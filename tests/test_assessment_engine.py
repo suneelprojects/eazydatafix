@@ -1,4 +1,4 @@
-from easydatafix.assessment.engine import AssessmentEngine
+from eazydatafix.assessment.engine import AssessmentEngine
 
 
 def test_assessment_engine(data_dir) -> None:

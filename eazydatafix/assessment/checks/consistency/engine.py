@@ -1,5 +1,6 @@
 import pandas as pd
 
+from eazydatafix.assessment.checks._runner import run_checks
 from eazydatafix.assessment.checks.consistency.case_consistency_check import (
     CaseConsistencyCheck,
 )
@@ -29,12 +30,7 @@ class ConsistencyEngine:
         self,
         df: pd.DataFrame,
     ) -> list[ValidationResult]:
-
-        results: list[ValidationResult] = []
-
-        for check in self._checks:
-            results.extend(
-                check.evaluate(df)
-            )
-
-        return results
+        return run_checks(
+            self._checks,
+            df,
+        )

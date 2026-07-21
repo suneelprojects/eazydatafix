@@ -9,6 +9,7 @@ sources registered in :data:`default_registry`.
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import pandas as pd
@@ -23,6 +24,9 @@ from eazydatafix.exceptions import (
     DatasetNotFoundError,
     InvalidDatasetError,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 def build_default_registry() -> DataSourceRegistry:
@@ -70,7 +74,9 @@ class DatasetLoader:
 
         if not isinstance(dataset, (str, Path)):
             raise InvalidDatasetError(
-                f"Unsupported dataset type: {type(dataset).__name__}"
+                "Unsupported dataset type: "
+                f"{type(dataset).__name__}. Expected a pandas DataFrame "
+                "or a path to a supported dataset file."
             )
 
         file_path = Path(dataset)
@@ -81,6 +87,17 @@ class DatasetLoader:
             )
 
         data_source = cls.registry.resolve(file_path)
+        data_source_name = getattr(
+            data_source,
+            "name",
+            type(data_source).__name__,
+        )
+
+        logger.debug(
+            "Loading dataset '%s' with '%s' data source.",
+            file_path,
+            data_source_name,
+        )
 
         try:
             return data_source.load(file_path)
@@ -90,6 +107,12 @@ class DatasetLoader:
             raise
 
         except Exception as exc:
+            logger.exception(
+                "Unable to load dataset '%s' with '%s' data source.",
+                file_path,
+                data_source_name,
+            )
             raise InvalidDatasetError(
-                f"Unable to load dataset: {file_path}"
+                "Unable to load dataset "
+                f"'{file_path}' using the '{data_source_name}' data source."
             ) from exc

@@ -31,6 +31,12 @@ class AssessmentReport:
     validations: list[ValidationResult]
 
     def summary(self) -> None:
+        """
+        Display a human-readable assessment summary in the console.
+
+        Returns:
+            None.
+        """
         from eazydatafix.console_report import Report
 
         Report(self).summary()
@@ -39,6 +45,15 @@ class AssessmentReport:
         self,
         output_file: str = "report.html",
     ) -> None:
+        """
+        Export the assessment report as HTML.
+
+        Args:
+            output_file: Destination path for the HTML report.
+
+        Returns:
+            None.
+        """
         from eazydatafix.reporting.html_report import HtmlReport
 
         HtmlReport.export(
@@ -50,6 +65,15 @@ class AssessmentReport:
         self,
         output_file: str = "report.json",
     ) -> None:
+        """
+        Export the assessment report as JSON.
+
+        Args:
+            output_file: Destination path for the JSON report.
+
+        Returns:
+            None.
+        """
         from eazydatafix.reporting.json_report import JsonReport
 
         JsonReport.export(
@@ -61,6 +85,15 @@ class AssessmentReport:
         self,
         output_file: str = "report.md",
     ) -> None:
+        """
+        Export the assessment report as Markdown.
+
+        Args:
+            output_file: Destination path for the Markdown report.
+
+        Returns:
+            None.
+        """
         from eazydatafix.reporting.markdown_report import MarkdownReport
 
         MarkdownReport.export(
@@ -72,6 +105,15 @@ class AssessmentReport:
         self,
         output_file: str = "report.csv",
     ) -> None:
+        """
+        Export the assessment report as CSV.
+
+        Args:
+            output_file: Destination path for the CSV report.
+
+        Returns:
+            None.
+        """
         from eazydatafix.reporting.csv_report import CsvReport
 
         CsvReport.export(
@@ -83,6 +125,15 @@ class AssessmentReport:
         self,
         output_file: str = "report.xlsx",
     ) -> None:
+        """
+        Export the assessment report as an Excel workbook.
+
+        Args:
+            output_file: Destination path for the Excel report.
+
+        Returns:
+            None.
+        """
         from eazydatafix.reporting.excel_report import ExcelReport
 
         ExcelReport.export(
@@ -94,6 +145,15 @@ class AssessmentReport:
         self,
         output_file: str = "report.pdf",
     ) -> None:
+        """
+        Export the assessment report as PDF.
+
+        Args:
+            output_file: Destination path for the PDF report.
+
+        Returns:
+            None.
+        """
         from eazydatafix.reporting.pdf_report import PdfReport
 
         PdfReport.export(

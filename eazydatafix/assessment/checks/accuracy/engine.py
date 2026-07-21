@@ -1,5 +1,6 @@
 import pandas as pd
 
+from eazydatafix.assessment.checks._runner import run_checks
 from eazydatafix.assessment.checks.accuracy.numeric_range_check import (
     NumericRangeCheck,
 )
@@ -21,12 +22,7 @@ class AccuracyEngine:
         self,
         df: pd.DataFrame,
     ) -> list[ValidationResult]:
-
-        results: list[ValidationResult] = []
-
-        for check in self._checks:
-            results.extend(
-                check.evaluate(df)
-            )
-
-        return results
+        return run_checks(
+            self._checks,
+            df,
+        )

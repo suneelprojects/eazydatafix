@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 
 from eazydatafix.core.column_profiler import ColumnProfiler
@@ -14,8 +16,17 @@ class PrepareEngine:
 
     def prepare(
         self,
-        dataset,
+        dataset: str | Path | pd.DataFrame,
     ) -> pd.DataFrame:
+        """
+        Prepare a supported dataset for downstream analysis.
+
+        Args:
+            dataset: A pandas DataFrame or path to a supported dataset file.
+
+        Returns:
+            A prepared pandas DataFrame.
+        """
 
         df = DatasetLoader.load(dataset).copy()
 

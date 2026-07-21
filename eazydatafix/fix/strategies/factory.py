@@ -14,6 +14,11 @@ class StrategyFactory:
     @staticmethod
     def create(strategy: str) -> MissingValueStrategy:
 
+        if not isinstance(strategy, str):
+            raise ValueError(
+                "Missing value strategy must be a string."
+            )
+
         strategy = strategy.lower()
 
         strategies = {
@@ -26,7 +31,9 @@ class StrategyFactory:
 
         if strategy not in strategies:
             raise ValueError(
-                f"Unsupported missing value strategy: {strategy}"
+                "Unsupported missing value strategy: "
+                f"{strategy}. Supported strategies are: "
+                f"{', '.join(strategies)}."
             )
 
         return strategies[strategy]()

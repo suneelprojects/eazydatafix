@@ -36,8 +36,17 @@ class AssessmentEngine:
 
     def assess(
         self,
-        dataset,
+        dataset: str | Path | pd.DataFrame,
     ) -> AssessmentReport:
+        """
+        Assess a supported dataset.
+
+        Args:
+            dataset: A pandas DataFrame or path to a supported dataset file.
+
+        Returns:
+            An AssessmentReport containing the dataset quality assessment.
+        """
 
         df = DatasetLoader.load(dataset)
 
@@ -57,6 +66,16 @@ class AssessmentEngine:
         df: pd.DataFrame,
         file_name: str = "DataFrame",
     ) -> AssessmentReport:
+        """
+        Assess an in-memory DataFrame.
+
+        Args:
+            df: The DataFrame to assess.
+            file_name: Display name recorded in the assessment report.
+
+        Returns:
+            An AssessmentReport containing the dataset quality assessment.
+        """
 
         dataset_info = DatasetInfo(
             file_name=file_name,

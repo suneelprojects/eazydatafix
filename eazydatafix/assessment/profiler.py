@@ -12,7 +12,19 @@ class DatasetProfiler:
     Creates a structural profile of a dataset.
     """
 
-    def profile(self, dataset) -> DatasetProfile:
+    def profile(
+        self,
+        dataset: str | Path | pd.DataFrame,
+    ) -> DatasetProfile:
+        """
+        Create a structural profile for a supported dataset.
+
+        Args:
+            dataset: A pandas DataFrame or path to a supported dataset file.
+
+        Returns:
+            A DatasetProfile containing structural dataset information.
+        """
 
         df = DatasetLoader.load(dataset)
 

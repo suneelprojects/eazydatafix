@@ -1,3 +1,7 @@
+from pathlib import Path
+
+import pandas as pd
+
 from eazydatafix.assessment.engine import AssessmentEngine
 from eazydatafix.core.dataset_loader import DatasetLoader
 from eazydatafix.fix.column_normalizer import ColumnNormalizer
@@ -28,9 +32,19 @@ class FixEngine:
 
     def fix(
         self,
-        file_path: str,
+        file_path: str | Path | pd.DataFrame,
         config: FixConfig | None = None,
     ) -> FixResult:
+        """
+        Clean a supported dataset using the configured cleaning pipeline.
+
+        Args:
+            file_path: A pandas DataFrame or path to a supported dataset file.
+            config: Optional configuration for the cleaning operation.
+
+        Returns:
+            A FixResult containing the cleaned dataset and assessment reports.
+        """
 
         config = config or FixConfig()
 
@@ -79,7 +93,7 @@ class FixEngine:
         )
 
         return FixResult(
-            dataframe=cleaned_df,
+            dataset=cleaned_df,
             before_report=before_report,
             after_report=after_report,
             applied_fixes=applied_fixes,

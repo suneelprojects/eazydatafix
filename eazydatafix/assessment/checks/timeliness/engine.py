@@ -1,5 +1,6 @@
 import pandas as pd
 
+from eazydatafix.assessment.checks._runner import run_checks
 from eazydatafix.assessment.checks.timeliness.future_date_check import (
     FutureDateCheck,
 )
@@ -25,12 +26,7 @@ class TimelinessEngine:
         self,
         df: pd.DataFrame,
     ) -> list[ValidationResult]:
-
-        results: list[ValidationResult] = []
-
-        for check in self._checks:
-            results.extend(
-                check.evaluate(df)
-            )
-
-        return results
+        return run_checks(
+            self._checks,
+            df,
+        )

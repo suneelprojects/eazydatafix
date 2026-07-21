@@ -1,0 +1,6 @@
+id,name,email,phone,age,salary,department,joining_date
+1,Ravi,ravi@gmail.com,9876543210,28,45000.0,IT,2023-01-15
+2,Priya,priya.gmail.com,987654321,31,52000.0,HR,2022-11-10
+3,Arun,arun@yahoo.com,9876543210,29,,Finance,2021-05-18
+4,Sneha,sneha@gmail.com,,26,48000.0,IT,2023-08-01
+5,Kiran,kiran@gmail.com,9988776655,27,47000.0,Sales,2022-03-22

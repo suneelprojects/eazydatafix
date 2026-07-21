@@ -1,5 +1,6 @@
 import pandas as pd
 
+from eazydatafix.assessment.checks._runner import run_checks
 from eazydatafix.assessment.checks.validity.engine import ValidityEngine
 from eazydatafix.models.validation_result import ValidationResult
 
@@ -42,7 +43,10 @@ class ValidationEngine:
         # Validity Checks
 
         results.extend(
-            self._validity_engine.evaluate(df)
+            run_checks(
+                [self._validity_engine],
+                df,
+            )
         )
 
         return results

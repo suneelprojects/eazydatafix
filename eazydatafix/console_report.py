@@ -14,6 +14,12 @@ class Report:
         self._report = report
 
     def summary(self) -> None:
+        """
+        Display a human-readable assessment summary in the console.
+
+        Returns:
+            None.
+        """
 
         Console.title("🚀 EASYDATAFIX DATA QUALITY REPORT")
 

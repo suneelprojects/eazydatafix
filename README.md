@@ -13,6 +13,27 @@ EazyDataFix helps data analysts, data scientists, machine learning engineers, an
 
 ---
 
+# 🌐 Documentation
+
+📚 **Documentation Website**
+
+https://eazydatafix.com
+
+📖 **API Reference**
+
+https://eazydatafix.com/docs
+
+---
+
+# 🚀 Quick Links
+
+- 📦 PyPI — https://pypi.org/project/eazydatafix/
+- 🌍 Documentation — https://eazydatafix.com
+- 📖 API Reference — https://eazydatafix.com/docs
+- 💻 GitHub — https://github.com/suneelprojects/eazydatafix
+
+---
+
 ## ✨ Features
 
 - 📊 Data Quality Assessment
@@ -43,6 +64,22 @@ For Parquet support:
 
 ```bash
 pip install eazydatafix[parquet]
+```
+
+---
+
+# Core APIs
+
+```python
+import eazydatafix as edf
+
+edf.profile(...)
+
+edf.assess(...)
+
+edf.fix(...)
+
+edf.analysis_ready(...)
 ```
 
 ---
@@ -112,7 +149,7 @@ Timeliness    : 100.00%
 
 # Report Formats
 
-EasyDataFix can generate reports in multiple formats.
+EazyDataFix can generate reports in multiple formats.
 
 ```python
 report.summary()
@@ -134,7 +171,9 @@ report.to_markdown()
 
 # Supported Data Sources
 
-EasyDataFix accepts datasets in a variety of formats. `edf.assess(...)` and `edf.fix(...)` both work with:
+EazyDataFix accepts datasets in a variety of formats.
+
+Both `edf.assess(...)` and `edf.fix(...)` work with:
 
 - Pandas `DataFrame`
 - CSV files
@@ -142,14 +181,13 @@ EasyDataFix accepts datasets in a variety of formats. `edf.assess(...)` and `edf
 - JSON files
 - Parquet files
 
-Loading is handled by the modular `eazydatafix.datasources` package, which lets you plug in your own formats:
+Loading is handled by the modular `eazydatafix.datasources` package, allowing custom data source plugins.
 
 ```python
 import pandas as pd
 
 from eazydatafix.datasources import (
     DataSource,
-    DatasetLoader,
     default_registry,
 )
 
@@ -158,17 +196,17 @@ class TSVDataSource(DataSource):
 
     name = "tsv"
 
-    def can_load(self, source) -> bool:
+    def can_load(self, source):
         from pathlib import Path
         return isinstance(source, Path) and source.suffix.lower() == ".tsv"
 
-    def load(self, source) -> pd.DataFrame:
+    def load(self, source):
         return pd.read_csv(source, sep="\t")
 
 
 default_registry.register(TSVDataSource())
 
-# Now edf.assess(...) and edf.fix(...) accept .tsv files too.
+# edf.assess(...) and edf.fix(...) now support TSV files.
 ```
 
 ---
@@ -177,13 +215,13 @@ default_registry.register(TSVDataSource())
 
 EazyDataFix is designed to make data quality assessment simple and accessible.
 
-Whether you're validating datasets before machine learning, preparing ETL pipelines, or cleaning business reports, EazyDataFix provides a consistent way to measure and improve data quality.
+Whether you're validating datasets before machine learning, preparing ETL pipelines, or cleaning business reports, EazyDataFix provides a consistent way to measure and improve data quality with minimal code.
 
 ---
 
 # Roadmap
 
-### Version 0.1
+## ✅ Completed
 
 - Assessment Engine
 - Validation Engine
@@ -191,7 +229,7 @@ Whether you're validating datasets before machine learning, preparing ETL pipeli
 - Reporting Engine
 - Auto Fix Foundation
 
-### Version 0.2
+## 🚀 Coming Soon
 
 - Data Profiling
 - CLI Support
@@ -205,13 +243,22 @@ Whether you're validating datasets before machine learning, preparing ETL pipeli
 
 # Contributing
 
-Contributions are welcome.
+Contributions are always welcome.
 
-Feel free to fork the repository, open issues, or submit pull requests.
+Feel free to:
 
-Repository:
+- ⭐ Star the repository
+- 🐛 Report bugs
+- 💡 Suggest features
+- 🔧 Submit pull requests
+
+GitHub Repository:
 
 https://github.com/suneelprojects/eazydatafix
+
+Documentation:
+
+https://eazydatafix.com
 
 ---
 
@@ -222,3 +269,5 @@ MIT License
 ---
 
 Made with ❤️ by **Suneel Kumar Kola**
+
+🌐 https://eazydatafix.com

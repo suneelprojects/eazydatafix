@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from ._version import __version__
 from .agentic_eda import AgenticEDAOrchestrator
 from .assessment.ai_readiness import AIReadinessEngine
 from .assessment.eda import EDAEngine
@@ -39,8 +40,6 @@ from .models.fix_result import FixResult
 from .models.ready_result import ReadyResult
 from .prepare.engine import PrepareEngine
 from .reporting.agentic_eda import AgenticEDAReportExporter
-
-__version__ = "0.2.1"
 
 __all__ = [
     "__version__",

@@ -44,6 +44,4 @@ class DataSourceRegistry:
             if data_source.can_load(source):
                 return data_source
 
-        raise InvalidDatasetError(
-            f"No data source available for: {source!r}"
-        )
+        raise InvalidDatasetError(f"No data source available for: {source!r}")

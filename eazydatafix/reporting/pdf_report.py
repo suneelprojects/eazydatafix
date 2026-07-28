@@ -1,10 +1,6 @@
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Paragraph
-from reportlab.platypus import SimpleDocTemplate
-from reportlab.platypus import Spacer
-from reportlab.platypus import Table
-from reportlab.platypus import TableStyle
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 from eazydatafix.models.assessment_report import AssessmentReport
 
@@ -31,14 +27,12 @@ class PdfReport:
 
         story.append(
             Paragraph(
-                "<b>Easy Data Fix Report</b>",
+                "<b>EazyDataFix Report</b>",
                 styles["Title"],
             )
         )
 
-        story.append(
-            Spacer(1, 18)
-        )
+        story.append(Spacer(1, 18))
 
         # ------------------------------------------------------------------
         # Dataset
@@ -212,17 +206,13 @@ class PdfReport:
                     )
                 )
 
-                story.append(
-                    Spacer(1, 10)
-                )
+                story.append(Spacer(1, 10))
 
         # ------------------------------------------------------------------
         # Validations
         # ------------------------------------------------------------------
 
-        story.append(
-            Spacer(1, 10)
-        )
+        story.append(Spacer(1, 10))
 
         story.append(
             Paragraph(
@@ -245,9 +235,7 @@ class PdfReport:
                 [
                     validation.rule,
                     validation.column,
-                    "PASS"
-                    if validation.passed
-                    else "FAIL",
+                    "PASS" if validation.passed else "FAIL",
                 ]
             )
 

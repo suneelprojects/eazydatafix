@@ -13,9 +13,9 @@ from eazydatafix.core.dataset_loader import (
 from eazydatafix.datasources import (
     CSVDataSource,
     DataFrameDataSource,
+    DatasetLoader,
     DataSource,
     DataSourceRegistry,
-    DatasetLoader,
     ExcelDataSource,
     JSONDataSource,
     ParquetDataSource,
@@ -25,7 +25,6 @@ from eazydatafix.exceptions import (
     DatasetNotFoundError,
     InvalidDatasetError,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -50,16 +49,13 @@ def sample_df() -> pd.DataFrame:
 
 
 class TestBackwardCompatibility:
-
     def test_shim_reexports_same_class(self) -> None:
 
         assert ShimDatasetLoader is DatasetLoader
 
     def test_default_registry_is_prepopulated(self) -> None:
 
-        source_types = {
-            type(s) for s in default_registry.sources()
-        }
+        source_types = {type(s) for s in default_registry.sources()}
 
         assert CSVDataSource in source_types
         assert ExcelDataSource in source_types
@@ -74,7 +70,6 @@ class TestBackwardCompatibility:
 
 
 class TestDatasetLoader:
-
     def test_load_dataframe_returns_copy(
         self,
         sample_df: pd.DataFrame,
@@ -185,9 +180,9 @@ class TestDatasetLoader:
         assert "Unsupported dataset type" in str(exc.value)
 
     def test_corrupt_file_raises(
-            self,
-            tmp_path: Path,
-        ) -> None:
+        self,
+        tmp_path: Path,
+    ) -> None:
         """
         With a Parquet backend installed, a corrupt ``.parquet`` file must
         surface as a generic ``Unable to load dataset`` error from the
@@ -205,9 +200,9 @@ class TestDatasetLoader:
         assert "Unable to load dataset" in str(exc.value)
 
     def test_parquet_without_backend_reports_friendly_error(
-            self,
-            tmp_path: Path,
-        ) -> None:
+        self,
+        tmp_path: Path,
+    ) -> None:
         """
         Without a Parquet backend installed, loading a ``.parquet`` file
         must raise the friendly install-me error instead of the pandas
@@ -216,12 +211,14 @@ class TestDatasetLoader:
 
         try:
             import pyarrow  # noqa: F401
+
             pytest.skip("pyarrow is installed; friendly error not applicable")
         except ImportError:
             pass
 
         try:
             import fastparquet  # noqa: F401
+
             pytest.skip("fastparquet is installed; friendly error not applicable")
         except ImportError:
             pass
@@ -241,7 +238,6 @@ class TestDatasetLoader:
 
 
 class TestDataSources:
-
     def test_dataframe_source_can_load(
         self,
         sample_df: pd.DataFrame,
@@ -295,7 +291,6 @@ class TestDataSources:
 
 
 class TestDataSourceRegistry:
-
     def test_resolve_returns_matching_source(
         self,
         sample_df: pd.DataFrame,
@@ -326,16 +321,12 @@ class TestDataSourceRegistry:
         self,
         tmp_path: Path,
     ) -> None:
-
         class TSVDataSource(DataSource):
 
             name = "tsv"
 
             def can_load(self, source) -> bool:
-                return (
-                    isinstance(source, Path)
-                    and source.suffix.lower() == ".tsv"
-                )
+                return isinstance(source, Path) and source.suffix.lower() == ".tsv"
 
             def load(self, source) -> pd.DataFrame:
                 return pd.read_csv(source, sep="\t")

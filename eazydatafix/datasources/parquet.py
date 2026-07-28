@@ -23,10 +23,7 @@ class ParquetDataSource(DataSource):
     extensions = (".parquet",)
 
     def can_load(self, source) -> bool:
-        return (
-            isinstance(source, Path)
-            and source.suffix.lower() in self.extensions
-        )
+        return isinstance(source, Path) and source.suffix.lower() in self.extensions
 
     def load(self, source) -> pd.DataFrame:
         try:

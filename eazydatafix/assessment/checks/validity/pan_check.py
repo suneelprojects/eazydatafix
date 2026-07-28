@@ -10,9 +10,7 @@ class PanCheck:
     Validates Indian PAN numbers.
     """
 
-    PAN_PATTERN = re.compile(
-        r"^[A-Z]{5}[0-9]{4}[A-Z]$"
-    )
+    PAN_PATTERN = re.compile(r"^[A-Z]{5}[0-9]{4}[A-Z]$")
 
     def evaluate(
         self,

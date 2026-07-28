@@ -23,10 +23,7 @@ class AadhaarCheck:
 
             column_name = column.lower()
 
-            if (
-                "aadhaar" not in column_name
-                and "aadhar" not in column_name
-            ):
+            if "aadhaar" not in column_name and "aadhar" not in column_name:
                 continue
 
             invalid = 0

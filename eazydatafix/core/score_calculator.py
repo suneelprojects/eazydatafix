@@ -20,11 +20,7 @@ class ScoreCalculator:
 
             total = len(validations)
 
-            passed = sum(
-                1
-                for validation in validations
-                if validation.passed
-            )
+            passed = sum(1 for validation in validations if validation.passed)
 
             validity_score = round(
                 (passed / total) * 100,
@@ -32,11 +28,7 @@ class ScoreCalculator:
             )
 
         score = round(
-            (
-                (completeness_score * 0.35)
-                + (uniqueness_score * 0.25)
-                + (validity_score * 0.40)
-            ),
+            ((completeness_score * 0.35) + (uniqueness_score * 0.25) + (validity_score * 0.40)),
             2,
         )
 

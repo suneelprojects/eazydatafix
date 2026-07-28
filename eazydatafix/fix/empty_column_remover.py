@@ -27,8 +27,6 @@ class EmptyColumnRemover(FixStep):
 
         if removed > 0:
 
-            applied_fixes.append(
-                f"Removed {removed} empty column(s)."
-            )
+            applied_fixes.append(f"Removed {removed} empty column(s).")
 
         return df

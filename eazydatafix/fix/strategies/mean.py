@@ -1,7 +1,7 @@
 import pandas as pd
 
-from eazydatafix.plugins import Plugin
 from eazydatafix.fix.strategies.base import MissingValueStrategy
+from eazydatafix.plugins import Plugin
 
 
 class MeanStrategy(Plugin, MissingValueStrategy):
@@ -12,11 +12,8 @@ class MeanStrategy(Plugin, MissingValueStrategy):
 
     name = "mean"
     version = "0.2.0"
-    author = "EasyDataFix"
-    description = (
-        "Fill missing numeric values using mean and "
-        "categorical values using mode."
-    )
+    author = "EazyDataFix"
+    description = "Fill missing numeric values using mean and " "categorical values using mode."
 
     def apply(
         self,
@@ -37,8 +34,6 @@ class MeanStrategy(Plugin, MissingValueStrategy):
 
             df[column] = df[column].fillna(value)
 
-            applied_fixes.append(
-                f"Filled missing values in '{column}' using mean."
-            )
+            applied_fixes.append(f"Filled missing values in '{column}' using mean.")
 
         return df

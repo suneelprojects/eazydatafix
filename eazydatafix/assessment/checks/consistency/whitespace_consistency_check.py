@@ -18,8 +18,7 @@ class WhitespaceConsistencyCheck:
         for column in df.columns:
 
             if not (
-                pd.api.types.is_object_dtype(df[column])
-                or pd.api.types.is_string_dtype(df[column])
+                pd.api.types.is_object_dtype(df[column]) or pd.api.types.is_string_dtype(df[column])
             ):
                 continue
 
@@ -50,7 +49,9 @@ class WhitespaceConsistencyCheck:
                         rule="Whitespace Consistency",
                         column=column,
                         passed=False,
-                        message=f"{whitespace_count} value(s) contain leading/trailing whitespaces.",
+                        message=(
+                            f"{whitespace_count} value(s) contain " "leading/trailing whitespaces."
+                        ),
                     )
                 )
 

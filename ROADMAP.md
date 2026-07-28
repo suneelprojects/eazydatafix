@@ -1,4 +1,4 @@
-# Easy Data Fix Roadmap
+# EazyDataFix Roadmap
 
 ## Agentic EDA Foundation
 

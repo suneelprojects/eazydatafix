@@ -37,11 +37,7 @@ class StaleDataCheck:
                 errors="coerce",
             )
 
-            stale_count = int(
-                (
-                    (today - dates).dt.days > threshold_days
-                ).sum()
-            )
+            stale_count = int(((today - dates).dt.days > threshold_days).sum())
 
             if stale_count == 0:
 

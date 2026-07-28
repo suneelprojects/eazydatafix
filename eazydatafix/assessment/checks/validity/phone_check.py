@@ -10,9 +10,7 @@ class PhoneCheck:
     Validates phone numbers.
     """
 
-    PHONE_PATTERN = re.compile(
-        r"^\+?[1-9]\d{9,14}$"
-    )
+    PHONE_PATTERN = re.compile(r"^\+?[1-9]\d{9,14}$")
 
     def evaluate(
         self,

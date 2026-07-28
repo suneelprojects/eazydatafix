@@ -49,9 +49,6 @@ class DataTypeConverter(FixStep):
                 pass
 
         if converted:
-            applied_fixes.append(
-                "Converted data types: "
-                + ", ".join(converted)
-            )
+            applied_fixes.append("Converted data types: " + ", ".join(converted))
 
         return df

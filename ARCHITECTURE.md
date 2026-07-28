@@ -8,7 +8,7 @@
 
 # Vision
 
-EasyDataFix is designed as a modular, extensible, and maintainable data quality framework.
+EazyDataFix is designed as a modular, extensible, and maintainable data quality framework.
 
 The goal is to keep the Core framework small and stable while allowing new functionality to be added through plugins without modifying the Core.
 
@@ -246,7 +246,7 @@ Future versions may extend the context without changing plugin interfaces.
 
 # Registry Design
 
-EasyDataFix uses one shared registry.
+EazyDataFix uses one shared registry.
 
 The registry:
 
@@ -379,7 +379,7 @@ Cloud Integrations
 
 # Design Philosophy
 
-EasyDataFix follows a simple principle.
+EazyDataFix follows a simple principle.
 
 > The Core orchestrates.
 

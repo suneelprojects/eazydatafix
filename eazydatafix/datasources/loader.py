@@ -25,7 +25,6 @@ from eazydatafix.exceptions import (
     InvalidDatasetError,
 )
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -82,9 +81,7 @@ class DatasetLoader:
         file_path = Path(dataset)
 
         if not file_path.exists():
-            raise DatasetNotFoundError(
-                f"Dataset not found: {file_path}"
-            )
+            raise DatasetNotFoundError(f"Dataset not found: {file_path}")
 
         data_source = cls.registry.resolve(file_path)
         data_source_name = getattr(

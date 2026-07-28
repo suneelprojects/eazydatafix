@@ -21,10 +21,7 @@ class CreditCardCheck:
 
             column_name = column.lower()
 
-            if (
-                "card" not in column_name
-                and "credit" not in column_name
-            ):
+            if "card" not in column_name and "credit" not in column_name:
                 continue
 
             invalid = 0
@@ -37,11 +34,7 @@ class CreditCardCheck:
                     str(value),
                 )
 
-                if (
-                    len(number) < 13
-                    or len(number) > 19
-                    or not self._luhn(number)
-                ):
+                if len(number) < 13 or len(number) > 19 or not self._luhn(number):
                     invalid += 1
 
             if invalid == 0:

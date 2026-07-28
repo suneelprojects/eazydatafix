@@ -10,7 +10,7 @@ from eazydatafix.models.recommendation import Recommendation
 from eazydatafix.models.validation_result import ValidationResult
 
 if TYPE_CHECKING:
-    from eazydatafix.console_report import Report
+    pass
 
 
 @dataclass(slots=True)

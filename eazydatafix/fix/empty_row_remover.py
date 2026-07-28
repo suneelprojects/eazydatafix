@@ -26,8 +26,6 @@ class EmptyRowRemover(FixStep):
         removed = before - len(df)
 
         if removed > 0:
-            applied_fixes.append(
-                f"Removed {removed} empty row(s)."
-            )
+            applied_fixes.append(f"Removed {removed} empty row(s).")
 
         return df

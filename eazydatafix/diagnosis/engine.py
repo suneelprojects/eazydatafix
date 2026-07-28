@@ -32,9 +32,7 @@ class DiagnosisEngine:
                     category=recommendation.category,
                     message=recommendation.title,
                     suggestion=recommendation.description,
-                    auto_fix_available=(
-                        recommendation.auto_fix_available
-                    ),
+                    auto_fix_available=(recommendation.auto_fix_available),
                 )
             )
 

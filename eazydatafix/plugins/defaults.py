@@ -1,5 +1,5 @@
 """
-Default plugin registry for EasyDataFix.
+Default plugin registry for EazyDataFix.
 
 This module owns the application's shared plugin registry.
 
@@ -14,7 +14,7 @@ default_registry = PluginRegistry()
 
 def register_builtin_plugins() -> PluginRegistry:
     """
-    Register all built-in EasyDataFix plugins.
+    Register all built-in EazyDataFix plugins.
 
     Returns
     -------

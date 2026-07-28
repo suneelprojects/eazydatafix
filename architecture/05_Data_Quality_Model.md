@@ -1,8 +1,8 @@
-# Easy Data Fix - Data Quality Model
+# EazyDataFix - Data Quality Model
 
 ## Overview
 
-Easy Data Fix evaluates datasets using measurable Data Quality Dimensions.
+EazyDataFix evaluates datasets using measurable Data Quality Dimensions.
 
 Each dimension contributes to an Overall Data Quality Score.
 

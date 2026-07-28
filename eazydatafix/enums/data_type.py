@@ -3,7 +3,7 @@ from enum import Enum
 
 class DataType(str, Enum):
     """
-    Framework data types used throughout Easy Data Fix.
+    Framework data types used throughout EazyDataFix.
     """
 
     INTEGER = "Integer"

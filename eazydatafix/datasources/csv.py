@@ -20,10 +20,7 @@ class CSVDataSource(DataSource):
     extensions = (".csv",)
 
     def can_load(self, source) -> bool:
-        return (
-            isinstance(source, Path)
-            and source.suffix.lower() in self.extensions
-        )
+        return isinstance(source, Path) and source.suffix.lower() in self.extensions
 
     def load(self, source) -> pd.DataFrame:
         return pd.read_csv(source)

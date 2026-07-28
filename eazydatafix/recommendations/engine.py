@@ -97,7 +97,10 @@ class RecommendationEngine:
             recommendations.append(
                 Recommendation(
                     title="Improve Data Consistency",
-                    description="Standardize text casing, remove extra spaces and resolve inconsistent values.",
+                    description=(
+                        "Standardize text casing, remove extra spaces and "
+                        "resolve inconsistent values."
+                    ),
                     priority="MEDIUM",
                     category="Consistency",
                     auto_fix_available=True,
@@ -109,10 +112,7 @@ class RecommendationEngine:
         accuracy_count = sum(
             1
             for validation in report.validations
-            if (
-                not validation.passed
-                and validation.rule == "Numeric Range"
-            )
+            if (not validation.passed and validation.rule == "Numeric Range")
         )
 
         if accuracy_count > 0:

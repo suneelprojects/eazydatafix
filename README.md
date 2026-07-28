@@ -51,10 +51,15 @@ https://eazydatafix.com/docs
 - 📋 CSV Report
 - 📦 JSON Report
 - 📝 Markdown Report
+- 🧭 Deterministic EDA Planning and Execution
+- 🤖 Deterministic Agentic EDA Orchestration
+- 📊 Reproducible Agentic EDA Reports and PNG Visualisations
 
 ---
 
 # Installation
+
+EazyDataFix supports Python 3.10–3.13.
 
 ```bash
 pip install eazydatafix
@@ -77,7 +82,21 @@ edf.profile(...)
 
 edf.assess(...)
 
+edf.assess_ai_readiness(...)
+
+edf.eda(...)
+
+edf.plan_eda(...)
+
+edf.execute_eda(...)
+
+edf.run_agentic_eda(...)
+
+edf.export_agentic_eda_report(...)
+
 edf.fix(...)
+
+edf.prepare(...)
 
 edf.analysis_ready(...)
 ```
@@ -105,6 +124,179 @@ report.to_csv()
 
 report.to_markdown()
 ```
+
+---
+
+# Deterministic EDA
+
+Generate a structured exploratory data analysis result without using an LLM.
+
+```python
+import eazydatafix as edf
+
+eda_result = edf.eda("employees.csv")
+
+print(eda_result.shape)
+print(eda_result.semantic_roles)
+print(eda_result.identifier_columns)
+print(eda_result.datetime_columns)
+print(eda_result.numeric_statistics)
+print(eda_result.categorical_summaries)
+print(eda_result.observations)
+print(eda_result.recommendations)
+```
+
+`edf.eda(...)` accepts pandas DataFrames, CSV, Excel, JSON, and Parquet files
+through the existing EazyDataFix datasource system.
+
+EDA deterministically classifies columns as numeric measures, categorical
+dimensions, identifiers, datetimes, or booleans. Identifier, datetime, and
+boolean columns are excluded from numeric statistics and correlations.
+
+---
+
+# Deterministic EDA Planner
+
+Build a reproducible follow-up analysis plan from an existing `EDAResult`.
+
+```python
+import eazydatafix as edf
+
+eda_result = edf.eda("employees.csv")
+plan = edf.plan_eda(eda_result)
+
+for step in plan.selected_steps:
+    print(step.name, step.priority, step.reason)
+
+for step in plan.skipped_steps:
+    print(step.name, step.reason)
+
+print(plan.warnings)
+print(plan.deterministic_summary)
+```
+
+The planner uses semantic roles and statistics from `EDAResult` to explain why
+each supported analysis is selected or skipped. It does not call an LLM.
+
+---
+
+# Deterministic EDA Executor
+
+Execute selected plan steps through deterministic analysis handlers.
+
+```python
+import eazydatafix as edf
+
+execution = edf.execute_eda("employees.csv")
+
+for step in execution.executed_steps:
+    print(step.name, step.status, step.output)
+
+print(execution.execution_order)
+print(execution.warnings)
+print(execution.deterministic_summary)
+```
+
+`edf.execute_eda(...)` automatically creates the `EDAResult` and `EDAPlan` when
+they are not supplied. Existing results and plans can be reused explicitly:
+
+```python
+eda_result = edf.eda("employees.csv")
+plan = edf.plan_eda(eda_result)
+execution = edf.execute_eda(
+    "employees.csv",
+    result=eda_result,
+    plan=plan,
+)
+```
+
+Execution results can be converted to a JSON-ready dictionary with
+`execution.to_dict()`. Selected steps record `success` or `failure`; planned
+skips remain visible with `skipped` status.
+
+---
+
+# Deterministic Agentic EDA
+
+Run dataset understanding, planning, execution, and traceable follow-up
+decision generation as one reproducible workflow.
+
+```python
+import json
+
+import eazydatafix as edf
+
+config = edf.AgenticEDAConfig(
+    correlation_threshold=0.85,
+    outlier_iqr_multiplier=1.5,
+    class_imbalance_threshold=0.80,
+)
+workflow = edf.run_agentic_eda("employees.csv", config=config)
+
+print(workflow.overall_status)
+print(workflow.priority_findings)
+print(workflow.follow_up_actions)
+print(workflow.recommended_visualisations)
+print(workflow.unresolved_questions)
+
+json_output = json.dumps(workflow.to_dict(), indent=2)
+```
+
+Every action, visualisation, question, and finding identifies its source
+execution step, target columns, priority, reason, and prerequisites. The
+orchestrator is deterministic, does not mutate DataFrames, and does not use an
+LLM. Visualisation recommendations and unresolved questions can be disabled,
+and recommendation counts can be bounded with `AgenticEDAConfig`.
+
+---
+
+# Agentic EDA Reports
+
+Convert an existing `AgenticEDAResult` into reproducible HTML and JSON report
+artifacts. Markdown is available as an optional format.
+
+```python
+import eazydatafix as edf
+
+workflow = edf.run_agentic_eda("employees.csv")
+
+report = edf.export_agentic_eda_report(
+    workflow,
+    dataset="employees.csv",  # Optional: enables honest raw-data charts.
+    output_dir="eda-report",
+    formats=["html", "json", "markdown"],
+)
+
+print(report.generated_files)
+print(report.generated_visualisations)
+print(report.skipped_visualisations)
+print(report.status)
+```
+
+Without `dataset`, charts supported by structured execution outputs—such as
+missing values, categorical distributions, correlations, and datetime
+frequencies—are still generated. Histograms and box plots are explicitly
+recorded as skipped unless a matching dataset is supplied. The dataset is
+validated against the workflow and copied; the workflow and caller DataFrame
+are never mutated.
+
+Example output:
+
+```text
+eda-report/
+├── agentic-eda-report.html
+├── agentic-eda-report.json
+├── agentic-eda-report.md
+└── visualisations/
+    ├── 01-missing-value-chart-phone-salary.png
+    ├── 02-bar-chart-department.png
+    └── 03-time-series-line-chart-joining-date.png
+```
+
+Report filenames, section order, chart filenames, JSON key ordering, and
+artifact tracking are deterministic. Existing known artifact files are
+overwritten predictably; unrelated files in the output directory are
+preserved.
 
 ---
 

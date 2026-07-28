@@ -11,9 +11,7 @@ class ColumnProfiler:
     understand what the column actually represents.
     """
 
-    EMAIL_PATTERN = re.compile(
-        r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-    )
+    EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
     IDENTIFIER_COLUMNS = {
         "id",
@@ -42,10 +40,7 @@ class ColumnProfiler:
         # Identifier
         # ------------------------------------------
 
-        if (
-            name in cls.IDENTIFIER_COLUMNS
-            or name.endswith("_id")
-        ):
+        if name in cls.IDENTIFIER_COLUMNS or name.endswith("_id"):
             return "IDENTIFIER"
 
         # ------------------------------------------

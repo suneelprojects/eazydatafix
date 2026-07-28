@@ -96,13 +96,10 @@ class PrepareEngine:
 
             if semantic_type == "CURRENCY":
 
-                df[column] = (
-                    pd.to_numeric(
-                        series,
-                        errors="coerce",
-                    )
-                    .astype("float32")
-                )
+                df[column] = pd.to_numeric(
+                    series,
+                    errors="coerce",
+                ).astype("float32")
 
                 continue
 
@@ -113,11 +110,7 @@ class PrepareEngine:
             if semantic_type == "BOOLEAN":
 
                 df[column] = (
-                    series.astype(str)
-                    .str.strip()
-                    .str.lower()
-                    .map(boolean_map)
-                    .astype(bool)
+                    series.astype(str).str.strip().str.lower().map(boolean_map).astype(bool)
                 )
 
                 continue

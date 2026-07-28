@@ -1,4 +1,4 @@
-# Why Easy Data Fix Exists
+# Why EazyDataFix Exists
 
 ## The Problem
 
@@ -18,7 +18,7 @@ Typical workflow:
 
 Most people rewrite the same code for every project.
 
-Easy Data Fix exists to eliminate this repetitive work.
+EazyDataFix exists to eliminate this repetitive work.
 
 ---
 
@@ -61,7 +61,7 @@ Production-ready quality.
 
 # Success Metric
 
-A user should be productive within five minutes of installing Easy Data Fix.
+A user should be productive within five minutes of installing EazyDataFix.
 
 If we achieve that, we've succeeded.
 
@@ -69,4 +69,4 @@ If we achieve that, we've succeeded.
 
 # Long-Term Goal
 
-Easy Data Fix should become the standard preprocessing library that developers install before starting any data science project.
+EazyDataFix should become the standard preprocessing library that developers install before starting any data science project.

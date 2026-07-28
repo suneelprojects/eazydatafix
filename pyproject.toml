@@ -1,11 +1,11 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "eazydatafix"
-version = "0.2.1"
-description = "A modern Python library for data quality assessment, validation, and automated data cleaning."
+dynamic = ["version"]
+description = "Deterministic data quality, cleaning, and Agentic EDA workflows for Python."
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -14,6 +14,7 @@ authors = [
 ]
 
 license = "MIT"
+license-files = ["LICENSE"]
 
 keywords = [
     "data-quality",
@@ -23,6 +24,8 @@ keywords = [
     "pandas",
     "etl",
     "data-analysis",
+    "exploratory-data-analysis",
+    "agentic-eda",
 ]
 
 classifiers = [
@@ -42,6 +45,7 @@ classifiers = [
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.26.0",
+    "matplotlib>=3.8.0",
     "openpyxl>=3.1.5",
     "reportlab>=4.0.0",
 ]
@@ -54,9 +58,13 @@ Homepage = "https://eazydatafix.com"
 Repository = "https://github.com/suneelprojects/eazydatafix"
 Documentation = "https://eazydatafix.com/docs"
 Issues = "https://github.com/suneelprojects/eazydatafix/issues"
+Changelog = "https://github.com/suneelprojects/eazydatafix/blob/develop/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["eazydatafix*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "eazydatafix._version.__version__" }
 
 [tool.setuptools.package-data]
 eazydatafix = [

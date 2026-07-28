@@ -1,8 +1,8 @@
 """
-EasyDataFix Plugin Architecture.
+EazyDataFix Plugin Architecture.
 
 This package exposes the public plugin interfaces used
-throughout EasyDataFix.
+throughout EazyDataFix.
 
 Plugin registration is intentionally NOT performed here to
 avoid circular imports during application startup.

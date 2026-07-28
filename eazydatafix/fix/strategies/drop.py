@@ -1,5 +1,5 @@
-from eazydatafix.plugins import Plugin
 from eazydatafix.fix.strategies.base import MissingValueStrategy
+from eazydatafix.plugins import Plugin
 
 
 class DropStrategy(Plugin, MissingValueStrategy):
@@ -9,7 +9,7 @@ class DropStrategy(Plugin, MissingValueStrategy):
 
     name = "drop"
     version = "0.2.0"
-    author = "EasyDataFix"
+    author = "EazyDataFix"
     description = "Drop rows containing missing values."
 
     def apply(
@@ -30,8 +30,6 @@ class DropStrategy(Plugin, MissingValueStrategy):
             removed = before - len(df)
 
             if removed > 0:
-                applied_fixes.append(
-                    f"Dropped {removed} row(s) with missing values in '{column}'."
-                )
+                applied_fixes.append(f"Dropped {removed} row(s) with missing values in '{column}'.")
 
         return df

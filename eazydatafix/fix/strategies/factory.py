@@ -15,9 +15,7 @@ class StrategyFactory:
     def create(strategy: str) -> MissingValueStrategy:
 
         if not isinstance(strategy, str):
-            raise ValueError(
-                "Missing value strategy must be a string."
-            )
+            raise ValueError("Missing value strategy must be a string.")
 
         strategy = strategy.lower()
 

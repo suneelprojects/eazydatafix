@@ -23,7 +23,6 @@ def sample_df() -> pd.DataFrame:
 
 
 class TestDatasetProfilerFormats:
-
     def test_profile_dataframe(
         self,
         sample_df: pd.DataFrame,

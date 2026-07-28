@@ -1,6 +1,6 @@
 class Console:
     """
-    Reusable console renderer for EasyDataFix.
+    Reusable console renderer for EazyDataFix.
     """
 
     WIDTH = 72

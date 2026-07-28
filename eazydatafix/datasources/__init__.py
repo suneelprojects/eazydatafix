@@ -1,5 +1,5 @@
 """
-Data source architecture for EasyDataFix.
+Data source architecture for EazyDataFix.
 
 Public exports:
 

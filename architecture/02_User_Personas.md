@@ -1,4 +1,4 @@
-# Easy Data Fix - User Personas
+# EazyDataFix - User Personas
 
 # Primary Users
 

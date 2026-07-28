@@ -1,10 +1,10 @@
-# Easy Data Fix Vision
+# EazyDataFix Vision
 
 ## Mission
 
 Build the world's simplest and most intelligent open-source Data Quality Framework.
 
-Easy Data Fix helps developers, data analysts, students, and organizations transform messy datasets into trustworthy, analysis-ready data through intelligent analysis, guided recommendations, and automated fixes.
+EazyDataFix helps developers, data analysts, students, and organizations transform messy datasets into trustworthy, analysis-ready data through intelligent analysis, guided recommendations, and automated fixes.
 
 ---
 
@@ -23,7 +23,7 @@ Easy Data Fix helps developers, data analysts, students, and organizations trans
 
 ## Long-Term Vision
 
-Easy Data Fix will become a complete ecosystem consisting of:
+EazyDataFix will become a complete ecosystem consisting of:
 
 * Python Framework
 * CLI
@@ -41,9 +41,9 @@ Easy Data Fix will become a complete ecosystem consisting of:
 ```python
 import eazydatafix as edf
 
-report = edf.analyze("employees.csv")
+assessment = edf.assess("employees.csv")
 
-clean_df = edf.fix(report)
+cleaned = edf.fix("employees.csv")
 ```
 
 The framework analyzes first, recommends actions, and only then performs fixes.
@@ -53,4 +53,3 @@ The framework analyzes first, recommends actions, and only then performs fixes.
 ## Goal
 
 Create an open-source framework that becomes a trusted standard for data quality and preprocessing.
-

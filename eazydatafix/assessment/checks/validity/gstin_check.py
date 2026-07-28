@@ -10,9 +10,7 @@ class GstinCheck:
     Validates Indian GSTIN numbers.
     """
 
-    GSTIN_PATTERN = re.compile(
-        r"^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$"
-    )
+    GSTIN_PATTERN = re.compile(r"^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$")
 
     def evaluate(
         self,
@@ -25,10 +23,7 @@ class GstinCheck:
 
             column_name = column.lower()
 
-            if (
-                "gst" not in column_name
-                and "gstin" not in column_name
-            ):
+            if "gst" not in column_name and "gstin" not in column_name:
                 continue
 
             invalid = 0

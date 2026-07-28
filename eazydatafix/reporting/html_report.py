@@ -14,15 +14,9 @@ class HtmlReport:
         output_file: str,
     ) -> None:
 
-        template_path = (
-            Path(__file__).parent
-            / "templates"
-            / "report.html"
-        )
+        template_path = Path(__file__).parent / "templates" / "report.html"
 
-        html = template_path.read_text(
-            encoding="utf-8"
-        )
+        html = template_path.read_text(encoding="utf-8")
 
         recommendations_html = ""
 
@@ -66,8 +60,7 @@ class HtmlReport:
 """
 
         html = (
-            html
-            .replace(
+            html.replace(
                 "{{file_name}}",
                 report.dataset_info.file_name,
             )
@@ -91,34 +84,13 @@ class HtmlReport:
                 "{{grade}}",
                 report.quality.grade,
             )
-            .replace(
-                "{{completeness}}",
-                f"{report.quality_dimensions.completeness:.2f}%"
-            )
-            .replace(
-                "{{uniqueness}}",
-                f"{report.quality_dimensions.uniqueness:.2f}%"
-            )
-            .replace(
-                "{{validity}}",
-                f"{report.quality_dimensions.validity:.2f}%"
-            )
-            .replace(
-                "{{consistency}}",
-                f"{report.quality_dimensions.consistency:.2f}%"
-            )
-            .replace(
-                "{{accuracy}}",
-                f"{report.quality_dimensions.accuracy:.2f}%"
-            )
-            .replace(
-                "{{timeliness}}",
-                f"{report.quality_dimensions.timeliness:.2f}%"
-            )
-            .replace(
-                "{{overall}}",
-                f"{report.quality_dimensions.overall:.2f}%"
-            )
+            .replace("{{completeness}}", f"{report.quality_dimensions.completeness:.2f}%")
+            .replace("{{uniqueness}}", f"{report.quality_dimensions.uniqueness:.2f}%")
+            .replace("{{validity}}", f"{report.quality_dimensions.validity:.2f}%")
+            .replace("{{consistency}}", f"{report.quality_dimensions.consistency:.2f}%")
+            .replace("{{accuracy}}", f"{report.quality_dimensions.accuracy:.2f}%")
+            .replace("{{timeliness}}", f"{report.quality_dimensions.timeliness:.2f}%")
+            .replace("{{overall}}", f"{report.quality_dimensions.overall:.2f}%")
             .replace(
                 "{{recommendations}}",
                 recommendations_html,

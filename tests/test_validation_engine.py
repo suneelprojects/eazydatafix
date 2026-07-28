@@ -1,5 +1,6 @@
-from eazydatafix.validation.engine import ValidationEngine
 import pandas as pd
+
+from eazydatafix.validation.engine import ValidationEngine
 
 
 def test_validation_engine(data_dir) -> None:
@@ -11,25 +12,13 @@ def test_validation_engine(data_dir) -> None:
 
     assert len(results) >= 3
 
-    missing_value_results = [
-        result
-        for result in results
-        if result.rule == "Missing Values"
-    ]
+    missing_value_results = [result for result in results if result.rule == "Missing Values"]
 
     assert len(missing_value_results) == len(df.columns)
 
-    email_result = next(
-        result
-        for result in results
-        if result.rule == "Email Format"
-    )
+    email_result = next(result for result in results if result.rule == "Email Format")
 
-    phone_result = next(
-        result
-        for result in results
-        if result.rule == "Phone Number"
-    )
+    phone_result = next(result for result in results if result.rule == "Phone Number")
 
     assert not email_result.passed
     assert not phone_result.passed

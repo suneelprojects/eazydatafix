@@ -3,7 +3,7 @@ from eazydatafix.enums.data_type import DataType
 
 class TypeMapper:
     """
-    Converts backend-specific data types into Easy Data Fix data types.
+    Converts backend-specific data types into EazyDataFix data types.
     """
 
     _PANDAS_MAPPING = {

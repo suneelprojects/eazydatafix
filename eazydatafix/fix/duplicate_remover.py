@@ -25,8 +25,6 @@ class DuplicateRemover(FixStep):
 
             df = df.drop_duplicates()
 
-            applied_fixes.append(
-                f"Removed {duplicate_count} duplicate row(s)."
-            )
+            applied_fixes.append(f"Removed {duplicate_count} duplicate row(s).")
 
         return df

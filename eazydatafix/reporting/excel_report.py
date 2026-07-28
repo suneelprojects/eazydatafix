@@ -170,9 +170,7 @@ class ExcelReport:
                     recommendation.priority,
                     recommendation.category,
                     recommendation.title,
-                    "Yes"
-                    if recommendation.auto_fix_available
-                    else "No",
+                    "Yes" if recommendation.auto_fix_available else "No",
                     recommendation.description,
                 ]
             )
@@ -200,9 +198,7 @@ class ExcelReport:
                 [
                     validation.rule,
                     validation.column,
-                    "PASS"
-                    if validation.passed
-                    else "FAIL",
+                    "PASS" if validation.passed else "FAIL",
                     validation.message,
                 ]
             )
@@ -212,14 +208,9 @@ class ExcelReport:
         for column_cells in sheet.columns:
 
             length = max(
-                len(str(cell.value))
-                if cell.value is not None
-                else 0
-                for cell in column_cells
+                len(str(cell.value)) if cell.value is not None else 0 for cell in column_cells
             )
 
-            sheet.column_dimensions[
-                column_cells[0].column_letter
-            ].width = min(length + 3, 60)
+            sheet.column_dimensions[column_cells[0].column_letter].width = min(length + 3, 60)
 
         workbook.save(output_file)

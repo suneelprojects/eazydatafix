@@ -1,5 +1,5 @@
-from eazydatafix.plugins import Plugin
 from eazydatafix.fix.strategies.base import MissingValueStrategy
+from eazydatafix.plugins import Plugin
 
 
 class ModeStrategy(Plugin, MissingValueStrategy):
@@ -9,7 +9,7 @@ class ModeStrategy(Plugin, MissingValueStrategy):
 
     name = "mode"
     version = "0.2.0"
-    author = "EasyDataFix"
+    author = "EazyDataFix"
     description = "Fill missing values using mode."
 
     def apply(
@@ -28,8 +28,6 @@ class ModeStrategy(Plugin, MissingValueStrategy):
 
             df[column] = df[column].fillna(value)
 
-            applied_fixes.append(
-                f"Filled missing values in '{column}' using mode."
-            )
+            applied_fixes.append(f"Filled missing values in '{column}' using mode.")
 
         return df

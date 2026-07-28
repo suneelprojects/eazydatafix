@@ -26,8 +26,6 @@ class WhitespaceTrimmer(FixStep):
             df[column] = df[column].astype(str).str.strip()
 
         if not before.equals(df):
-            applied_fixes.append(
-                "Trimmed leading/trailing whitespaces."
-            )
+            applied_fixes.append("Trimmed leading/trailing whitespaces.")
 
         return df

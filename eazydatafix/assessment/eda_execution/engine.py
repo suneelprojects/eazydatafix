@@ -8,7 +8,10 @@ from eazydatafix.assessment.eda import EDAEngine
 from eazydatafix.assessment.eda_execution.base import EDAAnalysisHandler
 from eazydatafix.assessment.eda_execution.registry import default_handlers
 from eazydatafix.assessment.eda_planner import EDAPlanner
-from eazydatafix.core.dataset_loader import DatasetLoader
+from eazydatafix.assessment.eda_validation import (
+    load_eda_frame,
+    validate_eda_result,
+)
 from eazydatafix.models.eda_execution_result import (
     EDAExecutionResult,
     EDAExecutionStepResult,
@@ -69,14 +72,14 @@ class EDAExecutor:
             TypeError: If result or plan has an invalid type.
             ValueError: If the EDA result does not correspond to the dataset.
         """
-        dataframe = self._load_execution_frame(dataset)
+        dataframe = load_eda_frame(dataset)
 
         if result is None:
             result = EDAEngine().analyze(dataset)
         elif not isinstance(result, EDAResult):
             raise TypeError("execute_eda() result must be an EDAResult or None.")
 
-        self._validate_result(dataframe, result)
+        validate_eda_result(dataframe, result)
 
         if plan is None:
             plan = EDAPlanner().plan(result)
@@ -124,59 +127,6 @@ class EDAExecutor:
             ),
             status=status,
         )
-
-    @staticmethod
-    def _load_execution_frame(
-        dataset: str | Path | pd.DataFrame,
-    ) -> pd.DataFrame:
-        dataframe = DatasetLoader.load(dataset)
-        column_names = [str(column) for column in dataframe.columns]
-
-        if len(set(column_names)) != len(column_names):
-            raise ValueError(
-                "Dataset columns must remain unique when converted to strings "
-                "for deterministic EDA execution."
-            )
-
-        dataframe.columns = column_names
-        return dataframe
-
-    @staticmethod
-    def _validate_result(
-        dataframe: pd.DataFrame,
-        result: EDAResult,
-    ) -> None:
-        if tuple(dataframe.shape) != result.shape:
-            raise ValueError(
-                "The EDAResult shape does not match the supplied dataset: "
-                f"expected {tuple(dataframe.shape)}, received {result.shape}."
-            )
-
-        if list(dataframe.columns) != result.column_names:
-            raise ValueError(
-                "The EDAResult column names or order do not match the supplied dataset."
-            )
-
-        missing_values = {
-            column: int(dataframe[column].isna().sum()) for column in dataframe.columns
-        }
-
-        if missing_values != result.missing_values:
-            raise ValueError(
-                "The EDAResult missing-value summary does not match the supplied dataset."
-            )
-
-        duplicate_rows = int(dataframe.duplicated().sum())
-
-        if duplicate_rows != result.duplicate_rows:
-            raise ValueError("The EDAResult duplicate count does not match the supplied dataset.")
-
-        unique_value_counts = {
-            column: int(dataframe[column].nunique(dropna=True)) for column in dataframe.columns
-        }
-
-        if unique_value_counts != result.unique_value_counts:
-            raise ValueError("The EDAResult unique-value counts do not match the supplied dataset.")
 
     @staticmethod
     def _validate_plan(

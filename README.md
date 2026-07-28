@@ -87,6 +87,8 @@ edf.execute_eda(...)
 
 edf.run_agentic_eda(...)
 
+edf.export_agentic_eda_report(...)
+
 edf.fix(...)
 
 edf.prepare(...)
@@ -240,6 +242,56 @@ execution step, target columns, priority, reason, and prerequisites. The
 orchestrator is deterministic, does not mutate DataFrames, and does not use an
 LLM. Visualisation recommendations and unresolved questions can be disabled,
 and recommendation counts can be bounded with `AgenticEDAConfig`.
+
+---
+
+# Agentic EDA Reports
+
+Convert an existing `AgenticEDAResult` into reproducible HTML and JSON report
+artifacts. Markdown is available as an optional format.
+
+```python
+import eazydatafix as edf
+
+workflow = edf.run_agentic_eda("employees.csv")
+
+report = edf.export_agentic_eda_report(
+    workflow,
+    dataset="employees.csv",  # Optional: enables honest raw-data charts.
+    output_dir="eda-report",
+    formats=["html", "json", "markdown"],
+)
+
+print(report.generated_files)
+print(report.generated_visualisations)
+print(report.skipped_visualisations)
+print(report.status)
+```
+
+Without `dataset`, charts supported by structured execution outputs—such as
+missing values, categorical distributions, correlations, and datetime
+frequencies—are still generated. Histograms and box plots are explicitly
+recorded as skipped unless a matching dataset is supplied. The dataset is
+validated against the workflow and copied; the workflow and caller DataFrame
+are never mutated.
+
+Example output:
+
+```text
+eda-report/
+├── agentic-eda-report.html
+├── agentic-eda-report.json
+├── agentic-eda-report.md
+└── visualisations/
+    ├── 01-missing-value-chart-phone-salary.png
+    ├── 02-bar-chart-department.png
+    └── 03-time-series-line-chart-joining-date.png
+```
+
+Report filenames, section order, chart filenames, JSON key ordering, and
+artifact tracking are deterministic. Existing known artifact files are
+overwritten predictably; unrelated files in the output directory are
+preserved.
 
 ---
 

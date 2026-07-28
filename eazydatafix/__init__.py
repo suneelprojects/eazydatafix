@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from pathlib import Path
 
 import pandas as pd
@@ -12,6 +13,11 @@ from .assessment.profiler import DatasetProfiler
 from .console_report import Report
 from .fix.engine import FixEngine
 from .models.agentic_eda_config import AgenticEDAConfig
+from .models.agentic_eda_report_result import (
+    AgenticEDAReportResult,
+    GeneratedVisualisation,
+    SkippedVisualisation,
+)
 from .models.agentic_eda_result import (
     AgenticEDAResult,
     FollowUpAction,
@@ -32,6 +38,7 @@ from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
 from .models.ready_result import ReadyResult
 from .prepare.engine import PrepareEngine
+from .reporting.agentic_eda import AgenticEDAReportExporter
 
 __version__ = "0.2.1"
 
@@ -39,6 +46,8 @@ __all__ = [
     "__version__",
     "AgenticEDAConfig",
     "AgenticEDAOrchestrator",
+    "AgenticEDAReportExporter",
+    "AgenticEDAReportResult",
     "AgenticEDAResult",
     "AIReadinessEngine",
     "AIReadinessReport",
@@ -58,10 +67,12 @@ __all__ = [
     "FixEngine",
     "FixResult",
     "FollowUpAction",
+    "GeneratedVisualisation",
     "PrepareEngine",
     "PriorityFinding",
     "ReadyResult",
     "Report",
+    "SkippedVisualisation",
     "UnresolvedQuestion",
     "VisualisationRecommendation",
     "analysis_ready",
@@ -69,6 +80,7 @@ __all__ = [
     "assess",
     "eda",
     "execute_eda",
+    "export_agentic_eda_report",
     "fix",
     "plan_eda",
     "prepare",
@@ -203,6 +215,33 @@ def run_agentic_eda(
     """
     orchestrator = AgenticEDAOrchestrator()
     return orchestrator.run(dataset=dataset, config=config)
+
+
+def export_agentic_eda_report(
+    workflow: AgenticEDAResult,
+    dataset: str | Path | pd.DataFrame | None = None,
+    output_dir: str | Path = "eazydatafix-report",
+    formats: Sequence[str] | None = None,
+) -> AgenticEDAReportResult:
+    """
+    Export deterministic Agentic EDA report and visualisation artifacts.
+
+    Args:
+        workflow: Existing result returned by :func:`run_agentic_eda`.
+        dataset: Optional matching dataset used for raw-data chart types.
+        output_dir: Dedicated directory for all generated report artifacts.
+        formats: Optional subset of ``html``, ``json``, and ``markdown``.
+
+    Returns:
+        An AgenticEDAReportResult describing generated and skipped artifacts.
+    """
+    exporter = AgenticEDAReportExporter()
+    return exporter.export(
+        workflow=workflow,
+        dataset=dataset,
+        output_dir=output_dir,
+        formats=formats,
+    )
 
 
 def fix(

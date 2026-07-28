@@ -26,8 +26,14 @@
 - [x] Structured visualisation recommendations and unresolved domain questions
 - [x] Validated threshold configuration, feature toggles, and JSON-ready output
 
+### Milestone 5: Deterministic Reporting and Visualisation Artifacts
+- [x] Standalone HTML and JSON reports with optional Markdown
+- [x] Recommended visualisations rendered as deterministic PNG artifacts
+- [x] Honest raw-data chart gating with supplied-dataset validation
+- [x] JSON-ready artifact tracking and partial-failure reporting
+
 ### Next Milestone: Grounded Presentation and Export
-- [ ] Notebook and visualisation artifact export
+- [ ] Notebook artifact export
 - [ ] Optional LLM narratives grounded exclusively in deterministic metrics
 - [ ] Human approval checkpoints for domain-dependent decisions
 

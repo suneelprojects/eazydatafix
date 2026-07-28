@@ -14,7 +14,13 @@
 - [x] Priorities, required columns, and step dependencies
 - [x] Planner warnings and deterministic summary
 
-### Next Milestone: Agentic EDA Execution
+### Milestone 3: Deterministic Analysis Execution
+- [x] Modular deterministic analysis handlers
+- [x] Reproducible step outputs and execution ordering
+- [x] Dataset/result validation and step-level failure isolation
+- [x] JSON-ready execution result
+
+### Next Milestone: Agentic EDA Orchestration
 - [ ] Tool-driven follow-up questions
 - [ ] Optional LLM narratives grounded in deterministic metrics
 - [ ] Visualization and notebook export

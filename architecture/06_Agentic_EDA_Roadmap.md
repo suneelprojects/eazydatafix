@@ -26,10 +26,20 @@ The planner covers missing values, duplicates, numeric distributions, outliers,
 skewness, correlations, categorical distributions, class imbalance, datetime
 trends, boolean distributions, and identifier exclusion without calling an LLM.
 
-## Next Milestone: Tool-Driven Analysis Execution
+## Milestone 3: Deterministic Analysis Execution
 
-The next phase will execute selected plan steps through deterministic tools and
-record their outputs for reproducible downstream analysis.
+`eazydatafix.execute_eda(...)` executes selected plan steps through modular
+deterministic handlers and records structured outputs, execution order,
+warnings, skipped steps, and step-level status.
+
+The executor validates supplied EDA results against the dataset, preserves input
+DataFrames, isolates safe step failures, and exposes JSON-ready output without
+calling an LLM.
+
+## Next Milestone: Agentic Orchestration
+
+The next phase will use execution results to drive follow-up questions,
+visualisations, and optional grounded narratives.
 
 ## Future Milestone: LLM Narratives
 

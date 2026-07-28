@@ -4,6 +4,7 @@ import pandas as pd
 
 from .assessment.ai_readiness import AIReadinessEngine
 from .assessment.eda import EDAEngine
+from .assessment.eda_execution import EDAExecutor
 from .assessment.eda_planner import EDAPlanner
 from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
@@ -12,6 +13,10 @@ from .fix.engine import FixEngine
 from .models.ai_readiness_report import AIReadinessReport
 from .models.assessment_report import AssessmentReport
 from .models.dataset_profile import DatasetProfile
+from .models.eda_execution_result import (
+    EDAExecutionResult,
+    EDAExecutionStepResult,
+)
 from .models.eda_plan import EDAPlan, EDAPlanStep
 from .models.eda_result import EDAResult
 from .models.fix_config import FixConfig
@@ -30,6 +35,9 @@ __all__ = [
     "DatasetProfiler",
     "DatasetProfile",
     "EDAEngine",
+    "EDAExecutionResult",
+    "EDAExecutionStepResult",
+    "EDAExecutor",
     "EDAPlan",
     "EDAPlanner",
     "EDAPlanStep",
@@ -44,6 +52,7 @@ __all__ = [
     "assess_ai_readiness",
     "assess",
     "eda",
+    "execute_eda",
     "fix",
     "plan_eda",
     "prepare",
@@ -130,6 +139,32 @@ def plan_eda(
     """
     planner = EDAPlanner()
     return planner.plan(result)
+
+
+def execute_eda(
+    dataset: str | Path | pd.DataFrame,
+    result: EDAResult | None = None,
+    plan: EDAPlan | None = None,
+) -> EDAExecutionResult:
+    """
+    Execute a deterministic EDA plan against a supported dataset.
+
+    Missing EDA results and plans are generated automatically.
+
+    Args:
+        dataset: A pandas DataFrame or path to a supported dataset file.
+        result: Optional EDA result corresponding to the dataset.
+        plan: Optional EDA plan corresponding to the result.
+
+    Returns:
+        An EDAExecutionResult containing step outputs and execution status.
+    """
+    executor = EDAExecutor()
+    return executor.execute(
+        dataset=dataset,
+        result=result,
+        plan=plan,
+    )
 
 
 def fix(

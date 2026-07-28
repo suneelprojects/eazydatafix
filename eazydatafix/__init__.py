@@ -2,18 +2,20 @@ from pathlib import Path
 
 import pandas as pd
 
-from .assessment.engine import AssessmentEngine
 from .assessment.ai_readiness import AIReadinessEngine
+from .assessment.eda import EDAEngine
+from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
 from .console_report import Report
 from .fix.engine import FixEngine
-from .models.assessment_report import AssessmentReport
 from .models.ai_readiness_report import AIReadinessReport
+from .models.assessment_report import AssessmentReport
 from .models.dataset_profile import DatasetProfile
+from .models.eda_result import EDAResult
 from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
-from .prepare.engine import PrepareEngine
 from .models.ready_result import ReadyResult
+from .prepare.engine import PrepareEngine
 
 __version__ = "0.2.1"
 
@@ -25,14 +27,18 @@ __all__ = [
     "AssessmentReport",
     "DatasetProfiler",
     "DatasetProfile",
+    "EDAEngine",
+    "EDAResult",
     "FixConfig",
     "FixEngine",
     "FixResult",
     "PrepareEngine",
+    "ReadyResult",
     "Report",
     "analysis_ready",
     "assess_ai_readiness",
     "assess",
+    "eda",
     "fix",
     "prepare",
     "profile",
@@ -86,6 +92,22 @@ def assess_ai_readiness(
     """
     engine = AIReadinessEngine()
     return engine.assess(dataset)
+
+
+def eda(
+    dataset: str | Path | pd.DataFrame,
+) -> EDAResult:
+    """
+    Generate a deterministic exploratory data analysis result.
+
+    Args:
+        dataset: A pandas DataFrame or path to a supported dataset file.
+
+    Returns:
+        An EDAResult containing descriptive analysis and recommendations.
+    """
+    engine = EDAEngine()
+    return engine.analyze(dataset)
 
 
 def fix(

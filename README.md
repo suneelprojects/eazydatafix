@@ -83,6 +83,8 @@ edf.eda(...)
 
 edf.plan_eda(...)
 
+edf.execute_eda(...)
+
 edf.fix(...)
 
 edf.prepare(...)
@@ -166,6 +168,42 @@ print(plan.deterministic_summary)
 
 The planner uses semantic roles and statistics from `EDAResult` to explain why
 each supported analysis is selected or skipped. It does not call an LLM.
+
+---
+
+# Deterministic EDA Executor
+
+Execute selected plan steps through deterministic analysis handlers.
+
+```python
+import eazydatafix as edf
+
+execution = edf.execute_eda("employees.csv")
+
+for step in execution.executed_steps:
+    print(step.name, step.status, step.output)
+
+print(execution.execution_order)
+print(execution.warnings)
+print(execution.deterministic_summary)
+```
+
+`edf.execute_eda(...)` automatically creates the `EDAResult` and `EDAPlan` when
+they are not supplied. Existing results and plans can be reused explicitly:
+
+```python
+eda_result = edf.eda("employees.csv")
+plan = edf.plan_eda(eda_result)
+execution = edf.execute_eda(
+    "employees.csv",
+    result=eda_result,
+    plan=plan,
+)
+```
+
+Execution results can be converted to a JSON-ready dictionary with
+`execution.to_dict()`. Selected steps record `success` or `failure`; planned
+skips remain visible with `skipped` status.
 
 ---
 

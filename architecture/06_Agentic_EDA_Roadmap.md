@@ -48,11 +48,22 @@ existing execution thresholds and stable output feature toggles. Partial step
 failures remain visible without preventing safe decisions from successful
 independent steps.
 
+## Milestone 5: Deterministic Reporting and Visualisation Artifacts
+
+`eazydatafix.export_agentic_eda_report(...)` renders existing workflow outputs
+as standalone HTML, stable JSON, optional Markdown, and deterministic PNG
+visualisations. Chart handlers generate only orchestrator recommendations and
+use structured execution output wherever possible.
+
+Raw-value charts require an optional dataset that is validated against the
+workflow before use. Recommendations that cannot be represented honestly are
+recorded as skipped rather than fabricated. Successful artifacts survive
+independent renderer or chart failures.
+
 ## Next Milestone: Grounded Presentation and Export
 
-The next phase will render deterministic workflow outputs into notebooks and
-visualisation artifacts, with explicit human checkpoints for domain-dependent
-decisions.
+The next phase will add notebook artifacts and explicit human checkpoints for
+domain-dependent decisions.
 
 ## Future Milestone: LLM Narratives
 

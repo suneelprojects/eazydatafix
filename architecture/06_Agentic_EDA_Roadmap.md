@@ -36,10 +36,23 @@ The executor validates supplied EDA results against the dataset, preserves input
 DataFrames, isolates safe step failures, and exposes JSON-ready output without
 calling an LLM.
 
-## Next Milestone: Agentic Orchestration
+## Milestone 4: Deterministic Agentic Orchestration
 
-The next phase will use execution results to drive follow-up questions,
-visualisations, and optional grounded narratives.
+`eazydatafix.run_agentic_eda(...)` composes dataset understanding, planning,
+and deterministic execution before generating follow-up actions, priority
+findings, visualisation recommendations, and unresolved domain questions.
+
+Every generated decision retains its source execution step, target columns,
+priority, reason, and prerequisites. Validated configuration controls the
+existing execution thresholds and stable output feature toggles. Partial step
+failures remain visible without preventing safe decisions from successful
+independent steps.
+
+## Next Milestone: Grounded Presentation and Export
+
+The next phase will render deterministic workflow outputs into notebooks and
+visualisation artifacts, with explicit human checkpoints for domain-dependent
+decisions.
 
 ## Future Milestone: LLM Narratives
 

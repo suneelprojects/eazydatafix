@@ -85,6 +85,8 @@ edf.plan_eda(...)
 
 edf.execute_eda(...)
 
+edf.run_agentic_eda(...)
+
 edf.fix(...)
 
 edf.prepare(...)
@@ -204,6 +206,40 @@ execution = edf.execute_eda(
 Execution results can be converted to a JSON-ready dictionary with
 `execution.to_dict()`. Selected steps record `success` or `failure`; planned
 skips remain visible with `skipped` status.
+
+---
+
+# Deterministic Agentic EDA
+
+Run dataset understanding, planning, execution, and traceable follow-up
+decision generation as one reproducible workflow.
+
+```python
+import json
+
+import eazydatafix as edf
+
+config = edf.AgenticEDAConfig(
+    correlation_threshold=0.85,
+    outlier_iqr_multiplier=1.5,
+    class_imbalance_threshold=0.80,
+)
+workflow = edf.run_agentic_eda("employees.csv", config=config)
+
+print(workflow.overall_status)
+print(workflow.priority_findings)
+print(workflow.follow_up_actions)
+print(workflow.recommended_visualisations)
+print(workflow.unresolved_questions)
+
+json_output = json.dumps(workflow.to_dict(), indent=2)
+```
+
+Every action, visualisation, question, and finding identifies its source
+execution step, target columns, priority, reason, and prerequisites. The
+orchestrator is deterministic, does not mutate DataFrames, and does not use an
+LLM. Visualisation recommendations and unresolved questions can be disabled,
+and recommendation counts can be bounded with `AgenticEDAConfig`.
 
 ---
 

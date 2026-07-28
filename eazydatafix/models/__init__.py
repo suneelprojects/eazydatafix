@@ -1,1 +1,17 @@
-__all__: list[str] = []
+from eazydatafix.models.agentic_eda_config import AgenticEDAConfig
+from eazydatafix.models.agentic_eda_result import (
+    AgenticEDAResult,
+    FollowUpAction,
+    PriorityFinding,
+    UnresolvedQuestion,
+    VisualisationRecommendation,
+)
+
+__all__ = [
+    "AgenticEDAConfig",
+    "AgenticEDAResult",
+    "FollowUpAction",
+    "PriorityFinding",
+    "UnresolvedQuestion",
+    "VisualisationRecommendation",
+]

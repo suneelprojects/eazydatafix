@@ -11,7 +11,8 @@ from eazydatafix.assessment.eda_execution.base import (
 from eazydatafix.models.eda_plan import EDAPlanStep
 from eazydatafix.models.eda_result import EDAResult
 
-_STRONG_CORRELATION_THRESHOLD = 0.80
+_DEFAULT_STRONG_CORRELATION_THRESHOLD = 0.80
+_DEFAULT_IQR_MULTIPLIER = 1.50
 
 
 class NumericDistributionAnalysisHandler(EDAAnalysisHandler):
@@ -57,6 +58,18 @@ class OutlierAnalysisHandler(EDAAnalysisHandler):
 
     name = "outlier_analysis"
 
+    def __init__(
+        self,
+        iqr_multiplier: float = _DEFAULT_IQR_MULTIPLIER,
+    ) -> None:
+        """
+        Initialise IQR analysis with a deterministic positive multiplier.
+
+        Args:
+            iqr_multiplier: Multiplier applied below Q1 and above Q3.
+        """
+        self._iqr_multiplier = iqr_multiplier
+
     def execute(
         self,
         dataframe: pd.DataFrame,
@@ -70,8 +83,8 @@ class OutlierAnalysisHandler(EDAAnalysisHandler):
             q1 = values.quantile(0.25)
             q3 = values.quantile(0.75)
             iqr = q3 - q1
-            lower_bound = q1 - 1.5 * iqr
-            upper_bound = q3 + 1.5 * iqr
+            lower_bound = q1 - self._iqr_multiplier * iqr
+            upper_bound = q3 + self._iqr_multiplier * iqr
             outlier_mask = (values < lower_bound) | (values > upper_bound)
             outlier_indices = [native_value(index) for index in values.index[outlier_mask].tolist()]
             outlier_count = int(outlier_mask.sum())
@@ -89,7 +102,7 @@ class OutlierAnalysisHandler(EDAAnalysisHandler):
             }
 
         return {
-            "iqr_multiplier": 1.5,
+            "iqr_multiplier": self._iqr_multiplier,
             "columns": columns,
         }
 
@@ -155,6 +168,18 @@ class CorrelationReviewHandler(EDAAnalysisHandler):
 
     name = "correlation_review"
 
+    def __init__(
+        self,
+        threshold: float = _DEFAULT_STRONG_CORRELATION_THRESHOLD,
+    ) -> None:
+        """
+        Initialise correlation review with an absolute-correlation threshold.
+
+        Args:
+            threshold: Inclusive threshold used to identify strong correlations.
+        """
+        self._threshold = threshold
+
     def execute(
         self,
         dataframe: pd.DataFrame,
@@ -186,11 +211,11 @@ class CorrelationReviewHandler(EDAAnalysisHandler):
                 }
                 pairs.append(pair)
 
-                if correlation is not None and abs(correlation) >= _STRONG_CORRELATION_THRESHOLD:
+                if correlation is not None and abs(correlation) >= self._threshold:
                     strong_pairs.append(dict(pair))
 
         return {
-            "threshold": _STRONG_CORRELATION_THRESHOLD,
+            "threshold": self._threshold,
             "matrix": matrix,
             "pairwise_correlations": pairs,
             "strong_correlations": strong_pairs,

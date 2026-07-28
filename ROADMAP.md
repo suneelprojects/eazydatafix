@@ -20,10 +20,16 @@
 - [x] Dataset/result validation and step-level failure isolation
 - [x] JSON-ready execution result
 
-### Next Milestone: Agentic EDA Orchestration
-- [ ] Tool-driven follow-up questions
-- [ ] Optional LLM narratives grounded in deterministic metrics
-- [ ] Visualization and notebook export
+### Milestone 4: Deterministic Agentic EDA Orchestration
+- [x] End-to-end dataset understanding, planning, and execution coordination
+- [x] Traceable deterministic follow-up actions and priority findings
+- [x] Structured visualisation recommendations and unresolved domain questions
+- [x] Validated threshold configuration, feature toggles, and JSON-ready output
+
+### Next Milestone: Grounded Presentation and Export
+- [ ] Notebook and visualisation artifact export
+- [ ] Optional LLM narratives grounded exclusively in deterministic metrics
+- [ ] Human approval checkpoints for domain-dependent decisions
 
 ## Version 0.1
 

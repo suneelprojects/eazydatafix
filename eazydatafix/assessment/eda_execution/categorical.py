@@ -10,7 +10,7 @@ from eazydatafix.assessment.eda_execution.base import (
 from eazydatafix.models.eda_plan import EDAPlanStep
 from eazydatafix.models.eda_result import EDAResult
 
-_CLASS_IMBALANCE_THRESHOLD = 80.0
+_DEFAULT_CLASS_IMBALANCE_THRESHOLD = 80.0
 _TOP_CATEGORY_LIMIT = 5
 
 
@@ -130,6 +130,18 @@ class ClassImbalanceAnalysisHandler(EDAAnalysisHandler):
 
     name = "class_imbalance_analysis"
 
+    def __init__(
+        self,
+        threshold_percentage: float = _DEFAULT_CLASS_IMBALANCE_THRESHOLD,
+    ) -> None:
+        """
+        Initialise class review with a dominant-class percentage threshold.
+
+        Args:
+            threshold_percentage: Inclusive dominance threshold from 0 to 100.
+        """
+        self._threshold_percentage = threshold_percentage
+
     def execute(
         self,
         dataframe: pd.DataFrame,
@@ -152,7 +164,7 @@ class ClassImbalanceAnalysisHandler(EDAAnalysisHandler):
                 dominant_count = int(value_counts.iloc[0])
                 dominant_percentage = percentage(dominant_count, observed_count)
 
-            is_imbalanced = dominant_percentage >= _CLASS_IMBALANCE_THRESHOLD
+            is_imbalanced = dominant_percentage >= self._threshold_percentage
             columns[column] = {
                 "dominant_class": dominant_class,
                 "dominant_count": dominant_count,
@@ -163,6 +175,6 @@ class ClassImbalanceAnalysisHandler(EDAAnalysisHandler):
             }
 
         return {
-            "threshold_percentage": _CLASS_IMBALANCE_THRESHOLD,
+            "threshold_percentage": self._threshold_percentage,
             "columns": columns,
         }

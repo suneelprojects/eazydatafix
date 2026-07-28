@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from .agentic_eda import AgenticEDAOrchestrator
 from .assessment.ai_readiness import AIReadinessEngine
 from .assessment.eda import EDAEngine
 from .assessment.eda_execution import EDAExecutor
@@ -10,6 +11,14 @@ from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
 from .console_report import Report
 from .fix.engine import FixEngine
+from .models.agentic_eda_config import AgenticEDAConfig
+from .models.agentic_eda_result import (
+    AgenticEDAResult,
+    FollowUpAction,
+    PriorityFinding,
+    UnresolvedQuestion,
+    VisualisationRecommendation,
+)
 from .models.ai_readiness_report import AIReadinessReport
 from .models.assessment_report import AssessmentReport
 from .models.dataset_profile import DatasetProfile
@@ -28,6 +37,9 @@ __version__ = "0.2.1"
 
 __all__ = [
     "__version__",
+    "AgenticEDAConfig",
+    "AgenticEDAOrchestrator",
+    "AgenticEDAResult",
     "AIReadinessEngine",
     "AIReadinessReport",
     "AssessmentEngine",
@@ -45,9 +57,13 @@ __all__ = [
     "FixConfig",
     "FixEngine",
     "FixResult",
+    "FollowUpAction",
     "PrepareEngine",
+    "PriorityFinding",
     "ReadyResult",
     "Report",
+    "UnresolvedQuestion",
+    "VisualisationRecommendation",
     "analysis_ready",
     "assess_ai_readiness",
     "assess",
@@ -57,6 +73,7 @@ __all__ = [
     "plan_eda",
     "prepare",
     "profile",
+    "run_agentic_eda",
 ]
 
 
@@ -165,6 +182,27 @@ def execute_eda(
         result=result,
         plan=plan,
     )
+
+
+def run_agentic_eda(
+    dataset: str | Path | pd.DataFrame,
+    config: AgenticEDAConfig | None = None,
+) -> AgenticEDAResult:
+    """
+    Run the complete deterministic Agentic EDA workflow.
+
+    The workflow understands the dataset, plans and executes applicable
+    analyses, and generates traceable follow-up decisions without using an LLM.
+
+    Args:
+        dataset: A pandas DataFrame or path to a supported dataset file.
+        config: Optional deterministic thresholds and feature toggles.
+
+    Returns:
+        An AgenticEDAResult containing all workflow stages and recommendations.
+    """
+    orchestrator = AgenticEDAOrchestrator()
+    return orchestrator.run(dataset=dataset, config=config)
 
 
 def fix(

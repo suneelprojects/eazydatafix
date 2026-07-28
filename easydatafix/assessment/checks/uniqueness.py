@@ -29,11 +29,7 @@ class UniquenessCheck(Check):
         total_rows = len(df)
         duplicate_rows = int(df.duplicated().sum())
 
-        score = (
-            100.0
-            if total_rows == 0
-            else ((total_rows - duplicate_rows) / total_rows) * 100
-        )
+        score = 100.0 if total_rows == 0 else ((total_rows - duplicate_rows) / total_rows) * 100
 
         return UniquenessResult(
             total_rows=total_rows,

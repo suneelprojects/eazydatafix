@@ -32,9 +32,7 @@ class FixEngine:
 
         if duplicate_count > 0:
             cleaned_df = cleaned_df.drop_duplicates()
-            applied_fixes.append(
-                f"Removed {duplicate_count} duplicate row(s)."
-            )
+            applied_fixes.append(f"Removed {duplicate_count} duplicate row(s).")
 
         # ------------------------------------------------------------------
         # Strategy: Fill Missing Values
@@ -52,9 +50,7 @@ class FixEngine:
 
             cleaned_df[column] = cleaned_df[column].fillna(value)
 
-            applied_fixes.append(
-                f"Filled missing values in '{column}'."
-            )
+            applied_fixes.append(f"Filled missing values in '{column}'.")
 
         # Save temporary cleaned file for reassessment
         temp_file = "__easydatafix_temp__.csv"

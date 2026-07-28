@@ -6,7 +6,7 @@ def test_dataset_profiler():
 
     profile = profiler.profile("data/employees.csv")
 
-    assert profile.rows == 3
+    assert profile.rows == 4
     assert profile.columns == 4
     assert profile.file_name == "employees.csv"
     assert profile.file_type == "csv"

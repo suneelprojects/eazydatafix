@@ -30,10 +30,7 @@ class FixResult:
             f"{self.after_report.quality.score:.2f}",
         )
 
-        improvement = (
-            self.after_report.quality.score
-            - self.before_report.quality.score
-        )
+        improvement = self.after_report.quality.score - self.before_report.quality.score
 
         Console.key_value(
             "Improvement",

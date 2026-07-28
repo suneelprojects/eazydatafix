@@ -8,8 +8,13 @@
 - [x] Deterministic observations and recommendations
 - [x] Numeric, categorical, missing-value, duplicate, and correlation summaries
 
-### Next Milestone: Agentic EDA
-- [ ] Analysis-plan generation
+### Milestone 2: Deterministic Analysis Planner
+- [x] Analysis-plan generation
+- [x] Selected and skipped step explanations
+- [x] Priorities, required columns, and step dependencies
+- [x] Planner warnings and deterministic summary
+
+### Next Milestone: Agentic EDA Execution
 - [ ] Tool-driven follow-up questions
 - [ ] Optional LLM narratives grounded in deterministic metrics
 - [ ] Visualization and notebook export

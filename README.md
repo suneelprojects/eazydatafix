@@ -81,6 +81,8 @@ edf.assess_ai_readiness(...)
 
 edf.eda(...)
 
+edf.plan_eda(...)
+
 edf.fix(...)
 
 edf.prepare(...)
@@ -139,6 +141,31 @@ through the existing EazyDataFix datasource system.
 EDA deterministically classifies columns as numeric measures, categorical
 dimensions, identifiers, datetimes, or booleans. Identifier, datetime, and
 boolean columns are excluded from numeric statistics and correlations.
+
+---
+
+# Deterministic EDA Planner
+
+Build a reproducible follow-up analysis plan from an existing `EDAResult`.
+
+```python
+import eazydatafix as edf
+
+eda_result = edf.eda("employees.csv")
+plan = edf.plan_eda(eda_result)
+
+for step in plan.selected_steps:
+    print(step.name, step.priority, step.reason)
+
+for step in plan.skipped_steps:
+    print(step.name, step.reason)
+
+print(plan.warnings)
+print(plan.deterministic_summary)
+```
+
+The planner uses semantic roles and statistics from `EDAResult` to explain why
+each supported analysis is selected or skipped. It does not call an LLM.
 
 ---
 

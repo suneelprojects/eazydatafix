@@ -31,8 +31,6 @@ def run_checks(
     results: list[ValidationResult] = []
 
     for check in checks:
-        results.extend(
-            check.evaluate(df)
-        )
+        results.extend(check.evaluate(df))
 
     return results

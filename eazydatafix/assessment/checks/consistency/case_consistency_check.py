@@ -18,27 +18,18 @@ class CaseConsistencyCheck:
         for column in df.columns:
 
             if not (
-                pd.api.types.is_object_dtype(df[column])
-                or pd.api.types.is_string_dtype(df[column])
+                pd.api.types.is_object_dtype(df[column]) or pd.api.types.is_string_dtype(df[column])
             ):
                 continue
 
-            values = (
-                df[column]
-                .dropna()
-                .astype(str)
-                .str.strip()
-            )
+            values = df[column].dropna().astype(str).str.strip()
 
             if values.empty:
                 continue
 
             original = set(values)
 
-            normalized = {
-                value.lower()
-                for value in original
-            }
+            normalized = {value.lower() for value in original}
 
             if len(original) != len(normalized):
 

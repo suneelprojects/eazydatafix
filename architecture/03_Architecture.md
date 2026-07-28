@@ -1,8 +1,8 @@
-# Easy Data Fix Framework Architecture
+# EazyDataFix Framework Architecture
 
 ## Overview
 
-Easy Data Fix is an open-source Data Quality Framework designed around a pipeline architecture.
+EazyDataFix is an open-source Data Quality Framework designed around a pipeline architecture.
 
 The framework follows a structured lifecycle that transforms raw data into trusted, validated data.
 
@@ -166,20 +166,24 @@ report = edf.assess("employees.csv")
 
 report.summary()
 
-report.recommend()
+cleaned = edf.fix("employees.csv")
 
-clean_df = report.apply()
+prepared = edf.prepare(cleaned.dataset)
 
-validation = edf.validate(clean_df)
+workflow = edf.run_agentic_eda(prepared)
 
-validation.export("report.html")
+artifacts = edf.export_agentic_eda_report(
+    workflow,
+    dataset=prepared,
+    output_dir="eda-report",
+)
 ```
 
 ---
 
 # Long-Term Vision
 
-Easy Data Fix will evolve into a complete Data Quality Platform consisting of:
+EazyDataFix will evolve into a complete Data Quality Platform consisting of:
 
 * Python Framework
 * CLI
@@ -189,4 +193,3 @@ Easy Data Fix will evolve into a complete Data Quality Platform consisting of:
 * VS Code Extension
 * AI Recommendation Engine
 * Enterprise Edition
-

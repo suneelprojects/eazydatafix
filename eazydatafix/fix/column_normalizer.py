@@ -40,8 +40,6 @@ class ColumnNormalizer(FixStep):
         df.columns = columns
 
         if original_columns != list(df.columns):
-            applied_fixes.append(
-                "Normalized column names."
-            )
+            applied_fixes.append("Normalized column names.")
 
         return df

@@ -18,12 +18,10 @@ class JsonReport:
 
         data = {
             "dataset": asdict(report.dataset_info),
-
             "quality": {
                 "score": report.quality.score,
                 "grade": report.quality.grade,
             },
-
             "dimensions": {
                 "completeness": report.quality_dimensions.completeness,
                 "uniqueness": report.quality_dimensions.uniqueness,
@@ -33,7 +31,6 @@ class JsonReport:
                 "timeliness": report.quality_dimensions.timeliness,
                 "overall": report.quality_dimensions.overall,
             },
-
             "recommendations": [
                 {
                     "title": recommendation.title,
@@ -44,7 +41,6 @@ class JsonReport:
                 }
                 for recommendation in report.recommendations
             ],
-
             "validations": [
                 {
                     "rule": validation.rule,

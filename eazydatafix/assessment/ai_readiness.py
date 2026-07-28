@@ -60,15 +60,11 @@ class AIReadinessEngine:
         }
 
         text_columns = [
-            column
-            for column, semantic_type in semantic_types.items()
-            if semantic_type == "TEXT"
+            column for column, semantic_type in semantic_types.items() if semantic_type == "TEXT"
         ]
 
         structured_columns = [
-            column
-            for column, semantic_type in semantic_types.items()
-            if semantic_type != "TEXT"
+            column for column, semantic_type in semantic_types.items() if semantic_type != "TEXT"
         ]
 
         identifier_columns = [
@@ -165,11 +161,7 @@ class AIReadinessEngine:
     def _low_information_columns(
         df: pd.DataFrame,
     ) -> list[str]:
-        return [
-            str(column)
-            for column in df.columns
-            if df[column].nunique(dropna=True) <= 1
-        ]
+        return [str(column) for column in df.columns if df[column].nunique(dropna=True) <= 1]
 
     def _sensitive_columns(
         self,
@@ -178,10 +170,7 @@ class AIReadinessEngine:
         return [
             str(column)
             for column in df.columns
-            if any(
-                keyword in str(column).lower()
-                for keyword in self.SENSITIVE_KEYWORDS
-            )
+            if any(keyword in str(column).lower() for keyword in self.SENSITIVE_KEYWORDS)
         ]
 
     @staticmethod
@@ -250,9 +239,7 @@ class AIReadinessEngine:
             )
 
         if uniqueness_score < 100:
-            recommendations.append(
-                "Remove duplicate records to reduce repeated AI context."
-            )
+            recommendations.append("Remove duplicate records to reduce repeated AI context.")
 
         if not text_columns:
             recommendations.append(
@@ -260,9 +247,7 @@ class AIReadinessEngine:
             )
 
         if not has_unique_identifiers:
-            recommendations.append(
-                "Add a stable unique identifier for traceability and retrieval."
-            )
+            recommendations.append("Add a stable unique identifier for traceability and retrieval.")
 
         if high_cardinality_columns:
             recommendations.append(
@@ -270,9 +255,7 @@ class AIReadinessEngine:
             )
 
         if low_information_columns:
-            recommendations.append(
-                "Remove or enrich low-information columns before AI use."
-            )
+            recommendations.append("Remove or enrich low-information columns before AI use.")
 
         if sensitive_columns:
             recommendations.append(

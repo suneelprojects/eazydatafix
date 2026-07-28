@@ -18,18 +18,11 @@ class DuplicateTextCheck:
         for column in df.columns:
 
             if not (
-                pd.api.types.is_object_dtype(df[column])
-                or pd.api.types.is_string_dtype(df[column])
+                pd.api.types.is_object_dtype(df[column]) or pd.api.types.is_string_dtype(df[column])
             ):
                 continue
 
-            values = (
-                df[column]
-                .dropna()
-                .astype(str)
-                .str.strip()
-                .str.lower()
-            )
+            values = df[column].dropna().astype(str).str.strip().str.lower()
 
             duplicate_count = int(values.duplicated().sum())
 

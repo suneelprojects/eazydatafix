@@ -1,15 +1,15 @@
-name: Easy Data Fix CI
+name: EazyDataFix Quality
 
 on:
   push:
     branches:
       - develop
-      - master
+      - main
 
   pull_request:
     branches:
       - develop
-      - master
+      - main
 
 jobs:
   test:

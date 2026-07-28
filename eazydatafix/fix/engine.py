@@ -5,7 +5,6 @@ import pandas as pd
 from eazydatafix.assessment.engine import AssessmentEngine
 from eazydatafix.core.dataset_loader import DatasetLoader
 from eazydatafix.fix.column_normalizer import ColumnNormalizer
-from eazydatafix.fix.datatype_converter import DataTypeConverter
 from eazydatafix.fix.duplicate_remover import DuplicateRemover
 from eazydatafix.fix.empty_column_remover import EmptyColumnRemover
 from eazydatafix.fix.empty_row_remover import EmptyRowRemover
@@ -75,9 +74,7 @@ class FixEngine:
         # -----------------------------
         # Missing Value Strategy
         # -----------------------------
-        strategy = StrategyFactory.create(
-            config.missing_value_strategy
-        )
+        strategy = StrategyFactory.create(config.missing_value_strategy)
 
         cleaned_df = strategy.apply(
             cleaned_df,

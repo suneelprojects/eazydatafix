@@ -13,33 +13,19 @@ class DiagnosisReport:
     machine learning.
     """
 
-    issues: list[DiagnosisIssue] = field(
-        default_factory=list
-    )
+    issues: list[DiagnosisIssue] = field(default_factory=list)
 
     @property
     def high(self) -> list[DiagnosisIssue]:
-        return [
-            issue
-            for issue in self.issues
-            if issue.severity.upper() == "HIGH"
-        ]
+        return [issue for issue in self.issues if issue.severity.upper() == "HIGH"]
 
     @property
     def medium(self) -> list[DiagnosisIssue]:
-        return [
-            issue
-            for issue in self.issues
-            if issue.severity.upper() == "MEDIUM"
-        ]
+        return [issue for issue in self.issues if issue.severity.upper() == "MEDIUM"]
 
     @property
     def low(self) -> list[DiagnosisIssue]:
-        return [
-            issue
-            for issue in self.issues
-            if issue.severity.upper() == "LOW"
-        ]
+        return [issue for issue in self.issues if issue.severity.upper() == "LOW"]
 
     @property
     def total_issues(self) -> int:
@@ -51,6 +37,4 @@ class DiagnosisReport:
 
         Implementation will be added in the next step.
         """
-        raise NotImplementedError(
-            "Diagnosis summary is not implemented yet."
-        )
+        raise NotImplementedError("Diagnosis summary is not implemented yet.")

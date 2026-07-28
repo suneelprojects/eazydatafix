@@ -1,6 +1,6 @@
 class EasyDataFixError(Exception):
     """
-    Base exception for Easy Data Fix.
+    Base exception for EazyDataFix.
     """
 
 

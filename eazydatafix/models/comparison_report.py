@@ -16,18 +16,13 @@ class ComparisonReport:
     @property
     def score_difference(self) -> float:
         return round(
-            self.after.quality.score -
-            self.before.quality.score,
+            self.after.quality.score - self.before.quality.score,
             2,
         )
 
     @property
     def recommendation_difference(self) -> int:
-        return (
-            len(self.before.recommendations)
-            -
-            len(self.after.recommendations)
-        )
+        return len(self.before.recommendations) - len(self.after.recommendations)
 
     def summary(self) -> None:
         """

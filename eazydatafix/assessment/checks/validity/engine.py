@@ -1,7 +1,7 @@
 import pandas as pd
 
-from eazydatafix.assessment.checks.validity.aadhaar_check import AadhaarCheck
 from eazydatafix.assessment.checks._runner import run_checks
+from eazydatafix.assessment.checks.validity.aadhaar_check import AadhaarCheck
 from eazydatafix.assessment.checks.validity.credit_card_check import CreditCardCheck
 from eazydatafix.assessment.checks.validity.date_check import DateCheck
 from eazydatafix.assessment.checks.validity.email_check import EmailCheck

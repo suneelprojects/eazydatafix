@@ -51,10 +51,15 @@ https://eazydatafix.com/docs
 - 📋 CSV Report
 - 📦 JSON Report
 - 📝 Markdown Report
+- 🧭 Deterministic EDA Planning and Execution
+- 🤖 Deterministic Agentic EDA Orchestration
+- 📊 Reproducible Agentic EDA Reports and PNG Visualisations
 
 ---
 
 # Installation
+
+EazyDataFix supports Python 3.10–3.13.
 
 ```bash
 pip install eazydatafix

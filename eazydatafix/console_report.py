@@ -46,9 +46,7 @@ class Report:
 
         Console.key_value(
             "Memory Usage",
-            Console.format_bytes(
-                self._report.dataset_info.memory_usage_bytes
-            ),
+            Console.format_bytes(self._report.dataset_info.memory_usage_bytes),
         )
 
         # ------------------------------------------------------------------
@@ -69,9 +67,7 @@ class Report:
 
         Console.key_value(
             "Status",
-            Console.quality_status(
-                self._report.quality.score
-            ),
+            Console.quality_status(self._report.quality.score),
         )
 
         # ------------------------------------------------------------------
@@ -114,9 +110,7 @@ class Report:
         # Recommendations
         # ------------------------------------------------------------------
 
-        Console.section(
-            f"💡 RECOMMENDATIONS ({len(self._report.recommendations)})"
-        )
+        Console.section(f"💡 RECOMMENDATIONS ({len(self._report.recommendations)})")
 
         if not self._report.recommendations:
 
@@ -160,9 +154,7 @@ class Report:
 
                 Console.key_value(
                     "Auto Fix",
-                    "Yes ✅"
-                    if recommendation.auto_fix_available
-                    else "No",
+                    "Yes ✅" if recommendation.auto_fix_available else "No",
                     indent=4,
                 )
 

@@ -1,5 +1,5 @@
 """
-Generic plugin registry for EasyDataFix.
+Generic plugin registry for EazyDataFix.
 
 The registry stores plugins by category while remaining completely
 agnostic about plugin behavior.
@@ -10,7 +10,7 @@ from collections import defaultdict
 
 class PluginRegistry:
     """
-    Generic registry for EasyDataFix plugins.
+    Generic registry for EazyDataFix plugins.
     """
 
     def __init__(self):
@@ -26,14 +26,11 @@ class PluginRegistry:
         name = getattr(plugin, "name", None)
 
         if not name:
-            raise ValueError(
-                "Plugins must define a non-empty 'name' attribute."
-            )
+            raise ValueError("Plugins must define a non-empty 'name' attribute.")
 
         if name in self._plugins[category]:
             raise ValueError(
-                f"Plugin '{name}' is already registered "
-                f"under category '{category}'."
+                f"Plugin '{name}' is already registered " f"under category '{category}'."
             )
 
         self._plugins[category][name] = plugin

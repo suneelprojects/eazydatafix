@@ -10,9 +10,7 @@ class UrlCheck:
     Validates URL columns.
     """
 
-    URL_PATTERN = re.compile(
-        r"^(https?://)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(/.*)?$"
-    )
+    URL_PATTERN = re.compile(r"^(https?://)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(/.*)?$")
 
     def evaluate(
         self,

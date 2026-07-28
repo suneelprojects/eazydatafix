@@ -50,11 +50,7 @@ class AssessmentEngine:
 
         df = DatasetLoader.load(dataset)
 
-        file_name = (
-            Path(dataset).name
-            if isinstance(dataset, (str, Path))
-            else "DataFrame"
-        )
+        file_name = Path(dataset).name if isinstance(dataset, (str, Path)) else "DataFrame"
 
         return self.assess_dataframe(
             df=df,
@@ -81,9 +77,7 @@ class AssessmentEngine:
             file_name=file_name,
             rows=len(df),
             columns=len(df.columns),
-            memory_usage_bytes=int(
-                df.memory_usage(deep=True).sum()
-            ),
+            memory_usage_bytes=int(df.memory_usage(deep=True).sum()),
         )
 
         results = {}
@@ -111,11 +105,7 @@ class AssessmentEngine:
             if not items:
                 return 100.0
 
-            passed = sum(
-                1
-                for item in items
-                if item.passed
-            )
+            passed = sum(1 for item in items if item.passed)
 
             return round(
                 (passed / len(items)) * 100,
@@ -147,8 +137,6 @@ class AssessmentEngine:
             validations=validations,
         )
 
-        report.recommendations = (
-            RecommendationEngine().generate(report)
-        )
+        report.recommendations = RecommendationEngine().generate(report)
 
         return report

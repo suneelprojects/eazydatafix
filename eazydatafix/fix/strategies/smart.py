@@ -1,7 +1,7 @@
 import pandas as pd
 
-from eazydatafix.plugins import Plugin
 from eazydatafix.fix.strategies.base import MissingValueStrategy
+from eazydatafix.plugins import Plugin
 
 
 class SmartStrategy(Plugin, MissingValueStrategy):
@@ -19,11 +19,8 @@ class SmartStrategy(Plugin, MissingValueStrategy):
 
     name = "smart"
     version = "1.0.0"
-    author = "EasyDataFix"
-    description = (
-        "Automatically chooses the safest missing "
-        "value strategy for each column."
-    )
+    author = "EazyDataFix"
+    description = "Automatically chooses the safest missing " "value strategy for each column."
 
     def apply(
         self,
@@ -44,13 +41,9 @@ class SmartStrategy(Plugin, MissingValueStrategy):
 
             if pd.api.types.is_numeric_dtype(series):
 
-                df[column] = series.fillna(
-                    series.median()
-                )
+                df[column] = series.fillna(series.median())
 
-                applied_fixes.append(
-                    f"Filled numeric column '{column}' using median."
-                )
+                applied_fixes.append(f"Filled numeric column '{column}' using median.")
 
                 continue
 
@@ -64,13 +57,9 @@ class SmartStrategy(Plugin, MissingValueStrategy):
 
                 if not mode.empty:
 
-                    df[column] = series.fillna(
-                        mode.iloc[0]
-                    )
+                    df[column] = series.fillna(mode.iloc[0])
 
-                    applied_fixes.append(
-                        f"Filled boolean column '{column}' using mode."
-                    )
+                    applied_fixes.append(f"Filled boolean column '{column}' using mode.")
 
                 continue
 
@@ -84,13 +73,9 @@ class SmartStrategy(Plugin, MissingValueStrategy):
 
                 if not mode.empty:
 
-                    df[column] = series.fillna(
-                        mode.iloc[0]
-                    )
+                    df[column] = series.fillna(mode.iloc[0])
 
-                    applied_fixes.append(
-                        f"Filled categorical column '{column}' using mode."
-                    )
+                    applied_fixes.append(f"Filled categorical column '{column}' using mode.")
 
                 continue
 

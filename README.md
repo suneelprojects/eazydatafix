@@ -124,6 +124,9 @@ import eazydatafix as edf
 eda_result = edf.eda("employees.csv")
 
 print(eda_result.shape)
+print(eda_result.semantic_roles)
+print(eda_result.identifier_columns)
+print(eda_result.datetime_columns)
 print(eda_result.numeric_statistics)
 print(eda_result.categorical_summaries)
 print(eda_result.observations)
@@ -132,6 +135,10 @@ print(eda_result.recommendations)
 
 `edf.eda(...)` accepts pandas DataFrames, CSV, Excel, JSON, and Parquet files
 through the existing EazyDataFix datasource system.
+
+EDA deterministically classifies columns as numeric measures, categorical
+dimensions, identifiers, datetimes, or booleans. Identifier, datetime, and
+boolean columns are excluded from numeric statistics and correlations.
 
 ---
 

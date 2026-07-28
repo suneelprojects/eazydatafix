@@ -12,6 +12,8 @@ The foundation provides:
 - Missing-value and duplicate-row summaries
 - Numeric descriptive statistics and correlations
 - Categorical summaries and unique-value counts
+- Semantic roles for measures, categories, identifiers, datetimes, and booleans
+- Identifier-aware numeric analysis and cardinality recommendations
 - Deterministic observations and recommendations
 
 ## Next Milestone: Tool-Driven Analysis

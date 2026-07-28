@@ -46,8 +46,16 @@ def test_eda_returns_deterministic_structured_result(
         "department": 0,
     }
     assert result.duplicate_rows == 1
+    assert result.semantic_roles == {
+        "age": "numeric_measure",
+        "income": "numeric_measure",
+        "department": "categorical",
+    }
     assert result.numeric_columns == ["age", "income"]
     assert result.categorical_columns == ["department"]
+    assert result.identifier_columns == []
+    assert result.datetime_columns == []
+    assert result.boolean_columns == []
     assert result.unique_value_counts == {
         "age": 2,
         "income": 3,
@@ -113,6 +121,146 @@ def test_eda_handles_empty_dataframe() -> None:
     assert result.categorical_summaries == {}
     assert result.correlation_matrix == {}
     assert result.duplicate_rows == 0
+
+
+def test_eda_detects_semantic_roles_and_excludes_identifiers_from_numeric_analysis() -> None:
+    employees = pd.DataFrame(
+        {
+            "id": [101, 102, 103, 104, 105],
+            "name": ["Asha", "Ben", "Chen", "Divya", "Eli"],
+            "email": [
+                "asha@example.com",
+                "ben@example.com",
+                "chen@example.com",
+                "divya@example.com",
+                "eli@example.com",
+            ],
+            "phone": [
+                9876543210,
+                9876543211,
+                None,
+                9876543213,
+                9876543214,
+            ],
+            "age": [25, 31, 29, 42, 37],
+            "salary": [50000, 62000, 58000, 81000, 73000],
+            "department": [
+                "Engineering",
+                "Finance",
+                "Sales",
+                "Legal",
+                "Engineering",
+            ],
+            "joining_date": [
+                "2022-01-15",
+                "2021-06-20",
+                "2023-03-10",
+                "2020-11-05",
+                "2022-09-01",
+            ],
+            "is_active": [True, True, False, True, False],
+        }
+    )
+
+    result = edf.eda(employees)
+
+    assert result.numeric_columns == ["age", "salary"]
+    assert result.identifier_columns == ["id", "name", "email", "phone"]
+    assert result.categorical_columns == ["department"]
+    assert result.datetime_columns == ["joining_date"]
+    assert result.boolean_columns == ["is_active"]
+    assert result.semantic_roles == {
+        "id": "identifier",
+        "name": "identifier",
+        "email": "identifier",
+        "phone": "identifier",
+        "age": "numeric_measure",
+        "salary": "numeric_measure",
+        "department": "categorical",
+        "joining_date": "datetime",
+        "is_active": "boolean",
+    }
+    assert set(result.numeric_statistics) == {"age", "salary"}
+    assert set(result.correlation_matrix) == {"age", "salary"}
+    assert all(
+        set(correlations) == {"age", "salary"}
+        for correlations in result.correlation_matrix.values()
+    )
+    assert set(result.categorical_summaries) == {"department"}
+    assert (
+        "Treat email as an identifier rather than a categorical feature." in result.recommendations
+    )
+    assert not any(
+        "high-cardinality" in recommendation.lower() for recommendation in result.recommendations
+    )
+
+
+def test_eda_does_not_use_unique_ratio_alone_for_small_categorical_columns() -> None:
+    dataset = pd.DataFrame(
+        {
+            "department": ["Sales", "Finance", "Legal", "Support", "Sales"],
+            "age": [22, 28, 34, 40, 46],
+        }
+    )
+
+    result = edf.eda(dataset)
+
+    assert result.semantic_roles["department"] == "categorical"
+    assert not any(
+        "high-cardinality" in recommendation.lower() for recommendation in result.recommendations
+    )
+
+
+def test_eda_recommends_review_for_large_high_cardinality_categories() -> None:
+    dataset = pd.DataFrame(
+        {
+            "segment": [f"segment_{index % 20}" for index in range(25)],
+            "value": list(range(25)),
+        }
+    )
+
+    result = edf.eda(dataset)
+
+    assert result.semantic_roles["segment"] == "categorical"
+    assert any(
+        recommendation == "Review high-cardinality categorical columns: segment."
+        for recommendation in result.recommendations
+    )
+
+
+def test_eda_detects_near_unique_text_identifiers_with_sufficient_rows() -> None:
+    dataset = pd.DataFrame(
+        {
+            "external_reference": [
+                *(f"reference_{index}" for index in range(19)),
+                "reference_0",
+            ],
+            "value": list(range(20)),
+        }
+    )
+
+    result = edf.eda(dataset)
+
+    assert result.semantic_roles["external_reference"] == "identifier"
+    assert "external_reference" in result.identifier_columns
+    assert (
+        "Treat external_reference as an identifier rather than a categorical feature."
+        in result.recommendations
+    )
+
+
+def test_eda_only_parses_date_shaped_or_date_named_text_as_datetime() -> None:
+    dataset = pd.DataFrame(
+        {
+            "event_day": ["2024-01-01", "2024-01-02", "2024-01-03"],
+            "description": ["May", "June", "July"],
+        }
+    )
+
+    result = edf.eda(dataset)
+
+    assert result.semantic_roles["event_day"] == "datetime"
+    assert result.semantic_roles["description"] == "categorical"
 
 
 def test_eda_preserves_existing_public_apis() -> None:

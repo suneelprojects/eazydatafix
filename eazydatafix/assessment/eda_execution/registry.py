@@ -20,20 +20,35 @@ from eazydatafix.assessment.eda_execution.quality import (
 )
 
 
-def default_handlers() -> list[EDAAnalysisHandler]:
+def default_handlers(
+    *,
+    correlation_threshold: float = 0.80,
+    outlier_iqr_multiplier: float = 1.50,
+    class_imbalance_threshold: float = 0.80,
+) -> list[EDAAnalysisHandler]:
     """
     Build the deterministic handlers supported by the EDA executor.
+
+    Args:
+        correlation_threshold: Absolute correlation threshold from zero to one.
+        outlier_iqr_multiplier: Positive multiplier applied to the IQR.
+        class_imbalance_threshold: Dominant-class ratio from zero to one.
+
+    Returns:
+        Deterministic handlers in canonical execution order.
     """
     return [
         MissingValueAnalysisHandler(),
         DuplicateReviewHandler(),
         IdentifierExclusionHandler(),
         NumericDistributionAnalysisHandler(),
-        OutlierAnalysisHandler(),
+        OutlierAnalysisHandler(iqr_multiplier=outlier_iqr_multiplier),
         SkewnessAnalysisHandler(),
         CategoricalDistributionAnalysisHandler(),
         BooleanDistributionAnalysisHandler(),
-        ClassImbalanceAnalysisHandler(),
-        CorrelationReviewHandler(),
+        ClassImbalanceAnalysisHandler(
+            threshold_percentage=class_imbalance_threshold * 100,
+        ),
+        CorrelationReviewHandler(threshold=correlation_threshold),
         DatetimeTrendAnalysisHandler(),
     ]

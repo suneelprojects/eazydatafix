@@ -56,5 +56,4 @@ Version 0.3.0 does not remove or rename existing public APIs. Report
 histograms and box plots require the optional original dataset because raw
 observations are intentionally not reconstructed from summary statistics.
 
-This pull request prepares the release only. It does not publish to PyPI or
-create a GitHub Release.
+EazyDataFix 0.3.0 is available through GitHub Releases.

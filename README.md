@@ -1,259 +1,32 @@
-# 🛠️ EazyDataFix
+# EazyDataFix
 
 [![PyPI version](https://img.shields.io/pypi/v/eazydatafix)](https://pypi.org/project/eazydatafix/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![Python versions](https://img.shields.io/pypi/pyversions/eazydatafix)](https://pypi.org/project/eazydatafix/)
 [![License](https://img.shields.io/github/license/suneelprojects/eazydatafix)](LICENSE)
-[![Downloads](https://img.shields.io/pypi/dm/eazydatafix)](https://pypi.org/project/eazydatafix/)
-[![GitHub Release](https://img.shields.io/github/v/release/suneelprojects/eazydatafix)](https://github.com/suneelprojects/eazydatafix/releases)
-[![GitHub Stars](https://img.shields.io/github/stars/suneelprojects/eazydatafix?style=social)](https://github.com/suneelprojects/eazydatafix)
+[![Monthly downloads](https://img.shields.io/pypi/dm/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![GitHub release](https://img.shields.io/github/v/release/suneelprojects/eazydatafix)](https://github.com/suneelprojects/eazydatafix/releases)
+[![GitHub stars](https://img.shields.io/github/stars/suneelprojects/eazydatafix?style=social)](https://github.com/suneelprojects/eazydatafix)
 
-> A modern Python library for **data quality assessment, validation, and automated data cleaning**.
+## Agentic EDA you can inspect, reproduce, and trust.
 
-EazyDataFix helps data analysts, data scientists, machine learning engineers, and ETL developers quickly identify data quality issues and generate professional reports with just a few lines of code.
+EazyDataFix is a deterministic-first Python framework that understands datasets,
+plans appropriate analyses, executes them reproducibly, and generates traceable
+reports without requiring an LLM.
 
----
+It combines dataset understanding, semantic-role detection, deterministic
+planning, modular execution, traceable findings, and reproducible reporting.
+The same package also supports data-quality assessment, validation, cleaning,
+preparation, and exploratory data analysis.
 
-# 🌐 Documentation
+> EazyDataFix v0.3.0 completes the deterministic Agentic EDA foundation.
 
-📚 **Documentation Website**
+Install with `pip install eazydatafix` ·
+[Documentation](https://eazydatafix.com/docs) ·
+[PyPI](https://pypi.org/project/eazydatafix/)
 
-https://eazydatafix.com
+## Quick start
 
-📖 **API Reference**
-
-https://eazydatafix.com/docs
-
----
-
-# 🚀 Quick Links
-
-- 📦 PyPI — https://pypi.org/project/eazydatafix/
-- 🌍 Documentation — https://eazydatafix.com
-- 📖 API Reference — https://eazydatafix.com/docs
-- 💻 GitHub — https://github.com/suneelprojects/eazydatafix
-
----
-
-## ✨ Features
-
-- 📊 Data Quality Assessment
-- ✅ Missing Value Detection
-- 🔍 Duplicate Detection
-- ✔️ Data Validation
-- 🧹 Data Consistency Checks
-- 🎯 Data Accuracy Checks
-- ⏱️ Timeliness Checks
-- 💡 Intelligent Recommendations
-- 📄 Console Report
-- 🌐 HTML Report
-- 📑 PDF Report
-- 📈 Excel Report
-- 📋 CSV Report
-- 📦 JSON Report
-- 📝 Markdown Report
-- 🧭 Deterministic EDA Planning and Execution
-- 🤖 Deterministic Agentic EDA Orchestration
-- 📊 Reproducible Agentic EDA Reports and PNG Visualisations
-
----
-
-# Installation
-
-EazyDataFix supports Python 3.10–3.13.
-
-```bash
-pip install eazydatafix
-```
-
-For Parquet support:
-
-```bash
-pip install eazydatafix[parquet]
-```
-
----
-
-# Core APIs
-
-```python
-import eazydatafix as edf
-
-edf.profile(...)
-
-edf.assess(...)
-
-edf.assess_ai_readiness(...)
-
-edf.eda(...)
-
-edf.plan_eda(...)
-
-edf.execute_eda(...)
-
-edf.run_agentic_eda(...)
-
-edf.export_agentic_eda_report(...)
-
-edf.fix(...)
-
-edf.prepare(...)
-
-edf.analysis_ready(...)
-```
-
----
-
-# Quick Start
-
-```python
-import eazydatafix as edf
-
-report = edf.assess("employees.csv")
-
-report.summary()
-
-report.to_html()
-
-report.to_pdf()
-
-report.to_excel()
-
-report.to_json()
-
-report.to_csv()
-
-report.to_markdown()
-```
-
----
-
-# Deterministic EDA
-
-Generate a structured exploratory data analysis result without using an LLM.
-
-```python
-import eazydatafix as edf
-
-eda_result = edf.eda("employees.csv")
-
-print(eda_result.shape)
-print(eda_result.semantic_roles)
-print(eda_result.identifier_columns)
-print(eda_result.datetime_columns)
-print(eda_result.numeric_statistics)
-print(eda_result.categorical_summaries)
-print(eda_result.observations)
-print(eda_result.recommendations)
-```
-
-`edf.eda(...)` accepts pandas DataFrames, CSV, Excel, JSON, and Parquet files
-through the existing EazyDataFix datasource system.
-
-EDA deterministically classifies columns as numeric measures, categorical
-dimensions, identifiers, datetimes, or booleans. Identifier, datetime, and
-boolean columns are excluded from numeric statistics and correlations.
-
----
-
-# Deterministic EDA Planner
-
-Build a reproducible follow-up analysis plan from an existing `EDAResult`.
-
-```python
-import eazydatafix as edf
-
-eda_result = edf.eda("employees.csv")
-plan = edf.plan_eda(eda_result)
-
-for step in plan.selected_steps:
-    print(step.name, step.priority, step.reason)
-
-for step in plan.skipped_steps:
-    print(step.name, step.reason)
-
-print(plan.warnings)
-print(plan.deterministic_summary)
-```
-
-The planner uses semantic roles and statistics from `EDAResult` to explain why
-each supported analysis is selected or skipped. It does not call an LLM.
-
----
-
-# Deterministic EDA Executor
-
-Execute selected plan steps through deterministic analysis handlers.
-
-```python
-import eazydatafix as edf
-
-execution = edf.execute_eda("employees.csv")
-
-for step in execution.executed_steps:
-    print(step.name, step.status, step.output)
-
-print(execution.execution_order)
-print(execution.warnings)
-print(execution.deterministic_summary)
-```
-
-`edf.execute_eda(...)` automatically creates the `EDAResult` and `EDAPlan` when
-they are not supplied. Existing results and plans can be reused explicitly:
-
-```python
-eda_result = edf.eda("employees.csv")
-plan = edf.plan_eda(eda_result)
-execution = edf.execute_eda(
-    "employees.csv",
-    result=eda_result,
-    plan=plan,
-)
-```
-
-Execution results can be converted to a JSON-ready dictionary with
-`execution.to_dict()`. Selected steps record `success` or `failure`; planned
-skips remain visible with `skipped` status.
-
----
-
-# Deterministic Agentic EDA
-
-Run dataset understanding, planning, execution, and traceable follow-up
-decision generation as one reproducible workflow.
-
-```python
-import json
-
-import eazydatafix as edf
-
-config = edf.AgenticEDAConfig(
-    correlation_threshold=0.85,
-    outlier_iqr_multiplier=1.5,
-    class_imbalance_threshold=0.80,
-)
-workflow = edf.run_agentic_eda("employees.csv", config=config)
-
-print(workflow.overall_status)
-print(workflow.priority_findings)
-print(workflow.follow_up_actions)
-print(workflow.recommended_visualisations)
-print(workflow.unresolved_questions)
-
-json_output = json.dumps(workflow.to_dict(), indent=2)
-```
-
-Every action, visualisation, question, and finding identifies its source
-execution step, target columns, priority, reason, and prerequisites. The
-orchestrator is deterministic, does not mutate DataFrames, and does not use an
-LLM. Visualisation recommendations and unresolved questions can be disabled,
-and recommendation counts can be bounded with `AgenticEDAConfig`.
-
----
-
-# Agentic EDA Reports
-
-Convert an existing `AgenticEDAResult` into reproducible HTML and JSON report
-artifacts. Markdown is available as an optional format.
+Run the complete deterministic Agentic EDA workflow:
 
 ```python
 import eazydatafix as edf
@@ -262,25 +35,142 @@ workflow = edf.run_agentic_eda("employees.csv")
 
 report = edf.export_agentic_eda_report(
     workflow,
-    dataset="employees.csv",  # Optional: enables honest raw-data charts.
+    dataset="employees.csv",
     output_dir="eda-report",
-    formats=["html", "json", "markdown"],
 )
 
+print(workflow.priority_findings)
+print(workflow.follow_up_actions)
 print(report.generated_files)
-print(report.generated_visualisations)
-print(report.skipped_visualisations)
-print(report.status)
 ```
 
-Without `dataset`, charts supported by structured execution outputs—such as
-missing values, categorical distributions, correlations, and datetime
-frequencies—are still generated. Histograms and box plots are explicitly
-recorded as skipped unless a matching dataset is supplied. The dataset is
-validated against the workflow and copied; the workflow and caller DataFrame
-are never mutated.
+This workflow:
 
-Example output:
+1. Understands the dataset
+2. Assigns semantic roles
+3. Plans relevant analyses
+4. Executes selected analyses
+5. Generates traceable findings and actions
+6. Exports reproducible reports and visualisations
+
+## Installation
+
+```bash
+pip install eazydatafix
+```
+
+For Parquet support:
+
+```bash
+pip install "eazydatafix[parquet]"
+```
+
+Requires Python 3.10 or later. Tested with Python 3.10–3.13.
+
+## Why EazyDataFix
+
+### Deterministic First
+
+Metrics, findings, and recommendations come from reproducible calculations.
+
+### Traceable Decisions
+
+Plans, actions, questions, and visualisations identify their source analysis
+step.
+
+### Safe by Default
+
+Caller DataFrames are not mutated by the deterministic EDA workflow.
+
+### AI Optional
+
+v0.3.0 does not require an LLM. Optional grounded narratives are planned for a
+future release.
+
+## Workflow
+
+```mermaid
+flowchart LR
+    A[Dataset] --> B[Understand]
+    B --> C[Assign Semantic Roles]
+    C --> D[Plan Analyses]
+    D --> E[Execute]
+    E --> F[Generate Findings and Actions]
+    F --> G[Export Reports and Visualisations]
+```
+
+## Current capabilities
+
+### Data Quality
+
+- Missing-value analysis
+- Duplicate detection
+- Completeness checks
+- Validity checks
+- Consistency checks
+- Accuracy checks
+- Timeliness checks
+- Data-quality scoring
+
+### Deterministic EDA
+
+- Numeric analysis
+- Categorical analysis
+- Boolean analysis
+- Datetime analysis
+- Correlation review
+- IQR outlier analysis
+- Skewness analysis
+- Class-imbalance analysis
+
+### Agentic Workflow
+
+- Semantic column-role detection
+- Deterministic analysis planning
+- Modular analysis execution
+- Priority findings
+- Traceable follow-up actions
+- Visualisation recommendations
+- Unresolved domain questions
+- Partial-failure isolation
+
+### Reporting
+
+- Console
+- HTML
+- PDF
+- Excel
+- CSV
+- JSON
+- Markdown
+- Deterministic PNG visualisations
+
+### Input Support
+
+- pandas DataFrames
+- CSV
+- Excel
+- JSON
+- Parquet with the optional dependency
+
+## Example output
+
+A data-quality assessment can produce a concise console summary:
+
+```text
+EASYDATAFIX DATA QUALITY REPORT
+
+Score         : 90.37 / 100
+Grade         : A
+Completeness  : 96.97%
+Uniqueness    : 100.00%
+Validity      : 55.00%
+Consistency   : 100.00%
+Accuracy      : 100.00%
+Timeliness    : 100.00%
+```
+
+An Agentic EDA report with HTML, JSON, and optional Markdown output can produce:
 
 ```text
 eda-report/
@@ -293,173 +183,66 @@ eda-report/
     └── 03-time-series-line-chart-joining-date.png
 ```
 
-Report filenames, section order, chart filenames, JSON key ordering, and
-artifact tracking are deterministic. Existing known artifact files are
-overwritten predictably; unrelated files in the output directory are
-preserved.
-
----
-
-# Example Console Output
-
-```
-======================================================================
-                       🛠️ EASY DATA FIX REPORT
-======================================================================
-
-Overall Score : 90.37
-
-Grade         : A
-
-Completeness  : 96.97%
-
-Uniqueness    : 100.00%
-
-Validity      : 55.00%
-
-Consistency   : 100.00%
-
-Accuracy      : 100.00%
-
-Timeliness    : 100.00%
-```
-
----
-
-# Supported Quality Dimensions
-
-| Dimension | Status |
-|-----------|--------|
-| Completeness | ✅ |
-| Uniqueness | ✅ |
-| Validity | ✅ |
-| Consistency | ✅ |
-| Accuracy | ✅ |
-| Timeliness | ✅ |
-
----
-
-# Report Formats
-
-EazyDataFix can generate reports in multiple formats.
-
-```python
-report.summary()
-
-report.to_html()
-
-report.to_pdf()
-
-report.to_excel()
-
-report.to_json()
-
-report.to_csv()
-
-report.to_markdown()
-```
-
----
-
-# Supported Data Sources
-
-EazyDataFix accepts datasets in a variety of formats.
-
-Both `edf.assess(...)` and `edf.fix(...)` work with:
-
-- Pandas `DataFrame`
-- CSV files
-- Excel files (`.xlsx` / `.xls`)
-- JSON files
-- Parquet files
-
-Loading is handled by the modular `eazydatafix.datasources` package, allowing custom data source plugins.
-
-```python
-import pandas as pd
-
-from eazydatafix.datasources import (
-    DataSource,
-    default_registry,
-)
-
-
-class TSVDataSource(DataSource):
-
-    name = "tsv"
-
-    def can_load(self, source):
-        from pathlib import Path
-        return isinstance(source, Path) and source.suffix.lower() == ".tsv"
-
-    def load(self, source):
-        return pd.read_csv(source, sep="\t")
-
-
-default_registry.register(TSVDataSource())
-
-# edf.assess(...) and edf.fix(...) now support TSV files.
-```
-
----
-
-# Why EazyDataFix?
-
-EazyDataFix is designed to make data quality assessment simple and accessible.
-
-Whether you're validating datasets before machine learning, preparing ETL pipelines, or cleaning business reports, EazyDataFix provides a consistent way to measure and improve data quality with minimal code.
-
----
-
-# Roadmap
-
-## ✅ Completed
-
-- Assessment Engine
-- Validation Engine
-- Recommendation Engine
-- Reporting Engine
-- Auto Fix Foundation
-
-## 🚀 Coming Soon
-
-- Data Profiling
-- CLI Support
-- Streamlit Dashboard
-- SQL Support
-- Apache Spark Support
-- Interactive Charts
-- AI Recommendations
-
----
-
-# Contributing
-
-Contributions are always welcome.
-
-Feel free to:
-
-- ⭐ Star the repository
-- 🐛 Report bugs
-- 💡 Suggest features
-- 🔧 Submit pull requests
-
-GitHub Repository:
-
-https://github.com/suneelprojects/eazydatafix
-
-Documentation:
-
-https://eazydatafix.com
-
----
-
-# License
-
-MIT License
-
----
-
-Made with ❤️ by **Suneel Kumar Kola**
-
-🌐 https://eazydatafix.com
+HTML and JSON are generated by default; Markdown is generated when requested.
+The exact charts depend on the dataset and the workflow's deterministic
+visualisation recommendations.
+
+## API overview
+
+| Public API | Purpose |
+| --- | --- |
+| `edf.profile(...)` | Describe dataset structure, columns, types, and memory use. |
+| `edf.assess(...)` | Measure data quality and return validations and recommendations. |
+| `edf.assess_ai_readiness(...)` | Evaluate suitability for AI-oriented data use. |
+| `edf.eda(...)` | Generate deterministic exploratory statistics and semantic roles. |
+| `edf.plan_eda(...)` | Select and explain relevant follow-up analyses. |
+| `edf.execute_eda(...)` | Execute selected deterministic analysis steps. |
+| `edf.run_agentic_eda(...)` | Run understanding, planning, execution, and follow-up decisions. |
+| `edf.export_agentic_eda_report(...)` | Export Agentic EDA reports and recommended visualisations. |
+| `edf.fix(...)` | Apply the existing configurable dataset-cleaning pipeline. |
+| `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
+| `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
+
+Detailed API documentation is maintained on the
+[documentation website](https://eazydatafix.com/docs).
+
+## Resources
+
+- [Project Website](https://eazydatafix.com)
+- [Getting Started](https://eazydatafix.com/docs/quickstart)
+- [Documentation](https://eazydatafix.com/docs)
+- [API Reference](https://eazydatafix.com/docs/reference)
+- [Roadmap](ROADMAP.md)
+- [Changelog](CHANGELOG.md)
+- [PyPI](https://pypi.org/project/eazydatafix/)
+- [GitHub Repository](https://github.com/suneelprojects/eazydatafix)
+- [GitHub Issues](https://github.com/suneelprojects/eazydatafix/issues)
+
+## Project status
+
+- Current stable version: v0.3.0
+- Development status: Beta
+- Python support: 3.10–3.13
+- Licence: MIT
+
+The public API may continue evolving before v1.0.
+
+## Roadmap preview
+
+- **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
+- **v0.4.0 — Notebook Export and Human Approval — Next**
+- **v0.5.0 — Optional Grounded AI Narratives — Planned**
+- **v1.0.0 — Stable Production API — Goal**
+
+See the [full roadmap](ROADMAP.md) for milestone details.
+
+## Contributing
+
+Contributions, issue reports, and focused feature proposals are welcome.
+Contribution guidance is being prepared; use
+[GitHub Issues](https://github.com/suneelprojects/eazydatafix/issues) to report
+bugs or discuss a change for now.
+
+## Licence
+
+EazyDataFix is available under the [MIT Licence](LICENSE).

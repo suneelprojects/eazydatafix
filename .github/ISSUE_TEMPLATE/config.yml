@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: EazyDataFix documentation
+    url: https://eazydatafix.com/docs
+    about: Review installation, usage, and API documentation.

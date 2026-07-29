@@ -1,0 +1,138 @@
+name: Bug report
+description: Report reproducible incorrect behaviour in EazyDataFix.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve EazyDataFix. Please share only anonymised
+        information and the smallest example needed to reproduce the problem.
+
+  - type: checkboxes
+    id: pre_submission
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: I removed private, confidential, and personally identifiable data.
+          required: true
+        - label: I can provide a minimal reproducible example.
+          required: true
+
+  - type: input
+    id: eazydatafix_version
+    attributes:
+      label: EazyDataFix version
+      description: Run `python -c "import eazydatafix; print(eazydatafix.__version__)"` if needed.
+      placeholder: "0.3.0"
+    validations:
+      required: true
+
+  - type: input
+    id: python_version
+    attributes:
+      label: Python version
+      placeholder: "3.12.4"
+    validations:
+      required: true
+
+  - type: input
+    id: operating_system
+    attributes:
+      label: Operating system
+      placeholder: "Ubuntu 24.04, macOS 15, or Windows 11"
+    validations:
+      required: true
+
+  - type: input
+    id: installation_method
+    attributes:
+      label: Installation method
+      description: Include the package manager or source used to install EazyDataFix.
+      placeholder: "pip, uv, conda, or editable source install"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_description
+    attributes:
+      label: Description of the problem
+      description: Explain what went wrong and when it occurs.
+      placeholder: Describe the problem clearly and concisely.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproducible_example
+    attributes:
+      label: Minimal reproducible example
+      description: Provide the smallest self-contained example that demonstrates the problem.
+      placeholder: |
+        ```python
+        import eazydatafix as edf
+
+        # Add a minimal example using anonymised or synthetic data.
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behaviour
+    attributes:
+      label: Expected behaviour
+      placeholder: Explain what you expected EazyDataFix to do.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behaviour
+    attributes:
+      label: Actual behaviour
+      placeholder: Explain what EazyDataFix did instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Full traceback or error output
+      description: Remove secrets and private values. If no error was shown, write "No traceback".
+      placeholder: |
+        ```text
+        Paste the complete sanitised traceback or error output here.
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: dataset_sample
+    attributes:
+      label: Sanitised dataset structure or synthetic sample
+      description: Describe column names and dtypes, or provide a small synthetic sample. Do not upload confidential datasets.
+      placeholder: |
+        ```text
+        employee_id: int64
+        department: object
+        salary: float64
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Add any other details that may help reproduce or understand the problem.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: data_confirmation
+    attributes:
+      label: Data confirmation
+      options:
+        - label: I confirm that all submitted samples are anonymised or synthetic.
+          required: true

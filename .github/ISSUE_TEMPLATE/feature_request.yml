@@ -1,0 +1,132 @@
+name: Feature request
+description: Suggest a focused improvement to EazyDataFix.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing an improvement. Please describe the problem and
+        expected behaviour so the request can be evaluated in context.
+
+  - type: checkboxes
+    id: pre_submission
+    attributes:
+      label: Pre-submission check
+      options:
+        - label: I searched existing issues for the same or a closely related request.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem being solved
+      description: Describe the user or developer problem rather than only the desired implementation.
+      placeholder: Explain the limitation or unmet need.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_workaround
+    attributes:
+      label: Current workaround
+      description: Explain how you handle this today, or state that no practical workaround exists.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_behaviour
+    attributes:
+      label: Proposed behaviour
+      description: Describe the focused behaviour you would like EazyDataFix to provide.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example_usage
+    attributes:
+      label: Example usage
+      description: Show how the proposed behaviour might be used.
+      placeholder: |
+        ```python
+        import eazydatafix as edf
+
+        # Show the proposed usage.
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_benefit
+    attributes:
+      label: Expected benefit
+      description: Explain who benefits and how the change improves their workflow.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: relevant_area
+    attributes:
+      label: Relevant EazyDataFix area
+      options:
+        - Data quality
+        - Validation
+        - Cleaning
+        - Data preparation
+        - Deterministic EDA
+        - Agentic EDA
+        - Reporting
+        - Documentation
+        - Performance
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: public_api_impact
+    attributes:
+      label: Public API impact
+      description: Would the request add or change a public function, class, parameter, or return value?
+      options:
+        - "Yes"
+        - "No"
+        - Unsure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deterministic_behaviour_impact
+    attributes:
+      label: Deterministic behaviour impact
+      description: Could the request change reproducibility or deterministic outputs?
+      options:
+        - "Yes"
+        - "No"
+        - Unsure
+    validations:
+      required: true
+
+  - type: textarea
+    id: backward_compatibility
+    attributes:
+      label: Backward-compatibility considerations
+      description: Describe possible compatibility effects, or state that none are expected.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe other approaches you considered and why they may not be sufficient.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Add any examples, references, or constraints that may help evaluate the request.
+    validations:
+      required: false

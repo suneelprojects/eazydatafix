@@ -44,6 +44,22 @@ print(workflow.follow_up_actions)
 print(report.generated_files)
 ```
 
+Export the same deterministic workflow as a ready-to-run Jupyter Notebook:
+
+```python
+notebook = edf.export_agentic_eda_notebook(
+    workflow,
+    dataset="employees.csv",
+    output_path="agentic-eda.ipynb",
+)
+
+print(notebook.generated_files)
+```
+
+Notebook generation uses the Python standard library and does not require
+Jupyter or `nbformat`. DataFrame inputs produce a deterministic JSON companion
+file so the notebook can reload the original analytical dataset.
+
 This workflow:
 
 1. Understands the dataset
@@ -144,6 +160,7 @@ flowchart LR
 - JSON
 - Markdown
 - Deterministic PNG visualisations
+- Ready-to-run Jupyter Notebook export
 
 ### Input Support
 
@@ -199,6 +216,7 @@ visualisation recommendations.
 | `edf.execute_eda(...)` | Execute selected deterministic analysis steps. |
 | `edf.run_agentic_eda(...)` | Run understanding, planning, execution, and follow-up decisions. |
 | `edf.export_agentic_eda_report(...)` | Export Agentic EDA reports and recommended visualisations. |
+| `edf.export_agentic_eda_notebook(...)` | Export a reproducible, ready-to-run Jupyter Notebook. |
 | `edf.fix(...)` | Apply the existing configurable dataset-cleaning pipeline. |
 | `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
 | `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
@@ -230,7 +248,7 @@ The public API may continue evolving before v1.0.
 ## Roadmap preview
 
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
-- **v0.4.0 — Notebook Export and Human Approval — Next**
+- **v0.4.0 — Notebook Export and Human Approval — In Development**
 - **v0.5.0 — Optional Grounded AI Narratives — Planned**
 - **v1.0.0 — Stable Production API — Goal**
 

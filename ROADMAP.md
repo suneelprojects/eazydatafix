@@ -33,7 +33,7 @@
 - [x] JSON-ready artifact tracking and partial-failure reporting
 
 ### Next Milestone: Grounded Presentation and Export
-- [ ] Notebook artifact export
+- [x] Notebook artifact export
 - [ ] Optional LLM narratives grounded exclusively in deterministic metrics
 - [ ] Human approval checkpoints for domain-dependent decisions
 

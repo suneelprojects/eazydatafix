@@ -13,6 +13,7 @@ def test_required_public_functions_are_exported() -> None:
         "plan_eda",
         "execute_eda",
         "run_agentic_eda",
+        "export_agentic_eda_notebook",
         "export_agentic_eda_report",
         "fix",
         "prepare",
@@ -27,6 +28,7 @@ def test_required_public_functions_are_exported() -> None:
 def test_public_result_and_config_classes_are_exported() -> None:
     public_classes = [
         "AgenticEDAConfig",
+        "AgenticEDANotebookResult",
         "AgenticEDAResult",
         "AgenticEDAReportResult",
         "EDAResult",

@@ -14,6 +14,7 @@ from .assessment.profiler import DatasetProfiler
 from .console_report import Report
 from .fix.engine import FixEngine
 from .models.agentic_eda_config import AgenticEDAConfig
+from .models.agentic_eda_notebook_result import AgenticEDANotebookResult
 from .models.agentic_eda_report_result import (
     AgenticEDAReportResult,
     GeneratedVisualisation,
@@ -39,11 +40,16 @@ from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
 from .models.ready_result import ReadyResult
 from .prepare.engine import PrepareEngine
-from .reporting.agentic_eda import AgenticEDAReportExporter
+from .reporting.agentic_eda import (
+    AgenticEDANotebookExporter,
+    AgenticEDAReportExporter,
+)
 
 __all__ = [
     "__version__",
     "AgenticEDAConfig",
+    "AgenticEDANotebookExporter",
+    "AgenticEDANotebookResult",
     "AgenticEDAOrchestrator",
     "AgenticEDAReportExporter",
     "AgenticEDAReportResult",
@@ -79,6 +85,7 @@ __all__ = [
     "assess",
     "eda",
     "execute_eda",
+    "export_agentic_eda_notebook",
     "export_agentic_eda_report",
     "fix",
     "plan_eda",
@@ -214,6 +221,33 @@ def run_agentic_eda(
     """
     orchestrator = AgenticEDAOrchestrator()
     return orchestrator.run(dataset=dataset, config=config)
+
+
+def export_agentic_eda_notebook(
+    workflow: AgenticEDAResult,
+    dataset: str | Path | pd.DataFrame,
+    output_path: str | Path = "agentic-eda.ipynb",
+    config: AgenticEDAConfig | None = None,
+) -> AgenticEDANotebookResult:
+    """
+    Export a deterministic, ready-to-run Agentic EDA Jupyter notebook.
+
+    Args:
+        workflow: Existing result returned by :func:`run_agentic_eda`.
+        dataset: Matching DataFrame or supported dataset file path.
+        output_path: Destination ``.ipynb`` file.
+        config: Configuration used to reproduce the complete workflow.
+
+    Returns:
+        An AgenticEDANotebookResult describing generated artifacts.
+    """
+    exporter = AgenticEDANotebookExporter()
+    return exporter.export(
+        workflow=workflow,
+        dataset=dataset,
+        output_path=output_path,
+        config=config,
+    )
 
 
 def export_agentic_eda_report(

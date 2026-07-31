@@ -63,6 +63,35 @@ HTML and JSON are default formats. Markdown is optional. The dataset argument
 is optional and is used only for chart types that honestly require raw
 observations.
 
+## Agentic EDA Notebook Export
+
+```python
+notebook = edf.export_agentic_eda_notebook(
+    workflow,
+    dataset="employees.csv",
+    output_path="agentic-eda.ipynb",
+)
+```
+
+The exporter creates an unexecuted notebook-format v4 document with stable
+Markdown and code cells for each deterministic workflow stage. File inputs use
+a portable relative reference with an original-path fallback. DataFrame inputs
+produce a deterministic JSON companion file beside the notebook.
+
+Pass the same `AgenticEDAConfig` used to create a customised workflow when its
+settings must be reproduced explicitly in the notebook:
+
+```python
+notebook = edf.export_agentic_eda_notebook(
+    workflow,
+    dataset=dataframe,
+    output_path="agentic-eda.ipynb",
+    config=config,
+)
+```
+
+Notebook generation does not require Jupyter or `nbformat`.
+
 ## Supported Inputs
 
 - pandas DataFrame
@@ -76,6 +105,7 @@ All supported sources route through the shared datasource loading system.
 ## Public Result and Configuration Models
 
 - `AgenticEDAConfig`
+- `AgenticEDANotebookResult`
 - `AgenticEDAResult`
 - `AgenticEDAReportResult`
 - `EDAResult`

@@ -10,6 +10,28 @@ https://semver.org/
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- Deterministic Jupyter Notebook export through
+  `edf.export_agentic_eda_notebook(...)`.
+- Notebook-format v4 output with stable Markdown and executable code cells for
+  dataset understanding, planning, execution, orchestration, findings, and
+  report export.
+- Deterministic JSON companion datasets for DataFrame inputs.
+- JSON-ready `AgenticEDANotebookResult` artifact metadata.
+
+### Reliability
+
+- Notebook and companion artifacts are written atomically.
+- Supplied datasets are validated against the existing workflow before output
+  directories or files are created.
+- Notebook export copies DataFrame inputs and does not mutate caller-owned
+  datasets or workflow results.
+
+---
+
 ## [0.3.0] - 2026-07-28
 
 ### Added

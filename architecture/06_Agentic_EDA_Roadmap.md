@@ -60,10 +60,18 @@ workflow before use. Recommendations that cannot be represented honestly are
 recorded as skipped rather than fabricated. Successful artifacts survive
 independent renderer or chart failures.
 
-## Next Milestone: Grounded Presentation and Export
+## Milestone 6: Deterministic Notebook Export
 
-The next phase will add notebook artifacts and explicit human checkpoints for
-domain-dependent decisions.
+`eazydatafix.export_agentic_eda_notebook(...)` creates an unexecuted,
+ready-to-run notebook-format v4 artifact with stable cells for dataset loading,
+understanding, planning, execution, orchestration, findings, and report export.
+DataFrame inputs receive a deterministic JSON companion file, and notebook
+generation requires no Jupyter runtime dependency.
+
+## Next Milestone: Grounded Presentation and Human Approval
+
+The next phase will add explicit human checkpoints for domain-dependent
+decisions.
 
 ## Future Milestone: LLM Narratives
 

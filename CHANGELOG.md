@@ -14,6 +14,16 @@ https://semver.org/
 
 ### Added
 
+- Two-phase human approval checkpoints through
+  `edf.prepare_agentic_eda_approval(...)`,
+  `edf.approve_agentic_eda_plan(...)`,
+  `edf.reject_agentic_eda_plan(...)`, and `edf.resume_agentic_eda(...)`.
+- Frozen, JSON-ready `AgenticEDAApprovalCheckpoint` models containing copied
+  dataset understanding, the original deterministic plan, preserved
+  configuration, ordered approval decisions, reviewer metadata, and SHA-256
+  dataset and snapshot-integrity fingerprints.
+- Full-plan and subset approval without allowing skipped, unknown, duplicate,
+  or arbitrarily added execution steps.
 - Deterministic Jupyter Notebook export through
   `edf.export_agentic_eda_notebook(...)`.
 - Notebook-format v4 output with stable Markdown and executable code cells for
@@ -24,6 +34,12 @@ https://semver.org/
 
 ### Reliability
 
+- Pending checkpoint preparation performs understanding and planning only; no
+  analysis plan step executes before human approval.
+- Resume rejects pending and rejected checkpoints, validates the supplied
+  dataset fingerprint, and reuses checkpoint understanding and planning
+  results without recomputing them.
+- Approval and resume copy caller-owned DataFrames and checkpoint snapshots.
 - Notebook and companion artifacts are written atomically.
 - Supplied datasets are validated against the existing workflow before output
   directories or files are created.

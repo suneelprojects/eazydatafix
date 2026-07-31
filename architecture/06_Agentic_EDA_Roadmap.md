@@ -68,10 +68,27 @@ understanding, planning, execution, orchestration, findings, and report export.
 DataFrame inputs receive a deterministic JSON companion file, and notebook
 generation requires no Jupyter runtime dependency.
 
-## Next Milestone: Grounded Presentation and Human Approval
+## Milestone 7: Human Approval Checkpoints
 
-The next phase will add explicit human checkpoints for domain-dependent
-decisions.
+`eazydatafix.prepare_agentic_eda_approval(...)` performs dataset understanding
+and deterministic planning without executing analysis steps. The resulting
+`AgenticEDAApprovalCheckpoint` preserves the original EDA result, plan,
+configuration, reviewer decision fields, and a SHA-256 dataset fingerprint.
+
+Reviewers can approve all originally selected steps, approve a subset while
+preserving planner order, or reject the checkpoint explicitly. Resume accepts
+only approved checkpoints, verifies that the dataset fingerprint is unchanged,
+validates checkpoint snapshot integrity, and reuses the checkpoint's
+understanding and plan before invoking the existing executor and follow-up
+decision pipeline.
+
+The original `eazydatafix.run_agentic_eda(...)` one-call workflow remains
+unchanged for callers that do not require an approval gate.
+
+## Next Milestone: Grounded Presentation
+
+The next phase will build optional presentation capabilities on deterministic
+workflow outputs without changing calculated metrics.
 
 ## Future Milestone: LLM Narratives
 

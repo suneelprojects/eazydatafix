@@ -24,6 +24,8 @@ https://semver.org/
   dataset and snapshot-integrity fingerprints.
 - Full-plan and subset approval without allowing skipped, unknown, duplicate,
   or arbitrarily added execution steps.
+- Dependency-incomplete subsets fail during approval with explicit guidance;
+  required steps are never approved implicitly.
 - Deterministic Jupyter Notebook export through
   `edf.export_agentic_eda_notebook(...)`.
 - Notebook-format v4 output with stable Markdown and executable code cells for
@@ -37,8 +39,8 @@ https://semver.org/
 - Pending checkpoint preparation performs understanding and planning only; no
   analysis plan step executes before human approval.
 - Resume rejects pending and rejected checkpoints, validates the supplied
-  dataset fingerprint, and reuses checkpoint understanding and planning
-  results without recomputing them.
+  dataset fingerprint and all checkpoint decision fields, and reuses
+  checkpoint understanding and planning results without recomputing them.
 - Approval and resume copy caller-owned DataFrames and checkpoint snapshots.
 - Notebook and companion artifacts are written atomically.
 - Supplied datasets are validated against the existing workflow before output

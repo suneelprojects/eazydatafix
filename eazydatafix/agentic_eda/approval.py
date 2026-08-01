@@ -69,6 +69,12 @@ class AgenticEDAApprovalEngine:
         eda_result = self._eda_engine.analyze(dataframe)
         eda_plan = self._planner.plan(eda_result)
         dataset_fingerprint = _dataset_fingerprint(dataframe)
+        deterministic_summary = (
+            "Prepared a pending Agentic EDA approval checkpoint with "
+            f"{len(eda_plan.selected_steps)} selected step(s) and "
+            f"{len(eda_plan.skipped_steps)} skipped step(s); no analysis "
+            "steps were executed."
+        )
 
         return AgenticEDAApprovalCheckpoint(
             eda_result=eda_result,
@@ -83,15 +89,16 @@ class AgenticEDAApprovalEngine:
             snapshot_fingerprint=_snapshot_fingerprint(
                 eda_result=eda_result,
                 eda_plan=eda_plan,
+                approval_status="pending",
+                approved_step_ids=(),
+                rejected_step_ids=(),
+                reviewer=None,
+                notes=None,
                 config=selected_config,
                 dataset_fingerprint=dataset_fingerprint,
+                deterministic_summary=deterministic_summary,
             ),
-            deterministic_summary=(
-                "Prepared a pending Agentic EDA approval checkpoint with "
-                f"{len(eda_plan.selected_steps)} selected step(s) and "
-                f"{len(eda_plan.skipped_steps)} skipped step(s); no analysis "
-                "steps were executed."
-            ),
+            deterministic_summary=deterministic_summary,
         )
 
     def approve(
@@ -126,8 +133,17 @@ class AgenticEDAApprovalEngine:
             checkpoint=selected_checkpoint,
             approved_step_ids=approved_step_ids,
         )
+        self._validate_approved_dependencies(
+            checkpoint=selected_checkpoint,
+            approved_step_ids=approved_names,
+        )
         approved_name_set = set(approved_names)
         rejected_names = [name for name in selected_names if name not in approved_name_set]
+        deterministic_summary = (
+            f"Reviewer {selected_reviewer} approved {len(approved_names)} of "
+            f"{len(selected_names)} originally selected Agentic EDA step(s) "
+            "for execution."
+        )
 
         return AgenticEDAApprovalCheckpoint(
             eda_result=selected_checkpoint.eda_result,
@@ -139,12 +155,19 @@ class AgenticEDAApprovalEngine:
             notes=selected_notes,
             config=selected_checkpoint.config,
             dataset_fingerprint=selected_checkpoint.dataset_fingerprint,
-            snapshot_fingerprint=selected_checkpoint.snapshot_fingerprint,
-            deterministic_summary=(
-                f"Reviewer {selected_reviewer} approved {len(approved_names)} of "
-                f"{len(selected_names)} originally selected Agentic EDA step(s) "
-                "for execution."
+            snapshot_fingerprint=_snapshot_fingerprint(
+                eda_result=selected_checkpoint.eda_result,
+                eda_plan=selected_checkpoint.eda_plan,
+                approval_status="approved",
+                approved_step_ids=approved_names,
+                rejected_step_ids=rejected_names,
+                reviewer=selected_reviewer,
+                notes=selected_notes,
+                config=selected_checkpoint.config,
+                dataset_fingerprint=selected_checkpoint.dataset_fingerprint,
+                deterministic_summary=deterministic_summary,
             ),
+            deterministic_summary=deterministic_summary,
         )
 
     def reject(
@@ -169,6 +192,10 @@ class AgenticEDAApprovalEngine:
         selected_reviewer = self._reviewer(reviewer)
         selected_notes = self._notes(notes)
         rejected_names = tuple(step.name for step in selected_checkpoint.eda_plan.selected_steps)
+        deterministic_summary = (
+            f"Reviewer {selected_reviewer} rejected all "
+            f"{len(rejected_names)} originally selected Agentic EDA step(s)."
+        )
 
         return AgenticEDAApprovalCheckpoint(
             eda_result=selected_checkpoint.eda_result,
@@ -180,11 +207,19 @@ class AgenticEDAApprovalEngine:
             notes=selected_notes,
             config=selected_checkpoint.config,
             dataset_fingerprint=selected_checkpoint.dataset_fingerprint,
-            snapshot_fingerprint=selected_checkpoint.snapshot_fingerprint,
-            deterministic_summary=(
-                f"Reviewer {selected_reviewer} rejected all "
-                f"{len(rejected_names)} originally selected Agentic EDA step(s)."
+            snapshot_fingerprint=_snapshot_fingerprint(
+                eda_result=selected_checkpoint.eda_result,
+                eda_plan=selected_checkpoint.eda_plan,
+                approval_status="rejected",
+                approved_step_ids=(),
+                rejected_step_ids=rejected_names,
+                reviewer=selected_reviewer,
+                notes=selected_notes,
+                config=selected_checkpoint.config,
+                dataset_fingerprint=selected_checkpoint.dataset_fingerprint,
+                deterministic_summary=deterministic_summary,
             ),
+            deterministic_summary=deterministic_summary,
         )
 
     def resume(
@@ -219,6 +254,8 @@ class AgenticEDAApprovalEngine:
                 "Agentic EDA approval checkpoint status must be pending, approved, " "or rejected."
             )
 
+        self._validate_approved_checkpoint_decision(selected_checkpoint)
+
         dataframe = load_eda_frame(dataset)
         supplied_fingerprint = _dataset_fingerprint(dataframe)
 
@@ -248,8 +285,14 @@ class AgenticEDAApprovalEngine:
         expected_fingerprint = _snapshot_fingerprint(
             eda_result=checkpoint.eda_result,
             eda_plan=checkpoint.eda_plan,
+            approval_status=checkpoint.approval_status,
+            approved_step_ids=checkpoint.approved_step_ids,
+            rejected_step_ids=checkpoint.rejected_step_ids,
+            reviewer=checkpoint.reviewer,
+            notes=checkpoint.notes,
             config=checkpoint.config,
             dataset_fingerprint=checkpoint.dataset_fingerprint,
+            deterministic_summary=checkpoint.deterministic_summary,
         )
 
         if checkpoint.snapshot_fingerprint != expected_fingerprint:
@@ -337,6 +380,77 @@ class AgenticEDAApprovalEngine:
 
         requested_name_set = set(requested_names)
         return [name for name in selected_names if name in requested_name_set]
+
+    @classmethod
+    def _validate_approved_checkpoint_decision(
+        cls,
+        checkpoint: AgenticEDAApprovalCheckpoint,
+    ) -> None:
+        approved_names = cls._approved_step_ids(
+            checkpoint=checkpoint,
+            approved_step_ids=checkpoint.approved_step_ids,
+        )
+
+        if tuple(approved_names) != checkpoint.approved_step_ids:
+            raise ValueError(
+                "Approved Agentic EDA step IDs must preserve the original "
+                "deterministic planner order."
+            )
+
+        approved_name_set = set(approved_names)
+        expected_rejected_names = tuple(
+            step.name
+            for step in checkpoint.eda_plan.selected_steps
+            if step.name not in approved_name_set
+        )
+
+        if checkpoint.rejected_step_ids != expected_rejected_names:
+            raise ValueError(
+                "Approved and rejected Agentic EDA step IDs do not match the "
+                "original deterministic plan."
+            )
+
+        cls._validate_approved_dependencies(
+            checkpoint=checkpoint,
+            approved_step_ids=approved_names,
+        )
+
+    @staticmethod
+    def _validate_approved_dependencies(
+        checkpoint: AgenticEDAApprovalCheckpoint,
+        approved_step_ids: Sequence[str],
+    ) -> None:
+        selected_steps = {step.name: step for step in checkpoint.eda_plan.selected_steps}
+        approved_name_set = set(approved_step_ids)
+        invalid_plan_dependencies: list[tuple[str, str]] = []
+        missing_dependencies: list[tuple[str, str]] = []
+
+        for step_id in approved_step_ids:
+            for dependency in selected_steps[step_id].dependencies:
+                if dependency not in selected_steps:
+                    invalid_plan_dependencies.append((step_id, dependency))
+                elif dependency not in approved_name_set:
+                    missing_dependencies.append((step_id, dependency))
+
+        if invalid_plan_dependencies:
+            details = ", ".join(
+                f"'{step_id}' requires unselected '{dependency}'"
+                for step_id, dependency in invalid_plan_dependencies
+            )
+            raise ValueError(
+                "The original deterministic plan contains unavailable " f"dependencies: {details}."
+            )
+
+        if missing_dependencies:
+            details = ", ".join(
+                f"'{step_id}' requires '{dependency}'"
+                for step_id, dependency in missing_dependencies
+            )
+            raise ValueError(
+                "approved_step_ids omit required dependencies: "
+                f"{details}. Include each dependency explicitly; dependencies "
+                "are never automatically approved."
+            )
 
     @staticmethod
     def _approved_plan(
@@ -429,14 +543,26 @@ def _snapshot_fingerprint(
     *,
     eda_result: EDAResult,
     eda_plan: EDAPlan,
+    approval_status: str,
+    approved_step_ids: Sequence[str],
+    rejected_step_ids: Sequence[str],
+    reviewer: str | None,
+    notes: str | None,
     config: AgenticEDAConfig,
     dataset_fingerprint: str,
+    deterministic_summary: str,
 ) -> str:
     payload = {
+        "approval_status": approval_status,
+        "approved_step_ids": list(approved_step_ids),
         "config": to_json_compatible(config),
         "dataset_fingerprint": dataset_fingerprint,
+        "deterministic_summary": deterministic_summary,
         "eda_plan": to_json_compatible(eda_plan),
         "eda_result": to_json_compatible(eda_result),
+        "notes": notes,
+        "rejected_step_ids": list(rejected_step_ids),
+        "reviewer": reviewer,
     }
     content = json.dumps(
         payload,

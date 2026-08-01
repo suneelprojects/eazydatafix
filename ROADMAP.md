@@ -38,6 +38,7 @@
 - [x] Human approval checkpoints for domain-dependent decisions
 - [x] Dataset fingerprint validation before approved execution
 - [x] Full-plan approval, subset approval, and explicit rejection
+- [x] Explicit dependency-completeness validation for subset approvals
 
 ## Version 0.1
 

@@ -77,7 +77,9 @@ Checkpoint preparation performs dataset understanding and planning only. It
 does not execute a plan step. `approved_step_ids=None` approves all originally
 selected steps; a supplied sequence may approve only a subset of those steps.
 Unknown, duplicate, and planner-skipped IDs are rejected. Planner ordering is
-preserved.
+preserved. Every dependency required by an approved step must also be listed
+explicitly; incomplete subsets fail approval and no dependency is approved
+implicitly.
 
 Use `edf.reject_agentic_eda_plan(...)` to record an explicit rejection. Pending
 and rejected checkpoints cannot be resumed. Resume verifies the deterministic

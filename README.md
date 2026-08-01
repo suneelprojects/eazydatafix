@@ -82,7 +82,8 @@ workflow = edf.resume_agentic_eda(
 `approved_step_ids=None` approves every step selected by the original
 deterministic plan. A supplied list approves only those originally selected
 steps, in planner order. Changed datasets fail fingerprint validation before
-execution.
+execution. Dependency steps must be included explicitly in subset approvals;
+missing dependencies fail approval and are never added automatically.
 
 This workflow:
 

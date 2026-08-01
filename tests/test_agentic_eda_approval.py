@@ -1,4 +1,5 @@
 import json
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -120,6 +121,42 @@ def test_subset_approval_preserves_original_plan_order() -> None:
     expected_rejected = tuple(name for name in selected_names if name not in requested_names)
     assert approved.approved_step_ids == expected_approved
     assert approved.rejected_step_ids == expected_rejected
+
+
+def test_subset_approval_rejects_missing_required_dependencies() -> None:
+    checkpoint = edf.prepare_agentic_eda_approval(_approval_dataset())
+
+    with pytest.raises(
+        ValueError,
+        match="omit required dependencies.*never automatically approved",
+    ):
+        edf.approve_agentic_eda_plan(
+            checkpoint,
+            approved_step_ids=["outlier_analysis"],
+            reviewer="Reviewer",
+        )
+
+
+def test_subset_approval_accepts_explicit_dependencies_in_planner_order() -> None:
+    dataset = _approval_dataset()
+    checkpoint = edf.prepare_agentic_eda_approval(dataset)
+
+    approved = edf.approve_agentic_eda_plan(
+        checkpoint,
+        approved_step_ids=[
+            "outlier_analysis",
+            "numeric_distribution_analysis",
+        ],
+        reviewer="Reviewer",
+    )
+    workflow = edf.resume_agentic_eda(dataset, approved)
+
+    assert approved.approved_step_ids == (
+        "numeric_distribution_analysis",
+        "outlier_analysis",
+    )
+    assert workflow.execution_result.execution_order == list(approved.approved_step_ids)
+    assert workflow.overall_status == "success"
 
 
 def test_approval_rejects_duplicate_step_ids() -> None:
@@ -313,11 +350,23 @@ def test_repeated_checkpoint_creation_is_deterministic_and_json_ready() -> None:
 
     first = edf.prepare_agentic_eda_approval(dataset)
     second = edf.prepare_agentic_eda_approval(dataset)
+    first_approved = edf.approve_agentic_eda_plan(
+        first,
+        reviewer="Reviewer",
+        notes="Approved deterministically.",
+    )
+    second_approved = edf.approve_agentic_eda_plan(
+        second,
+        reviewer="Reviewer",
+        notes="Approved deterministically.",
+    )
 
     assert first == second
     assert first.dataset_fingerprint == second.dataset_fingerprint
     assert json.loads(json.dumps(first.to_dict())) == first.to_dict()
     assert first.to_dict()["approved_step_ids"] == []
+    assert first_approved == second_approved
+    assert json.loads(json.dumps(first_approved.to_dict())) == first_approved.to_dict()
 
 
 def test_empty_subset_approval_executes_no_steps() -> None:
@@ -416,3 +465,19 @@ def test_nested_checkpoint_plan_mutation_is_rejected() -> None:
             checkpoint,
             reviewer="Reviewer",
         )
+
+
+def test_checkpoint_decision_field_tampering_is_rejected() -> None:
+    dataset = _approval_dataset()
+    checkpoint = edf.prepare_agentic_eda_approval(dataset)
+    selected_names = tuple(step.name for step in checkpoint.eda_plan.selected_steps)
+    forged = replace(
+        checkpoint,
+        approval_status="approved",
+        approved_step_ids=selected_names,
+        reviewer="Forged reviewer",
+        deterministic_summary="Forged approval decision.",
+    )
+
+    with pytest.raises(ValueError, match="snapshots were modified"):
+        edf.resume_agentic_eda(dataset, forged)

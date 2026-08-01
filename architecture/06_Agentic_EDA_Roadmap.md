@@ -76,11 +76,13 @@ and deterministic planning without executing analysis steps. The resulting
 configuration, reviewer decision fields, and a SHA-256 dataset fingerprint.
 
 Reviewers can approve all originally selected steps, approve a subset while
-preserving planner order, or reject the checkpoint explicitly. Resume accepts
-only approved checkpoints, verifies that the dataset fingerprint is unchanged,
-validates checkpoint snapshot integrity, and reuses the checkpoint's
-understanding and plan before invoking the existing executor and follow-up
-decision pipeline.
+preserving planner order, or reject the checkpoint explicitly. Subsets must
+list required dependencies explicitly; incomplete dependency sets fail before
+execution and dependencies are never added implicitly. Resume accepts only
+approved checkpoints, verifies that the dataset fingerprint is unchanged,
+validates all checkpoint snapshot and decision fields, and reuses the
+checkpoint's understanding and plan before invoking the existing executor and
+follow-up decision pipeline.
 
 The original `eazydatafix.run_agentic_eda(...)` one-call workflow remains
 unchanged for callers that do not require an approval gate.

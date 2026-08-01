@@ -168,6 +168,6 @@ All official root exports are declared in `eazydatafix.__all__`.
 
 ## Compatibility
 
-Version 0.3.0 preserves the public APIs available in 0.2.1 and adds the
-deterministic Agentic EDA workflow and reporting APIs without renaming existing
-functions.
+Version 0.4.0 preserves every public API available in 0.3.0 and adds
+deterministic notebook export and human approval checkpoint APIs without
+renaming existing functions.

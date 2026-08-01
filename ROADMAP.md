@@ -32,13 +32,15 @@
 - [x] Honest raw-data chart gating with supplied-dataset validation
 - [x] JSON-ready artifact tracking and partial-failure reporting
 
-### Next Milestone: Grounded Presentation and Export
+### Milestone 6: Notebook Export and Human Approval
 - [x] Notebook artifact export
-- [ ] Optional LLM narratives grounded exclusively in deterministic metrics
 - [x] Human approval checkpoints for domain-dependent decisions
 - [x] Dataset fingerprint validation before approved execution
 - [x] Full-plan approval, subset approval, and explicit rejection
 - [x] Explicit dependency-completeness validation for subset approvals
+
+### Next Milestone: Grounded Presentation
+- [ ] Optional LLM narratives grounded exclusively in deterministic metrics
 
 ## Version 0.1
 

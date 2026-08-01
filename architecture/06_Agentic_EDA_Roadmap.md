@@ -1,5 +1,8 @@
 # Agentic EDA Roadmap
 
+Deterministic notebook export and human approval checkpoints are delivered in
+EazyDataFix 0.4.0. The next milestone remains optional grounded presentation.
+
 ## Foundation: Deterministic EDA
 
 The first Agentic EDA milestone is deterministic. `eazydatafix.eda(...)` loads

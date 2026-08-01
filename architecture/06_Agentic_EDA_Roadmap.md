@@ -1,5 +1,8 @@
 # Agentic EDA Roadmap
 
+Deterministic notebook export and human approval checkpoints are delivered in
+EazyDataFix 0.4.0. The next milestone remains optional grounded presentation.
+
 ## Foundation: Deterministic EDA
 
 The first Agentic EDA milestone is deterministic. `eazydatafix.eda(...)` loads
@@ -60,10 +63,37 @@ workflow before use. Recommendations that cannot be represented honestly are
 recorded as skipped rather than fabricated. Successful artifacts survive
 independent renderer or chart failures.
 
-## Next Milestone: Grounded Presentation and Export
+## Milestone 6: Deterministic Notebook Export
 
-The next phase will add notebook artifacts and explicit human checkpoints for
-domain-dependent decisions.
+`eazydatafix.export_agentic_eda_notebook(...)` creates an unexecuted,
+ready-to-run notebook-format v4 artifact with stable cells for dataset loading,
+understanding, planning, execution, orchestration, findings, and report export.
+DataFrame inputs receive a deterministic JSON companion file, and notebook
+generation requires no Jupyter runtime dependency.
+
+## Milestone 7: Human Approval Checkpoints
+
+`eazydatafix.prepare_agentic_eda_approval(...)` performs dataset understanding
+and deterministic planning without executing analysis steps. The resulting
+`AgenticEDAApprovalCheckpoint` preserves the original EDA result, plan,
+configuration, reviewer decision fields, and a SHA-256 dataset fingerprint.
+
+Reviewers can approve all originally selected steps, approve a subset while
+preserving planner order, or reject the checkpoint explicitly. Subsets must
+list required dependencies explicitly; incomplete dependency sets fail before
+execution and dependencies are never added implicitly. Resume accepts only
+approved checkpoints, verifies that the dataset fingerprint is unchanged,
+validates all checkpoint snapshot and decision fields, and reuses the
+checkpoint's understanding and plan before invoking the existing executor and
+follow-up decision pipeline.
+
+The original `eazydatafix.run_agentic_eda(...)` one-call workflow remains
+unchanged for callers that do not require an approval gate.
+
+## Next Milestone: Grounded Presentation
+
+The next phase will build optional presentation capabilities on deterministic
+workflow outputs without changing calculated metrics.
 
 ## Future Milestone: LLM Narratives
 

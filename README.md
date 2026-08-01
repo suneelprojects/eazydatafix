@@ -18,7 +18,8 @@ planning, modular execution, traceable findings, and reproducible reporting.
 The same package also supports data-quality assessment, validation, cleaning,
 preparation, and exploratory data analysis.
 
-> EazyDataFix v0.3.0 completes the deterministic Agentic EDA foundation.
+> EazyDataFix v0.4.0 adds reproducible notebook export and explicit human
+> approval checkpoints to the deterministic Agentic EDA workflow.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -43,6 +44,47 @@ print(workflow.priority_findings)
 print(workflow.follow_up_actions)
 print(report.generated_files)
 ```
+
+Export the same deterministic workflow as a ready-to-run Jupyter Notebook:
+
+```python
+notebook = edf.export_agentic_eda_notebook(
+    workflow,
+    dataset="employees.csv",
+    output_path="agentic-eda.ipynb",
+)
+
+print(notebook.generated_files)
+```
+
+Notebook generation uses the Python standard library and does not require
+Jupyter or `nbformat`. DataFrame inputs produce a deterministic JSON companion
+file so the notebook can reload the original analytical dataset.
+
+Require explicit human approval between planning and execution when needed:
+
+```python
+checkpoint = edf.prepare_agentic_eda_approval("employees.csv")
+
+# Review checkpoint.eda_result and checkpoint.eda_plan before approving.
+approved_checkpoint = edf.approve_agentic_eda_plan(
+    checkpoint,
+    approved_step_ids=None,
+    reviewer="Suneel Kumar Kola",
+    notes="Approved for execution",
+)
+
+workflow = edf.resume_agentic_eda(
+    "employees.csv",
+    approved_checkpoint,
+)
+```
+
+`approved_step_ids=None` approves every step selected by the original
+deterministic plan. A supplied list approves only those originally selected
+steps, in planner order. Changed datasets fail fingerprint validation before
+execution. Dependency steps must be included explicitly in subset approvals;
+missing dependencies fail approval and are never added automatically.
 
 This workflow:
 
@@ -84,7 +126,7 @@ Caller DataFrames are not mutated by the deterministic EDA workflow.
 
 ### AI Optional
 
-v0.3.0 does not require an LLM. Optional grounded narratives are planned for a
+v0.4.0 does not require an LLM. Optional grounded narratives are planned for a
 future release.
 
 ## Workflow
@@ -133,6 +175,8 @@ flowchart LR
 - Visualisation recommendations
 - Unresolved domain questions
 - Partial-failure isolation
+- Human approval checkpoints between planning and execution
+- Dataset fingerprint validation before approved execution
 
 ### Reporting
 
@@ -144,6 +188,7 @@ flowchart LR
 - JSON
 - Markdown
 - Deterministic PNG visualisations
+- Ready-to-run Jupyter Notebook export
 
 ### Input Support
 
@@ -198,7 +243,12 @@ visualisation recommendations.
 | `edf.plan_eda(...)` | Select and explain relevant follow-up analyses. |
 | `edf.execute_eda(...)` | Execute selected deterministic analysis steps. |
 | `edf.run_agentic_eda(...)` | Run understanding, planning, execution, and follow-up decisions. |
+| `edf.prepare_agentic_eda_approval(...)` | Prepare understanding and planning without executing analysis steps. |
+| `edf.approve_agentic_eda_plan(...)` | Approve all or selected originally planned steps. |
+| `edf.reject_agentic_eda_plan(...)` | Explicitly reject a pending analysis plan. |
+| `edf.resume_agentic_eda(...)` | Resume an approved plan after dataset fingerprint validation. |
 | `edf.export_agentic_eda_report(...)` | Export Agentic EDA reports and recommended visualisations. |
+| `edf.export_agentic_eda_notebook(...)` | Export a reproducible, ready-to-run Jupyter Notebook. |
 | `edf.fix(...)` | Apply the existing configurable dataset-cleaning pipeline. |
 | `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
 | `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
@@ -220,7 +270,7 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v0.3.0
+- Current stable version: v0.4.0
 - Development status: Beta
 - Python support: 3.10–3.13
 - Licence: MIT
@@ -230,7 +280,7 @@ The public API may continue evolving before v1.0.
 ## Roadmap preview
 
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
-- **v0.4.0 — Notebook Export and Human Approval — Next**
+- **v0.4.0 — Notebook Export and Human Approval — Released**
 - **v0.5.0 — Optional Grounded AI Narratives — Planned**
 - **v1.0.0 — Stable Production API — Goal**
 

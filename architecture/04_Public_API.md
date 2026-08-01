@@ -48,6 +48,46 @@ The workflow does not call an LLM. It retains the EDA result, analysis plan,
 execution result, priority findings, follow-up actions, recommended
 visualisations, unresolved questions, warnings, summary, and overall status.
 
+## Agentic EDA Human Approval
+
+Use the explicit two-phase API when a human must review the deterministic plan
+before analysis execution:
+
+```python
+checkpoint = edf.prepare_agentic_eda_approval(
+    "employees.csv",
+    config=edf.AgenticEDAConfig(),
+)
+
+# Review checkpoint.eda_result and checkpoint.eda_plan.
+approved_checkpoint = edf.approve_agentic_eda_plan(
+    checkpoint,
+    approved_step_ids=None,
+    reviewer="Suneel Kumar Kola",
+    notes="Approved for execution",
+)
+
+workflow = edf.resume_agentic_eda(
+    "employees.csv",
+    approved_checkpoint,
+)
+```
+
+Checkpoint preparation performs dataset understanding and planning only. It
+does not execute a plan step. `approved_step_ids=None` approves all originally
+selected steps; a supplied sequence may approve only a subset of those steps.
+Unknown, duplicate, and planner-skipped IDs are rejected. Planner ordering is
+preserved. Every dependency required by an approved step must also be listed
+explicitly; incomplete subsets fail approval and no dependency is approved
+implicitly.
+
+Use `edf.reject_agentic_eda_plan(...)` to record an explicit rejection. Pending
+and rejected checkpoints cannot be resumed. Resume verifies the deterministic
+dataset fingerprint and checkpoint snapshot integrity, reuses the checkpoint's
+EDA result and approved plan, and returns the existing `AgenticEDAResult` type.
+`edf.run_agentic_eda(...)` retains its original one-call behaviour and return
+type.
+
 ## Agentic EDA Reporting
 
 ```python
@@ -63,6 +103,35 @@ HTML and JSON are default formats. Markdown is optional. The dataset argument
 is optional and is used only for chart types that honestly require raw
 observations.
 
+## Agentic EDA Notebook Export
+
+```python
+notebook = edf.export_agentic_eda_notebook(
+    workflow,
+    dataset="employees.csv",
+    output_path="agentic-eda.ipynb",
+)
+```
+
+The exporter creates an unexecuted notebook-format v4 document with stable
+Markdown and code cells for each deterministic workflow stage. File inputs use
+a portable relative reference with an original-path fallback. DataFrame inputs
+produce a deterministic JSON companion file beside the notebook.
+
+Pass the same `AgenticEDAConfig` used to create a customised workflow when its
+settings must be reproduced explicitly in the notebook:
+
+```python
+notebook = edf.export_agentic_eda_notebook(
+    workflow,
+    dataset=dataframe,
+    output_path="agentic-eda.ipynb",
+    config=config,
+)
+```
+
+Notebook generation does not require Jupyter or `nbformat`.
+
 ## Supported Inputs
 
 - pandas DataFrame
@@ -76,6 +145,8 @@ All supported sources route through the shared datasource loading system.
 ## Public Result and Configuration Models
 
 - `AgenticEDAConfig`
+- `AgenticEDAApprovalCheckpoint`
+- `AgenticEDANotebookResult`
 - `AgenticEDAResult`
 - `AgenticEDAReportResult`
 - `EDAResult`
@@ -97,6 +168,6 @@ All official root exports are declared in `eazydatafix.__all__`.
 
 ## Compatibility
 
-Version 0.3.0 preserves the public APIs available in 0.2.1 and adds the
-deterministic Agentic EDA workflow and reporting APIs without renaming existing
-functions.
+Version 0.4.0 preserves every public API available in 0.3.0 and adds
+deterministic notebook export and human approval checkpoint APIs without
+renaming existing functions.

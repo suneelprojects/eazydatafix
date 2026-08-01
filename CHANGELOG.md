@@ -12,6 +12,10 @@ https://semver.org/
 
 ## [Unreleased]
 
+---
+
+## [0.4.0] - 2026-08-01
+
 ### Added
 
 - Two-phase human approval checkpoints through
@@ -47,6 +51,11 @@ https://semver.org/
   directories or files are created.
 - Notebook export copies DataFrame inputs and does not mutate caller-owned
   datasets or workflow results.
+
+### Compatibility
+
+- No existing public APIs were removed or renamed.
+- Version 0.4.0 supports Python 3.10–3.13.
 
 ---
 

@@ -3,7 +3,7 @@ from eazydatafix._version import __version__ as package_version
 
 
 def test_release_version_has_one_public_value() -> None:
-    assert package_version == "0.3.0"
+    assert package_version == "0.4.0"
     assert edf.__version__ == package_version
 
 

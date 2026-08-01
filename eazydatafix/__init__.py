@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 from ._version import __version__
-from .agentic_eda import AgenticEDAOrchestrator
+from .agentic_eda import AgenticEDAApprovalEngine, AgenticEDAOrchestrator
 from .assessment.ai_readiness import AIReadinessEngine
 from .assessment.eda import EDAEngine
 from .assessment.eda_execution import EDAExecutor
@@ -13,6 +13,9 @@ from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
 from .console_report import Report
 from .fix.engine import FixEngine
+from .models.agentic_eda_approval_checkpoint import (
+    AgenticEDAApprovalCheckpoint,
+)
 from .models.agentic_eda_config import AgenticEDAConfig
 from .models.agentic_eda_notebook_result import AgenticEDANotebookResult
 from .models.agentic_eda_report_result import (
@@ -47,6 +50,8 @@ from .reporting.agentic_eda import (
 
 __all__ = [
     "__version__",
+    "AgenticEDAApprovalCheckpoint",
+    "AgenticEDAApprovalEngine",
     "AgenticEDAConfig",
     "AgenticEDANotebookExporter",
     "AgenticEDANotebookResult",
@@ -81,6 +86,7 @@ __all__ = [
     "UnresolvedQuestion",
     "VisualisationRecommendation",
     "analysis_ready",
+    "approve_agentic_eda_plan",
     "assess_ai_readiness",
     "assess",
     "eda",
@@ -90,8 +96,11 @@ __all__ = [
     "fix",
     "plan_eda",
     "prepare",
+    "prepare_agentic_eda_approval",
     "profile",
     "run_agentic_eda",
+    "reject_agentic_eda_plan",
+    "resume_agentic_eda",
 ]
 
 
@@ -221,6 +230,112 @@ def run_agentic_eda(
     """
     orchestrator = AgenticEDAOrchestrator()
     return orchestrator.run(dataset=dataset, config=config)
+
+
+def prepare_agentic_eda_approval(
+    dataset: str | Path | pd.DataFrame,
+    config: AgenticEDAConfig | None = None,
+) -> AgenticEDAApprovalCheckpoint:
+    """
+    Prepare dataset understanding and an EDA plan for human approval.
+
+    No selected analysis step is executed while preparing the checkpoint.
+
+    Args:
+        dataset: A DataFrame or path supported by EazyDataFix data sources.
+        config: Optional deterministic thresholds and feature toggles.
+
+    Returns:
+        A pending AgenticEDAApprovalCheckpoint.
+
+    Raises:
+        TypeError: If config is not an AgenticEDAConfig or None.
+    """
+    engine = AgenticEDAApprovalEngine()
+    return engine.prepare(dataset=dataset, config=config)
+
+
+def approve_agentic_eda_plan(
+    checkpoint: AgenticEDAApprovalCheckpoint,
+    approved_step_ids: Sequence[str] | None = None,
+    *,
+    reviewer: str,
+    notes: str | None = None,
+) -> AgenticEDAApprovalCheckpoint:
+    """
+    Approve all or selected deterministic EDA plan steps.
+
+    Args:
+        checkpoint: A pending approval checkpoint.
+        approved_step_ids: Selected step IDs to approve, or None for all.
+        reviewer: Non-empty reviewer name or identifier.
+        notes: Optional approval notes.
+
+    Returns:
+        A new approved AgenticEDAApprovalCheckpoint.
+
+    Raises:
+        TypeError: If an argument has an invalid type.
+        ValueError: If the checkpoint or requested step IDs are invalid.
+    """
+    engine = AgenticEDAApprovalEngine()
+    return engine.approve(
+        checkpoint=checkpoint,
+        approved_step_ids=approved_step_ids,
+        reviewer=reviewer,
+        notes=notes,
+    )
+
+
+def reject_agentic_eda_plan(
+    checkpoint: AgenticEDAApprovalCheckpoint,
+    *,
+    reviewer: str,
+    notes: str | None = None,
+) -> AgenticEDAApprovalCheckpoint:
+    """
+    Reject every selected step in a pending Agentic EDA checkpoint.
+
+    Args:
+        checkpoint: A pending approval checkpoint.
+        reviewer: Non-empty reviewer name or identifier.
+        notes: Optional rejection notes.
+
+    Returns:
+        A new rejected AgenticEDAApprovalCheckpoint.
+
+    Raises:
+        TypeError: If an argument has an invalid type.
+        ValueError: If the checkpoint was already reviewed.
+    """
+    engine = AgenticEDAApprovalEngine()
+    return engine.reject(
+        checkpoint=checkpoint,
+        reviewer=reviewer,
+        notes=notes,
+    )
+
+
+def resume_agentic_eda(
+    dataset: str | Path | pd.DataFrame,
+    checkpoint: AgenticEDAApprovalCheckpoint,
+) -> AgenticEDAResult:
+    """
+    Resume execution from an approved Agentic EDA checkpoint.
+
+    Args:
+        dataset: Dataset that must match the checkpoint fingerprint.
+        checkpoint: An approved checkpoint created for the dataset.
+
+    Returns:
+        The existing complete AgenticEDAResult workflow type.
+
+    Raises:
+        TypeError: If checkpoint has an invalid type.
+        ValueError: If approval is absent or the dataset has changed.
+    """
+    engine = AgenticEDAApprovalEngine()
+    return engine.resume(dataset=dataset, checkpoint=checkpoint)
 
 
 def export_agentic_eda_notebook(

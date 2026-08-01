@@ -60,6 +60,31 @@ Notebook generation uses the Python standard library and does not require
 Jupyter or `nbformat`. DataFrame inputs produce a deterministic JSON companion
 file so the notebook can reload the original analytical dataset.
 
+Require explicit human approval between planning and execution when needed:
+
+```python
+checkpoint = edf.prepare_agentic_eda_approval("employees.csv")
+
+# Review checkpoint.eda_result and checkpoint.eda_plan before approving.
+approved_checkpoint = edf.approve_agentic_eda_plan(
+    checkpoint,
+    approved_step_ids=None,
+    reviewer="Suneel Kumar Kola",
+    notes="Approved for execution",
+)
+
+workflow = edf.resume_agentic_eda(
+    "employees.csv",
+    approved_checkpoint,
+)
+```
+
+`approved_step_ids=None` approves every step selected by the original
+deterministic plan. A supplied list approves only those originally selected
+steps, in planner order. Changed datasets fail fingerprint validation before
+execution. Dependency steps must be included explicitly in subset approvals;
+missing dependencies fail approval and are never added automatically.
+
 This workflow:
 
 1. Understands the dataset
@@ -149,6 +174,8 @@ flowchart LR
 - Visualisation recommendations
 - Unresolved domain questions
 - Partial-failure isolation
+- Human approval checkpoints between planning and execution
+- Dataset fingerprint validation before approved execution
 
 ### Reporting
 
@@ -215,6 +242,10 @@ visualisation recommendations.
 | `edf.plan_eda(...)` | Select and explain relevant follow-up analyses. |
 | `edf.execute_eda(...)` | Execute selected deterministic analysis steps. |
 | `edf.run_agentic_eda(...)` | Run understanding, planning, execution, and follow-up decisions. |
+| `edf.prepare_agentic_eda_approval(...)` | Prepare understanding and planning without executing analysis steps. |
+| `edf.approve_agentic_eda_plan(...)` | Approve all or selected originally planned steps. |
+| `edf.reject_agentic_eda_plan(...)` | Explicitly reject a pending analysis plan. |
+| `edf.resume_agentic_eda(...)` | Resume an approved plan after dataset fingerprint validation. |
 | `edf.export_agentic_eda_report(...)` | Export Agentic EDA reports and recommended visualisations. |
 | `edf.export_agentic_eda_notebook(...)` | Export a reproducible, ready-to-run Jupyter Notebook. |
 | `edf.fix(...)` | Apply the existing configurable dataset-cleaning pipeline. |

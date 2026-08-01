@@ -35,7 +35,10 @@
 ### Next Milestone: Grounded Presentation and Export
 - [x] Notebook artifact export
 - [ ] Optional LLM narratives grounded exclusively in deterministic metrics
-- [ ] Human approval checkpoints for domain-dependent decisions
+- [x] Human approval checkpoints for domain-dependent decisions
+- [x] Dataset fingerprint validation before approved execution
+- [x] Full-plan approval, subset approval, and explicit rejection
+- [x] Explicit dependency-completeness validation for subset approvals
 
 ## Version 0.1
 

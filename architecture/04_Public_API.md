@@ -48,6 +48,46 @@ The workflow does not call an LLM. It retains the EDA result, analysis plan,
 execution result, priority findings, follow-up actions, recommended
 visualisations, unresolved questions, warnings, summary, and overall status.
 
+## Agentic EDA Human Approval
+
+Use the explicit two-phase API when a human must review the deterministic plan
+before analysis execution:
+
+```python
+checkpoint = edf.prepare_agentic_eda_approval(
+    "employees.csv",
+    config=edf.AgenticEDAConfig(),
+)
+
+# Review checkpoint.eda_result and checkpoint.eda_plan.
+approved_checkpoint = edf.approve_agentic_eda_plan(
+    checkpoint,
+    approved_step_ids=None,
+    reviewer="Suneel Kumar Kola",
+    notes="Approved for execution",
+)
+
+workflow = edf.resume_agentic_eda(
+    "employees.csv",
+    approved_checkpoint,
+)
+```
+
+Checkpoint preparation performs dataset understanding and planning only. It
+does not execute a plan step. `approved_step_ids=None` approves all originally
+selected steps; a supplied sequence may approve only a subset of those steps.
+Unknown, duplicate, and planner-skipped IDs are rejected. Planner ordering is
+preserved. Every dependency required by an approved step must also be listed
+explicitly; incomplete subsets fail approval and no dependency is approved
+implicitly.
+
+Use `edf.reject_agentic_eda_plan(...)` to record an explicit rejection. Pending
+and rejected checkpoints cannot be resumed. Resume verifies the deterministic
+dataset fingerprint and checkpoint snapshot integrity, reuses the checkpoint's
+EDA result and approved plan, and returns the existing `AgenticEDAResult` type.
+`edf.run_agentic_eda(...)` retains its original one-call behaviour and return
+type.
+
 ## Agentic EDA Reporting
 
 ```python
@@ -105,6 +145,7 @@ All supported sources route through the shared datasource loading system.
 ## Public Result and Configuration Models
 
 - `AgenticEDAConfig`
+- `AgenticEDAApprovalCheckpoint`
 - `AgenticEDANotebookResult`
 - `AgenticEDAResult`
 - `AgenticEDAReportResult`

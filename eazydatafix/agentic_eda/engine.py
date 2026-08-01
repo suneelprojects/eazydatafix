@@ -9,6 +9,8 @@ from eazydatafix.assessment.eda_execution.registry import default_handlers
 from eazydatafix.assessment.eda_planner import EDAPlanner
 from eazydatafix.models.agentic_eda_config import AgenticEDAConfig
 from eazydatafix.models.agentic_eda_result import AgenticEDAResult
+from eazydatafix.models.eda_plan import EDAPlan
+from eazydatafix.models.eda_result import EDAResult
 
 
 class AgenticEDAOrchestrator:
@@ -62,11 +64,27 @@ class AgenticEDAOrchestrator:
         selected_config = self._validate_config(config)
         eda_result = self._eda_engine.analyze(dataset)
         eda_plan = self._planner.plan(eda_result)
+
+        return self._complete_planned_workflow(
+            dataset=dataset,
+            eda_result=eda_result,
+            eda_plan=eda_plan,
+            config=selected_config,
+        )
+
+    def _complete_planned_workflow(
+        self,
+        dataset: str | Path | pd.DataFrame,
+        eda_result: EDAResult,
+        eda_plan: EDAPlan,
+        config: AgenticEDAConfig,
+    ) -> AgenticEDAResult:
+        """Execute and finalise an already understood and planned workflow."""
         executor = self._executor or EDAExecutor(
             handlers=default_handlers(
-                correlation_threshold=selected_config.correlation_threshold,
-                outlier_iqr_multiplier=selected_config.outlier_iqr_multiplier,
-                class_imbalance_threshold=selected_config.class_imbalance_threshold,
+                correlation_threshold=config.correlation_threshold,
+                outlier_iqr_multiplier=config.outlier_iqr_multiplier,
+                class_imbalance_threshold=config.class_imbalance_threshold,
             )
         )
         execution_result = executor.execute(
@@ -76,7 +94,7 @@ class AgenticEDAOrchestrator:
         )
         decisions = self._decision_engine.generate(
             execution=execution_result,
-            config=selected_config,
+            config=config,
         )
         warnings = list(execution_result.warnings)
 
@@ -108,13 +126,10 @@ class AgenticEDAOrchestrator:
     def _validate_config(
         config: AgenticEDAConfig | None,
     ) -> AgenticEDAConfig:
-        if config is None:
-            return AgenticEDAConfig()
-
-        if not isinstance(config, AgenticEDAConfig):
-            raise TypeError("run_agentic_eda() config must be an AgenticEDAConfig or None.")
-
-        return config
+        return _validate_agentic_eda_config(
+            config,
+            function_name="run_agentic_eda",
+        )
 
     @staticmethod
     def _summary(
@@ -131,3 +146,17 @@ class AgenticEDAOrchestrator:
             f"{visualisation_count} visualisation recommendation(s), and "
             f"{question_count} unresolved question(s)."
         )
+
+
+def _validate_agentic_eda_config(
+    config: AgenticEDAConfig | None,
+    *,
+    function_name: str,
+) -> AgenticEDAConfig:
+    if config is None:
+        return AgenticEDAConfig()
+
+    if not isinstance(config, AgenticEDAConfig):
+        raise TypeError(f"{function_name}() config must be an AgenticEDAConfig or None.")
+
+    return config

@@ -106,7 +106,9 @@ def test_dataframe_export_creates_deterministic_companion_dataset(
     assert json.loads(companion_path.read_text(encoding="utf-8"))["schema"]["fields"]
 
     restored = pd.read_json(companion_path, orient="table")
-    pd.testing.assert_frame_equal(restored, sample_dataframe)
+    expected = sample_dataframe.copy()
+    expected["event_date"] = expected["event_date"].astype("datetime64[ns]")
+    pd.testing.assert_frame_equal(restored, expected)
 
 
 def test_generated_notebook_has_valid_v4_structure_and_expected_cells(

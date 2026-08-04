@@ -18,9 +18,10 @@ planning, modular execution, traceable findings, and reproducible reporting.
 The same package also supports data-quality assessment, validation, cleaning,
 preparation, and exploratory data analysis.
 
+> EazyDataFix v0.4.0 added reproducible notebook export and explicit human
+> approval checkpoints and remains the latest stable release.
 > The v0.5.0 development branch adds optional evidence-cited AI narratives to
-> completed deterministic Agentic EDA workflows. The current release remains
-> v0.4.0.
+> completed deterministic Agentic EDA workflows.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -127,9 +128,10 @@ Caller DataFrames are not mutated by the deterministic EDA workflow.
 
 ### AI Optional
 
-The deterministic workflow does not require an LLM. Optional grounded narratives
-use a provider adapter; existing workflows continue to run without an API key
-or AI dependency.
+The current v0.4.0 release and the deterministic workflow do not require an LLM.
+The v0.5.0 development branch adds optional grounded narratives through a
+provider adapter; existing workflows continue to run without an API key or AI
+dependency.
 
 ## Optional grounded AI narrative
 

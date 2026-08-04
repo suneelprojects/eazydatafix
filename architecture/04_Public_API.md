@@ -103,6 +103,24 @@ HTML and JSON are default formats. Markdown is optional. The dataset argument
 is optional and is used only for chart types that honestly require raw
 observations.
 
+## Optional Grounded AI Narrative
+
+Generate a presentation only after the deterministic workflow is complete:
+
+```python
+from eazydatafix.narratives import OpenAINarrativeProvider
+
+provider = OpenAINarrativeProvider(model="your-openai-model")
+narrative = edf.generate_agentic_eda_narrative(workflow, provider)
+```
+
+Providers receive only the compact deterministic evidence brief. Each generated
+claim must cite supplied evidence IDs; invalid, uncited, or unsupported claims
+are rejected. Pass the resulting object to
+`edf.export_agentic_eda_report(..., narrative=narrative)` to include it in HTML,
+JSON, and Markdown reports. Install the OpenAI adapter only when required with
+`pip install "eazydatafix[openai]"`.
+
 ## Agentic EDA Notebook Export
 
 ```python
@@ -147,6 +165,8 @@ All supported sources route through the shared datasource loading system.
 - `AgenticEDAConfig`
 - `AgenticEDAApprovalCheckpoint`
 - `AgenticEDANotebookResult`
+- `AgenticEDANarrative` and `AgenticEDANarrativeConfig`
+- `NarrativeClaim` and `NarrativeEvidence`
 - `AgenticEDAResult`
 - `AgenticEDAReportResult`
 - `EDAResult`

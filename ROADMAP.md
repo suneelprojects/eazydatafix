@@ -40,7 +40,7 @@
 - [x] Explicit dependency-completeness validation for subset approvals
 
 ### Next Milestone: Grounded Presentation
-- [ ] Optional LLM narratives grounded exclusively in deterministic metrics
+- [x] Optional LLM narratives grounded exclusively in deterministic metrics
 
 ## Version 0.1
 

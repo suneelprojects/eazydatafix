@@ -8,6 +8,7 @@ from eazydatafix.assessment.eda_validation import (
     validate_eda_result,
 )
 from eazydatafix.models.agentic_eda_report_result import AgenticEDAReportResult
+from eazydatafix.models.agentic_eda_narrative import AgenticEDANarrative
 from eazydatafix.models.agentic_eda_result import AgenticEDAResult
 from eazydatafix.reporting.agentic_eda.charts import ChartContext, ChartRegistry
 from eazydatafix.reporting.agentic_eda.paths import safe_artifact_path
@@ -60,6 +61,7 @@ class AgenticEDAReportExporter:
         dataset: str | Path | pd.DataFrame | None = None,
         output_dir: str | Path = "eazydatafix-report",
         formats: Sequence[str] | None = None,
+        narrative: AgenticEDANarrative | None = None,
     ) -> AgenticEDAReportResult:
         """
         Export deterministic human-readable and JSON-ready report artifacts.
@@ -79,6 +81,9 @@ class AgenticEDAReportExporter:
         """
         if not isinstance(workflow, AgenticEDAResult):
             raise TypeError("export_agentic_eda_report() workflow must be an AgenticEDAResult.")
+
+        if narrative is not None and not isinstance(narrative, AgenticEDANarrative):
+            raise TypeError("narrative must be an AgenticEDANarrative or None.")
 
         selected_formats = self._normalise_formats(formats)
         dataframe = self._validated_dataframe(dataset, workflow)
@@ -104,6 +109,7 @@ class AgenticEDAReportExporter:
             workflow=workflow,
             formats=selected_formats,
             dataset_supplied=dataframe is not None,
+            narrative_included=narrative is not None,
         )
 
         non_json_formats = [
@@ -120,6 +126,7 @@ class AgenticEDAReportExporter:
                 ),
                 warnings=warnings,
                 metadata=metadata,
+                narrative=narrative,
             )
 
             if self._render_file(renderer, context, output_directory, warnings):
@@ -136,6 +143,7 @@ class AgenticEDAReportExporter:
                 generated_files=expected_files,
                 warnings=warnings,
                 metadata=metadata,
+                narrative=narrative,
             )
 
             if self._render_file(renderer, context, output_directory, warnings):
@@ -249,6 +257,7 @@ class AgenticEDAReportExporter:
         workflow: AgenticEDAResult,
         formats: list[str],
         dataset_supplied: bool,
+        narrative_included: bool,
     ) -> dict[str, object]:
         return {
             "report_schema_version": 1,
@@ -258,6 +267,7 @@ class AgenticEDAReportExporter:
             "column_names": list(workflow.eda_result.column_names),
             "formats": list(formats),
             "dataset_supplied_for_raw_charts": dataset_supplied,
+            "optional_ai_narrative_included": narrative_included,
         }
 
     @staticmethod
@@ -267,6 +277,7 @@ class AgenticEDAReportExporter:
         generated_files: list[str],
         warnings: list[str],
         metadata: dict[str, object],
+        narrative: AgenticEDANarrative | None,
     ) -> ReportRenderContext:
         return ReportRenderContext(
             workflow=workflow,
@@ -275,6 +286,7 @@ class AgenticEDAReportExporter:
             generated_files=generated_files,
             warnings=list(warnings),
             reproducibility_metadata=metadata,
+            narrative=narrative,
         )
 
     @staticmethod

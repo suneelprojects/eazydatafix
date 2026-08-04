@@ -52,6 +52,7 @@ dependencies = [
 
 [project.optional-dependencies]
 parquet = ["pyarrow>=14.0.0"]
+openai = ["openai>=1.0.0"]
 
 [project.urls]
 Homepage = "https://eazydatafix.com"

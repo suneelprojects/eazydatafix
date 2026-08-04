@@ -10,7 +10,27 @@ https://semver.org/
 
 ---
 
-## [Unreleased]
+## [0.5.0] - 2026-08-04
+
+### Added
+
+- Optional grounded AI narratives through
+  `edf.generate_agentic_eda_narrative(...)`.
+- Provider-neutral narrative adapter contract and optional OpenAI Responses API
+  adapter, installable with `eazydatafix[openai]`.
+- JSON-ready `AgenticEDANarrative`, `NarrativeClaim`, `NarrativeEvidence`, and
+  `AgenticEDANarrativeConfig` models.
+- Optional inclusion of an already validated narrative in Agentic EDA HTML,
+  JSON, and Markdown reports.
+
+### Reliability
+
+- Narrative providers receive only compact evidence from a completed
+  deterministic workflow, never the raw dataset.
+- Every generated narrative claim must cite supplied deterministic evidence.
+  Invalid JSON, uncited claims, duplicate citations, unknown citations, and
+  over-limit sections fail with explicit errors.
+- Narrative generation never reruns or modifies the deterministic workflow.
 
 ---
 

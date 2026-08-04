@@ -90,10 +90,19 @@ follow-up decision pipeline.
 The original `eazydatafix.run_agentic_eda(...)` one-call workflow remains
 unchanged for callers that do not require an approval gate.
 
-## Next Milestone: Grounded Presentation
+## Milestone 8: Grounded Presentation
 
-The next phase will build optional presentation capabilities on deterministic
-workflow outputs without changing calculated metrics.
+`eazydatafix.generate_agentic_eda_narrative(...)` builds an optional
+business-facing presentation from a completed deterministic workflow without
+changing calculated metrics. Providers receive only a compact deterministic
+evidence brief, never the raw dataset. Every generated claim must cite supplied
+evidence IDs; malformed, uncited, duplicate, or unknown citations fail before a
+narrative result is returned. The resulting JSON-ready narrative can be included
+in HTML, JSON, and Markdown Agentic EDA reports.
+
+The built-in OpenAI Responses API adapter is optional and installed through
+`eazydatafix[openai]`. No API key or AI dependency is required for deterministic
+EDA, reports, notebooks, or approval checkpoints.
 
 ## Future Milestone: LLM Narratives
 

@@ -67,6 +67,7 @@ class AgenticEDAHTMLRenderer(AgenticEDAReportRenderer):
         )
         sections.extend(
             [
+                self._narrative(context),
                 self._records_section(
                     "Priority findings",
                     context.workflow.priority_findings,
@@ -153,6 +154,29 @@ class AgenticEDAHTMLRenderer(AgenticEDAReportRenderer):
 
         return self._json_section(title, output)
 
+    def _narrative(
+        self,
+        context: ReportRenderContext,
+    ) -> str:
+        narrative = context.narrative
+
+        if narrative is None:
+            return ""
+
+        return (
+            "<section><h2>Grounded AI narrative</h2>"
+            f'<p class="muted">{self._escape(narrative.grounding_notice)}</p>'
+            "<h3>Summary</h3>"
+            f"{self._claim(narrative.summary)}"
+            "<h3>Key findings</h3>"
+            f"{self._claims(narrative.findings)}"
+            "<h3>Recommended next steps</h3>"
+            f"{self._claims(narrative.next_steps)}"
+            "<h3>Unresolved questions</h3>"
+            f"{self._claims(narrative.unresolved_questions)}"
+            "</section>"
+        )
+
     def _records_section(
         self,
         title: str,
@@ -171,6 +195,18 @@ class AgenticEDAHTMLRenderer(AgenticEDAReportRenderer):
             )
 
         return f"<section><h2>{self._escape(title)}</h2>{content}</section>"
+
+    def _claim(self, claim: Any) -> str:
+        return (
+            f"<p>{self._escape(claim.text)}</p>"
+            f'<p class="muted">Evidence: {self._escape(", ".join(claim.evidence_ids))}</p>'
+        )
+
+    def _claims(self, claims: list[Any]) -> str:
+        if not claims:
+            return '<p class="muted">None.</p>'
+
+        return "".join(self._claim(claim) for claim in claims)
 
     def _visualisations(
         self,

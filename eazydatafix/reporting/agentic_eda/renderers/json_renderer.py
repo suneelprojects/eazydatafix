@@ -20,6 +20,9 @@ class AgenticEDAJSONRenderer(AgenticEDAReportRenderer):
         """Render standard-library JSON with stable keys and indentation."""
         payload = {
             "workflow": context.workflow.to_dict(),
+            "grounded_narrative": (
+                context.narrative.to_dict() if context.narrative is not None else None
+            ),
             "report_artifacts": {
                 "output_directory": ".",
                 "generated_files": context.generated_files,

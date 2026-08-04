@@ -18,8 +18,8 @@ planning, modular execution, traceable findings, and reproducible reporting.
 The same package also supports data-quality assessment, validation, cleaning,
 preparation, and exploratory data analysis.
 
-> EazyDataFix v0.4.0 adds reproducible notebook export and explicit human
-> approval checkpoints to the deterministic Agentic EDA workflow.
+> EazyDataFix v0.5.0 adds optional grounded AI narratives to completed
+> deterministic Agentic EDA workflows.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -126,8 +126,39 @@ Caller DataFrames are not mutated by the deterministic EDA workflow.
 
 ### AI Optional
 
-v0.4.0 does not require an LLM. Optional grounded narratives are planned for a
-future release.
+The deterministic workflow does not require an LLM. Optional grounded narratives
+use a provider adapter; existing workflows continue to run without an API key
+or AI dependency.
+
+## Optional grounded AI narrative
+
+Create a business-facing narrative only after deterministic analysis is complete.
+The provider receives a compact evidence brief, not the raw dataset. Every
+generated statement must cite one or more evidence IDs from that brief; uncited
+or invalid model output is rejected.
+
+```python
+import eazydatafix as edf
+from eazydatafix.narratives import OpenAINarrativeProvider
+
+workflow = edf.run_agentic_eda("employees.csv")
+provider = OpenAINarrativeProvider(model="your-openai-model")
+
+narrative = edf.generate_agentic_eda_narrative(workflow, provider)
+
+report = edf.export_agentic_eda_report(
+    workflow,
+    output_dir="eda-report",
+    formats=["html", "json", "markdown"],
+    narrative=narrative,
+)
+```
+
+Install the adapter only when needed:
+
+```bash
+pip install "eazydatafix[openai]"
+```
 
 ## Workflow
 
@@ -249,6 +280,7 @@ visualisation recommendations.
 | `edf.resume_agentic_eda(...)` | Resume an approved plan after dataset fingerprint validation. |
 | `edf.export_agentic_eda_report(...)` | Export Agentic EDA reports and recommended visualisations. |
 | `edf.export_agentic_eda_notebook(...)` | Export a reproducible, ready-to-run Jupyter Notebook. |
+| `edf.generate_agentic_eda_narrative(...)` | Generate a cited optional AI narrative from deterministic workflow evidence. |
 | `edf.fix(...)` | Apply the existing configurable dataset-cleaning pipeline. |
 | `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
 | `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
@@ -270,7 +302,7 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v0.4.0
+- Current stable version: v0.5.0
 - Development status: Beta
 - Python support: 3.10–3.13
 - Licence: MIT
@@ -281,7 +313,7 @@ The public API may continue evolving before v1.0.
 
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
 - **v0.4.0 — Notebook Export and Human Approval — Released**
-- **v0.5.0 — Optional Grounded AI Narratives — Planned**
+- **v0.5.0 — Optional Grounded AI Narratives — Released**
 - **v1.0.0 — Stable Production API — Goal**
 
 See the [full roadmap](ROADMAP.md) for milestone details.

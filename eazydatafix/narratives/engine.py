@@ -13,12 +13,17 @@ from eazydatafix.models.agentic_eda_narrative import (
 from eazydatafix.models.agentic_eda_narrative_config import AgenticEDANarrativeConfig
 from eazydatafix.models.agentic_eda_result import AgenticEDAResult
 from eazydatafix.narratives.provider import GroundedNarrativeRequest, NarrativeProvider
+from eazydatafix.narratives.validation import (
+    validate_claim_grounding,
+    workflow_fingerprint,
+)
 
 _TITLE = "Grounded Agentic EDA Narrative"
 _GROUNDING_NOTICE = (
-    "This optional AI narrative was generated only from the cited deterministic "
-    "EazyDataFix workflow evidence. It does not alter calculated metrics, findings, "
-    "or recommendations."
+    "This optional AI narrative cites deterministic EazyDataFix workflow evidence "
+    "and passed citation, numeric, causal-language, and lexical-support checks. "
+    "These guardrails do not prove semantic truth; review AI-written text before "
+    "making decisions. The narrative does not alter calculated results."
 )
 _INSTRUCTIONS = """You write a concise business-facing narrative from supplied EazyDataFix evidence.
 Use only the supplied evidence. Do not infer causes, values, trends, or recommendations that
@@ -28,7 +33,8 @@ Each value is a claim object or a list of claim objects. A claim object has exac
 text (a non-empty string) and evidence_ids (a non-empty array of unique supplied evidence IDs).
 The summary must be one claim. Findings, next_steps, and unresolved_questions must be arrays.
 Every claim must cite the evidence IDs that support it. Do not include markdown fences or prose
-outside the JSON object. Keep the narrative factual and concise."""
+outside the JSON object. Reuse the factual vocabulary and numbers found in the cited evidence;
+unsupported numbers and causal language will be rejected. Keep the narrative factual and concise."""
 
 
 class GroundedNarrativeEngine:
@@ -62,35 +68,50 @@ class GroundedNarrativeEngine:
 
         selected_config = self._validate_config(config)
         evidence = self._build_evidence(workflow, selected_config)
-        request = GroundedNarrativeRequest(instructions=_INSTRUCTIONS, evidence=evidence)
+        available_ids = {item.id for item in evidence}
+        evidence_by_id = {item.id: item for item in evidence}
+        fingerprint = workflow_fingerprint(workflow)
+        request = GroundedNarrativeRequest(
+            instructions=_INSTRUCTIONS,
+            evidence=evidence,
+            workflow_fingerprint=fingerprint,
+        )
         response = provider.generate(request)
         payload = self._parse_response(response)
-        available_ids = {item.id for item in evidence}
 
         return AgenticEDANarrative(
             title=_TITLE,
-            summary=self._claim(payload["summary"], "summary", available_ids),
+            summary=self._claim(
+                payload["summary"],
+                "summary",
+                available_ids,
+                evidence_by_id,
+            ),
             findings=self._claims(
                 payload["findings"],
                 "findings",
                 available_ids,
+                evidence_by_id,
                 selected_config.max_findings,
             ),
             next_steps=self._claims(
                 payload["next_steps"],
                 "next_steps",
                 available_ids,
+                evidence_by_id,
                 selected_config.max_next_steps,
             ),
             unresolved_questions=self._claims(
                 payload["unresolved_questions"],
                 "unresolved_questions",
                 available_ids,
+                evidence_by_id,
                 selected_config.max_unresolved_questions,
             ),
             evidence=evidence,
             provider_name=provider.name,
             grounding_notice=_GROUNDING_NOTICE,
+            workflow_fingerprint=fingerprint,
         )
 
     @staticmethod
@@ -109,7 +130,7 @@ class GroundedNarrativeEngine:
     def _build_evidence(
         workflow: AgenticEDAResult,
         config: AgenticEDANarrativeConfig,
-    ) -> list[NarrativeEvidence]:
+    ) -> tuple[NarrativeEvidence, ...]:
         evidence = [
             NarrativeEvidence(
                 id="workflow-summary",
@@ -158,7 +179,7 @@ class GroundedNarrativeEngine:
                     )
                 )
 
-        return evidence
+        return tuple(evidence)
 
     @staticmethod
     def _records(
@@ -201,8 +222,9 @@ class GroundedNarrativeEngine:
         value: Any,
         field_name: str,
         available_ids: set[str],
+        evidence_by_id: dict[str, NarrativeEvidence],
         maximum: int,
-    ) -> list[NarrativeClaim]:
+    ) -> tuple[NarrativeClaim, ...]:
         if not isinstance(value, list):
             raise ValueError(f"provider narrative field '{field_name}' must be an array.")
 
@@ -212,16 +234,22 @@ class GroundedNarrativeEngine:
                 f"limit of {maximum}."
             )
 
-        return [
-            GroundedNarrativeEngine._claim(item, f"{field_name}[{index}]", available_ids)
+        return tuple(
+            GroundedNarrativeEngine._claim(
+                item,
+                f"{field_name}[{index}]",
+                available_ids,
+                evidence_by_id,
+            )
             for index, item in enumerate(value)
-        ]
+        )
 
     @staticmethod
     def _claim(
         value: Any,
         field_name: str,
         available_ids: set[str],
+        evidence_by_id: dict[str, NarrativeEvidence],
     ) -> NarrativeClaim:
         if not isinstance(value, dict) or set(value) != {"text", "evidence_ids"}:
             raise ValueError(
@@ -255,4 +283,11 @@ class GroundedNarrativeEngine:
                 + ", ".join(unknown_ids)
             )
 
-        return NarrativeClaim(text=text.strip(), evidence_ids=list(evidence_ids))
+        selected_text = text.strip()
+        validate_claim_grounding(
+            text=selected_text,
+            evidence_ids=evidence_ids,
+            evidence_by_id=evidence_by_id,
+            field_name=field_name,
+        )
+        return NarrativeClaim(text=selected_text, evidence_ids=tuple(evidence_ids))

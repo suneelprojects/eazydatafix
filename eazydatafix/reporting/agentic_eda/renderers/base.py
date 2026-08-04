@@ -2,12 +2,12 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
 
+from eazydatafix.models.agentic_eda_narrative import AgenticEDANarrative
 from eazydatafix.models.agentic_eda_report_result import (
     GeneratedVisualisation,
     SkippedVisualisation,
 )
 from eazydatafix.models.agentic_eda_result import AgenticEDAResult
-from eazydatafix.models.agentic_eda_narrative import AgenticEDANarrative
 
 
 @dataclass(slots=True)

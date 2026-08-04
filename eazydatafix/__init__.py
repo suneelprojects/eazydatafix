@@ -17,13 +17,13 @@ from .models.agentic_eda_approval_checkpoint import (
     AgenticEDAApprovalCheckpoint,
 )
 from .models.agentic_eda_config import AgenticEDAConfig
-from .models.agentic_eda_notebook_result import AgenticEDANotebookResult
 from .models.agentic_eda_narrative import (
     AgenticEDANarrative,
     NarrativeClaim,
     NarrativeEvidence,
 )
 from .models.agentic_eda_narrative_config import AgenticEDANarrativeConfig
+from .models.agentic_eda_notebook_result import AgenticEDANotebookResult
 from .models.agentic_eda_report_result import (
     AgenticEDAReportResult,
     GeneratedVisualisation,
@@ -48,13 +48,13 @@ from .models.eda_result import EDAResult
 from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
 from .models.ready_result import ReadyResult
+from .narratives import GroundedNarrativeEngine
+from .narratives.provider import NarrativeProvider
 from .prepare.engine import PrepareEngine
 from .reporting.agentic_eda import (
     AgenticEDANotebookExporter,
     AgenticEDAReportExporter,
 )
-from .narratives import GroundedNarrativeEngine
-from .narratives.provider import NarrativeProvider
 
 __all__ = [
     "__version__",

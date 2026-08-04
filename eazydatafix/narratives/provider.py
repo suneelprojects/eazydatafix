@@ -12,13 +12,15 @@ class GroundedNarrativeRequest:
     """A provider request containing only deterministic, citeable evidence."""
 
     instructions: str
-    evidence: list[NarrativeEvidence]
+    evidence: tuple[NarrativeEvidence, ...]
+    workflow_fingerprint: str
 
     def to_dict(self) -> dict[str, object]:
         """Return the request payload in a provider-neutral JSON-ready form."""
         return {
             "instructions": self.instructions,
             "evidence": to_json_compatible(self.evidence),
+            "workflow_fingerprint": self.workflow_fingerprint,
         }
 
 

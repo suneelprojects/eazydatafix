@@ -1,7 +1,8 @@
 # Agentic EDA Roadmap
 
 Deterministic notebook export and human approval checkpoints are delivered in
-EazyDataFix 0.4.0. The next milestone remains optional grounded presentation.
+EazyDataFix 0.4.0. Optional evidence-cited presentation is in development for
+0.5.0.
 
 ## Foundation: Deterministic EDA
 
@@ -96,16 +97,20 @@ unchanged for callers that do not require an approval gate.
 business-facing presentation from a completed deterministic workflow without
 changing calculated metrics. Providers receive only a compact deterministic
 evidence brief, never the raw dataset. Every generated claim must cite supplied
-evidence IDs; malformed, uncited, duplicate, or unknown citations fail before a
-narrative result is returned. The resulting JSON-ready narrative can be included
-in HTML, JSON, and Markdown Agentic EDA reports.
+evidence IDs; malformed, uncited, duplicate, unknown, numerically unsupported,
+causally unsupported, or lexically unanchored claims fail before a narrative
+result is returned. Evidence is immutable during provider execution. A SHA-256
+fingerprint binds the narrative to the exact workflow, and HTML and Markdown
+reports expose cited evidence details. These deterministic checks are
+guardrails, not proof of semantic truth, so AI-written text requires review.
+The resulting JSON-ready narrative can be included in HTML, JSON, and Markdown
+Agentic EDA reports.
 
 The built-in OpenAI Responses API adapter is optional and installed through
 `eazydatafix[openai]`. No API key or AI dependency is required for deterministic
 EDA, reports, notebooks, or approval checkpoints.
 
-## Future Milestone: LLM Narratives
+## Future Hardening
 
-LLM-generated explanations will be optional and will use the deterministic EDA
-result as their source of truth. Generated text will not replace calculated
-metrics.
+Future releases may add provider-independent semantic verification while
+keeping generated text optional and calculated metrics authoritative.

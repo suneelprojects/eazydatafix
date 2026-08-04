@@ -21,7 +21,7 @@ class NarrativeClaim:
     """One model-written statement with links to deterministic evidence."""
 
     text: str
-    evidence_ids: list[str]
+    evidence_ids: tuple[str, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -30,12 +30,13 @@ class AgenticEDANarrative:
 
     title: str
     summary: NarrativeClaim
-    findings: list[NarrativeClaim]
-    next_steps: list[NarrativeClaim]
-    unresolved_questions: list[NarrativeClaim]
-    evidence: list[NarrativeEvidence]
+    findings: tuple[NarrativeClaim, ...]
+    next_steps: tuple[NarrativeClaim, ...]
+    unresolved_questions: tuple[NarrativeClaim, ...]
+    evidence: tuple[NarrativeEvidence, ...]
     provider_name: str
     grounding_notice: str
+    workflow_fingerprint: str
 
     def to_dict(self) -> dict[str, Any]:
         """Convert the narrative and its evidence to JSON-compatible structures."""

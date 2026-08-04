@@ -10,7 +10,9 @@ https://semver.org/
 
 ---
 
-## [0.5.0] - 2026-08-04
+## [Unreleased]
+
+### Planned version: 0.5.0
 
 ### Added
 
@@ -22,15 +24,24 @@ https://semver.org/
   `AgenticEDANarrativeConfig` models.
 - Optional inclusion of an already validated narrative in Agentic EDA HTML,
   JSON, and Markdown reports.
+- Evidence-reference sections in human-readable HTML and Markdown reports.
 
 ### Reliability
 
 - Narrative providers receive only compact evidence from a completed
   deterministic workflow, never the raw dataset.
 - Every generated narrative claim must cite supplied deterministic evidence.
-  Invalid JSON, uncited claims, duplicate citations, unknown citations, and
-  over-limit sections fail with explicit errors.
+  Invalid JSON, uncited claims, duplicate citations, unknown citations,
+  invented numbers, unsupported causal language, insufficient lexical support,
+  and over-limit sections fail with explicit errors.
+- Narrative evidence is immutable during provider execution, and each narrative
+  is bound to its exact workflow using a SHA-256 fingerprint.
 - Narrative generation never reruns or modifies the deterministic workflow.
+
+### Limitations
+
+- Deterministic grounding checks are guardrails, not proof of semantic truth;
+  AI-written narratives still require human review.
 
 ---
 

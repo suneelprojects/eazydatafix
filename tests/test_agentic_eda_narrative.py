@@ -5,7 +5,10 @@ import pandas as pd
 import pytest
 
 import eazydatafix as edf
-from eazydatafix.models.agentic_eda_narrative import AgenticEDANarrative
+from eazydatafix.models.agentic_eda_narrative import (
+    AgenticEDANarrative,
+    NarrativeEvidence,
+)
 from eazydatafix.narratives import GroundedNarrativeEngine, OpenAINarrativeProvider
 
 
@@ -22,27 +25,28 @@ class _NarrativeProvider:
         if self._response is not None:
             return json.dumps(self._response)
 
+        evidence = {item.id: item.content for item in request.evidence}
         return json.dumps(
             {
                 "summary": {
-                    "text": "The workflow completed with deterministic findings to review.",
-                    "evidence_ids": ["workflow-summary", "dataset-profile"],
+                    "text": evidence["dataset-profile"],
+                    "evidence_ids": ["dataset-profile"],
                 },
                 "findings": [
                     {
-                        "text": "The highest-priority deterministic finding needs attention.",
+                        "text": evidence["finding-01"],
                         "evidence_ids": ["finding-01"],
                     }
                 ],
                 "next_steps": [
                     {
-                        "text": "Complete the recommended deterministic follow-up action.",
+                        "text": evidence["next-step-01"],
                         "evidence_ids": ["next-step-01"],
                     }
                 ],
                 "unresolved_questions": [
                     {
-                        "text": "Resolve the documented domain question before changing data.",
+                        "text": evidence["unresolved-question-01"],
                         "evidence_ids": ["unresolved-question-01"],
                     }
                 ],
@@ -73,7 +77,8 @@ def test_grounded_narrative_is_public_and_does_not_change_workflow() -> None:
     assert "generate_agentic_eda_narrative" in edf.__all__
     assert edf.AgenticEDANarrative is AgenticEDANarrative
     assert narrative.provider_name == "test-provider"
-    assert narrative.summary.evidence_ids == ["workflow-summary", "dataset-profile"]
+    assert narrative.summary.evidence_ids == ("dataset-profile",)
+    assert narrative.workflow_fingerprint.startswith("sha256:")
     assert workflow.to_dict() == original
 
 
@@ -85,10 +90,55 @@ def test_provider_receives_only_compact_deterministic_evidence() -> None:
 
     assert provider.request is not None
     evidence = provider.request.evidence
+    assert isinstance(evidence, tuple)
     assert [item.id for item in evidence[:2]] == ["workflow-summary", "dataset-profile"]
     assert any(item.id == "finding-01" for item in evidence)
-    assert all("amount\": [" not in item.content for item in evidence)
+    assert all('amount": [' not in item.content for item in evidence)
     assert "raw dataset" in provider.request.instructions.lower()
+
+
+def test_semantically_unanchored_claim_is_rejected() -> None:
+    response = {
+        "summary": {
+            "text": "Revenue doubled because the marketing campaign succeeded.",
+            "evidence_ids": ["dataset-profile"],
+        },
+        "findings": [],
+        "next_steps": [],
+        "unresolved_questions": [],
+    }
+
+    with pytest.raises(ValueError, match="unsupported causal language|not sufficiently supported"):
+        edf.generate_agentic_eda_narrative(_workflow(), _NarrativeProvider(response))
+
+
+class _EvidenceMutatingProvider:
+    name = "mutating-provider"
+
+    def generate(self, request) -> str:
+        invented = NarrativeEvidence(
+            id="invented",
+            source_type="invented",
+            source_step=None,
+            content="Invented revenue evidence.",
+        )
+        object.__setattr__(request, "evidence", request.evidence + (invented,))
+        return json.dumps(
+            {
+                "summary": {
+                    "text": "Invented revenue evidence.",
+                    "evidence_ids": ["invented"],
+                },
+                "findings": [],
+                "next_steps": [],
+                "unresolved_questions": [],
+            }
+        )
+
+
+def test_provider_cannot_expand_the_valid_evidence_id_snapshot() -> None:
+    with pytest.raises(ValueError, match="unknown evidence ID"):
+        edf.generate_agentic_eda_narrative(_workflow(), _EvidenceMutatingProvider())
 
 
 @pytest.mark.parametrize(
@@ -161,14 +211,35 @@ def test_report_export_includes_optional_grounded_narrative(tmp_path: Path) -> N
 
     assert "Grounded AI narrative" in html
     assert "Grounded AI narrative" in markdown
+    assert "Evidence reference" in html
+    assert "Evidence reference" in markdown
+    assert "dataset-profile" in html
+    assert "dataset-profile" in markdown
     assert payload["grounded_narrative"] == narrative.to_dict()
     assert payload["reproducibility_metadata"]["optional_ai_narrative_included"] is True
+
+
+def test_report_rejects_narrative_from_a_different_workflow(tmp_path: Path) -> None:
+    narrative = edf.generate_agentic_eda_narrative(_workflow(), _NarrativeProvider())
+    different_workflow = edf.run_agentic_eda(
+        pd.DataFrame({"customer_id": range(5), "amount": [1, 2, 3, 4, 5]})
+    )
+    output_directory = tmp_path / "mismatched-report"
+
+    with pytest.raises(ValueError, match="different or modified"):
+        edf.export_agentic_eda_report(
+            different_workflow,
+            output_dir=output_directory,
+            narrative=narrative,
+        )
+
+    assert not output_directory.exists()
 
 
 class _Response:
     output_text = json.dumps(
         {
-            "summary": {"text": "ok", "evidence_ids": ["workflow-summary"]},
+            "summary": {"text": "Dataset shape", "evidence_ids": ["dataset-profile"]},
             "findings": [],
             "next_steps": [],
             "unresolved_questions": [],
@@ -196,7 +267,7 @@ def test_openai_provider_uses_injected_responses_client() -> None:
     workflow = _workflow()
     narrative = GroundedNarrativeEngine().generate(workflow, provider)
 
-    assert narrative.summary.text == "ok"
+    assert narrative.summary.text == "Dataset shape"
     assert client.responses.kwargs["model"] == "test-model"
     assert "raw dataset" not in client.responses.kwargs["input"].lower()
     assert client.responses.kwargs["text"]["format"]["type"] == "json_schema"

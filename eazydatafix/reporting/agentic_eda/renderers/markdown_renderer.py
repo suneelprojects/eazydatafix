@@ -100,6 +100,10 @@ class AgenticEDAMarkdownRenderer(AgenticEDAReportRenderer):
             "",
             self._claims(narrative.unresolved_questions),
             "",
+            "### Evidence reference",
+            "",
+            self._narrative_evidence(narrative.evidence),
+            "",
         ]
 
     def _analysis_section(
@@ -181,11 +185,22 @@ class AgenticEDAMarkdownRenderer(AgenticEDAReportRenderer):
         return f"{claim.text}\n\nEvidence: {', '.join(claim.evidence_ids)}"
 
     @classmethod
-    def _claims(cls, claims: list[Any]) -> str:
+    def _claims(cls, claims: tuple[Any, ...]) -> str:
         if not claims:
             return "_None._"
 
         return "\n\n".join(cls._claim(claim) for claim in claims)
+
+    @staticmethod
+    def _narrative_evidence(evidence: tuple[Any, ...]) -> str:
+        return "\n\n".join(
+            (
+                f"- **{item.id}** ({item.source_type}"
+                + (f", step: {item.source_step}" if item.source_step is not None else "")
+                + f"): {item.content}"
+            )
+            for item in evidence
+        )
 
     @staticmethod
     def _mapping_table(mapping: dict[str, str]) -> str:

@@ -114,12 +114,17 @@ provider = OpenAINarrativeProvider(model="your-openai-model")
 narrative = edf.generate_agentic_eda_narrative(workflow, provider)
 ```
 
-Providers receive only the compact deterministic evidence brief. Each generated
-claim must cite supplied evidence IDs; invalid, uncited, or unsupported claims
-are rejected. Pass the resulting object to
+Providers receive only an immutable compact deterministic evidence brief. Each
+generated claim must cite supplied evidence IDs. Citation, numeric,
+causal-language, and lexical-support validation rejects common unsupported
+outputs. A SHA-256 workflow fingerprint prevents a narrative from being
+attached to a different or modified workflow. These checks do not prove
+semantic truth, so AI-written text still requires human review. Pass the
+resulting object to
 `edf.export_agentic_eda_report(..., narrative=narrative)` to include it in HTML,
-JSON, and Markdown reports. Install the OpenAI adapter only when required with
-`pip install "eazydatafix[openai]"`.
+JSON, and Markdown reports; human-readable formats include the cited evidence
+details. Install the OpenAI adapter only when required with `pip install
+"eazydatafix[openai]"`.
 
 ## Agentic EDA Notebook Export
 

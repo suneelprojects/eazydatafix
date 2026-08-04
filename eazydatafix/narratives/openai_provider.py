@@ -67,7 +67,13 @@ class OpenAINarrativeProvider:
         response = self._client.responses.create(
             model=self._model,
             instructions=request.instructions,
-            input=json.dumps(request.to_dict()["evidence"], ensure_ascii=False),
+            input=json.dumps(
+                {
+                    "workflow_fingerprint": request.workflow_fingerprint,
+                    "evidence": request.to_dict()["evidence"],
+                },
+                ensure_ascii=False,
+            ),
             text={
                 "format": {
                     "type": "json_schema",

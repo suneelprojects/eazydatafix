@@ -18,8 +18,9 @@ planning, modular execution, traceable findings, and reproducible reporting.
 The same package also supports data-quality assessment, validation, cleaning,
 preparation, and exploratory data analysis.
 
-> EazyDataFix v0.5.0 adds optional grounded AI narratives to completed
-> deterministic Agentic EDA workflows.
+> The v0.5.0 development branch adds optional evidence-cited AI narratives to
+> completed deterministic Agentic EDA workflows. The current release remains
+> v0.4.0.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -133,9 +134,17 @@ or AI dependency.
 ## Optional grounded AI narrative
 
 Create a business-facing narrative only after deterministic analysis is complete.
-The provider receives a compact evidence brief, not the raw dataset. Every
-generated statement must cite one or more evidence IDs from that brief; uncited
-or invalid model output is rejected.
+The provider receives an immutable, compact evidence brief, not the raw dataset.
+Every generated statement must cite one or more evidence IDs from that brief.
+EazyDataFix rejects malformed or unknown citations, invented numbers,
+unsupported causal language, and claims without sufficient lexical support in
+their cited evidence. The narrative is bound to the exact workflow by a SHA-256
+fingerprint, so it cannot be exported with a different or modified workflow.
+
+These deterministic checks reduce unsupported output but cannot prove the
+semantic truth of AI-written text. Review the narrative before using it for a
+decision. HTML and Markdown reports include an evidence-reference section for
+that review.
 
 ```python
 import eazydatafix as edf
@@ -302,7 +311,8 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v0.5.0
+- Current stable version: v0.4.0
+- Version in development: v0.5.0
 - Development status: Beta
 - Python support: 3.10–3.13
 - Licence: MIT
@@ -313,7 +323,7 @@ The public API may continue evolving before v1.0.
 
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
 - **v0.4.0 — Notebook Export and Human Approval — Released**
-- **v0.5.0 — Optional Grounded AI Narratives — Released**
+- **v0.5.0 — Optional Grounded AI Narratives — In development**
 - **v1.0.0 — Stable Production API — Goal**
 
 See the [full roadmap](ROADMAP.md) for milestone details.

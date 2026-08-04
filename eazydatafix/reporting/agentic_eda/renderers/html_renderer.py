@@ -174,6 +174,8 @@ class AgenticEDAHTMLRenderer(AgenticEDAReportRenderer):
             f"{self._claims(narrative.next_steps)}"
             "<h3>Unresolved questions</h3>"
             f"{self._claims(narrative.unresolved_questions)}"
+            "<h3>Evidence reference</h3>"
+            f"{self._narrative_evidence(narrative.evidence)}"
             "</section>"
         )
 
@@ -202,11 +204,31 @@ class AgenticEDAHTMLRenderer(AgenticEDAReportRenderer):
             f'<p class="muted">Evidence: {self._escape(", ".join(claim.evidence_ids))}</p>'
         )
 
-    def _claims(self, claims: list[Any]) -> str:
+    def _claims(self, claims: tuple[Any, ...]) -> str:
         if not claims:
             return '<p class="muted">None.</p>'
 
         return "".join(self._claim(claim) for claim in claims)
+
+    def _narrative_evidence(self, evidence: tuple[Any, ...]) -> str:
+        return (
+            '<div class="grid">'
+            + "".join(
+                '<article class="card">'
+                f"<h4>{self._escape(item.id)}</h4>"
+                f'<p class="muted">Source: {self._escape(item.source_type)}'
+                + (
+                    f" · Step: {self._escape(item.source_step)}"
+                    if item.source_step is not None
+                    else ""
+                )
+                + "</p>"
+                f"<p>{self._escape(item.content)}</p>"
+                "</article>"
+                for item in evidence
+            )
+            + "</div>"
+        )
 
     def _visualisations(
         self,

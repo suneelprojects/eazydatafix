@@ -7,9 +7,10 @@ from eazydatafix.assessment.eda_validation import (
     load_eda_frame,
     validate_eda_result,
 )
-from eazydatafix.models.agentic_eda_report_result import AgenticEDAReportResult
 from eazydatafix.models.agentic_eda_narrative import AgenticEDANarrative
+from eazydatafix.models.agentic_eda_report_result import AgenticEDAReportResult
 from eazydatafix.models.agentic_eda_result import AgenticEDAResult
+from eazydatafix.narratives.validation import workflow_fingerprint
 from eazydatafix.reporting.agentic_eda.charts import ChartContext, ChartRegistry
 from eazydatafix.reporting.agentic_eda.paths import safe_artifact_path
 from eazydatafix.reporting.agentic_eda.renderers import (
@@ -84,6 +85,13 @@ class AgenticEDAReportExporter:
 
         if narrative is not None and not isinstance(narrative, AgenticEDANarrative):
             raise TypeError("narrative must be an AgenticEDANarrative or None.")
+
+        if narrative is not None and narrative.workflow_fingerprint != workflow_fingerprint(
+            workflow
+        ):
+            raise ValueError(
+                "narrative was generated for a different or modified Agentic EDA workflow."
+            )
 
         selected_formats = self._normalise_formats(formats)
         dataframe = self._validated_dataframe(dataset, workflow)

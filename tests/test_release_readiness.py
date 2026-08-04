@@ -3,7 +3,7 @@ from eazydatafix._version import __version__ as package_version
 
 
 def test_release_version_has_one_public_value() -> None:
-    assert package_version == "0.4.0"
+    assert package_version == "0.5.0"
     assert edf.__version__ == package_version
 
 
@@ -19,6 +19,7 @@ def test_required_public_functions_are_exported() -> None:
         "resume_agentic_eda",
         "export_agentic_eda_notebook",
         "export_agentic_eda_report",
+        "generate_agentic_eda_narrative",
         "fix",
         "prepare",
         "profile",
@@ -35,6 +36,8 @@ def test_public_result_and_config_classes_are_exported() -> None:
         "AgenticEDAApprovalCheckpoint",
         "AgenticEDAApprovalEngine",
         "AgenticEDANotebookResult",
+        "AgenticEDANarrative",
+        "AgenticEDANarrativeConfig",
         "AgenticEDAResult",
         "AgenticEDAReportResult",
         "EDAResult",
@@ -47,6 +50,9 @@ def test_public_result_and_config_classes_are_exported() -> None:
         "UnresolvedQuestion",
         "VisualisationRecommendation",
         "GeneratedVisualisation",
+        "NarrativeClaim",
+        "NarrativeEvidence",
+        "NarrativeProvider",
         "SkippedVisualisation",
         "FixConfig",
         "FixResult",

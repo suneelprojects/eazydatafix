@@ -39,8 +39,8 @@
 - [x] Full-plan approval, subset approval, and explicit rejection
 - [x] Explicit dependency-completeness validation for subset approvals
 
-### Next Milestone: Grounded Presentation
-- [ ] Optional LLM narratives grounded exclusively in deterministic metrics
+### Next Milestone: Grounded Presentation — In Development
+- [x] Optional LLM narratives grounded exclusively in deterministic metrics
 
 ## Version 0.1
 

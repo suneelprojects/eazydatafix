@@ -56,7 +56,7 @@ class _FailingMissingChartHandler(ChartHandler):
 
 
 def test_export_agentic_eda_report_is_public() -> None:
-    assert edf.__version__ == "0.4.0"
+    assert edf.__version__ == "0.5.0"
     assert callable(edf.export_agentic_eda_report)
     assert "export_agentic_eda_report" in edf.__all__
     assert edf.AgenticEDAReportResult is AgenticEDAReportResult

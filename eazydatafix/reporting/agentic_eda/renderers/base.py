@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
 
+from eazydatafix.models.agentic_eda_narrative import AgenticEDANarrative
 from eazydatafix.models.agentic_eda_report_result import (
     GeneratedVisualisation,
     SkippedVisualisation,
@@ -19,6 +20,7 @@ class ReportRenderContext:
     generated_files: list[str]
     warnings: list[str]
     reproducibility_metadata: dict[str, Any]
+    narrative: AgenticEDANarrative | None
 
     @property
     def step_outputs(self) -> dict[str, dict[str, Any]]:

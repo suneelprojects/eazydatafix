@@ -2,6 +2,12 @@ from eazydatafix.models.agentic_eda_approval_checkpoint import (
     AgenticEDAApprovalCheckpoint,
 )
 from eazydatafix.models.agentic_eda_config import AgenticEDAConfig
+from eazydatafix.models.agentic_eda_narrative import (
+    AgenticEDANarrative,
+    NarrativeClaim,
+    NarrativeEvidence,
+)
+from eazydatafix.models.agentic_eda_narrative_config import AgenticEDANarrativeConfig
 from eazydatafix.models.agentic_eda_notebook_result import AgenticEDANotebookResult
 from eazydatafix.models.agentic_eda_report_result import (
     AgenticEDAReportResult,
@@ -20,10 +26,14 @@ __all__ = [
     "AgenticEDAApprovalCheckpoint",
     "AgenticEDAConfig",
     "AgenticEDANotebookResult",
+    "AgenticEDANarrative",
+    "AgenticEDANarrativeConfig",
     "AgenticEDAResult",
     "AgenticEDAReportResult",
     "FollowUpAction",
     "GeneratedVisualisation",
+    "NarrativeClaim",
+    "NarrativeEvidence",
     "PriorityFinding",
     "SkippedVisualisation",
     "UnresolvedQuestion",

@@ -56,6 +56,7 @@ class AgenticEDAMarkdownRenderer(AgenticEDAReportRenderer):
         for title, step_name in _ANALYSIS_SECTIONS:
             lines.extend(self._analysis_section(title, step_name, context))
 
+        lines.extend(self._narrative_section(context))
         lines.extend(self._decision_sections(context))
         lines.extend(self._visualisation_section(context))
         lines.extend(self._warnings_section(context))
@@ -68,6 +69,42 @@ class AgenticEDAMarkdownRenderer(AgenticEDAReportRenderer):
             ]
         )
         return "\n".join(lines).rstrip() + "\n"
+
+    def _narrative_section(
+        self,
+        context: ReportRenderContext,
+    ) -> list[str]:
+        narrative = context.narrative
+
+        if narrative is None:
+            return []
+
+        return [
+            "## Grounded AI narrative",
+            "",
+            narrative.grounding_notice,
+            "",
+            "### Summary",
+            "",
+            self._claim(narrative.summary),
+            "",
+            "### Key findings",
+            "",
+            self._claims(narrative.findings),
+            "",
+            "### Recommended next steps",
+            "",
+            self._claims(narrative.next_steps),
+            "",
+            "### Unresolved questions",
+            "",
+            self._claims(narrative.unresolved_questions),
+            "",
+            "### Evidence reference",
+            "",
+            self._narrative_evidence(narrative.evidence),
+            "",
+        ]
 
     def _analysis_section(
         self,
@@ -141,6 +178,28 @@ class AgenticEDAMarkdownRenderer(AgenticEDAReportRenderer):
         return "\n\n".join(
             f"```json\n{json.dumps(to_json_compatible(record), indent=2, sort_keys=True)}\n```"
             for record in records
+        )
+
+    @staticmethod
+    def _claim(claim: Any) -> str:
+        return f"{claim.text}\n\nEvidence: {', '.join(claim.evidence_ids)}"
+
+    @classmethod
+    def _claims(cls, claims: tuple[Any, ...]) -> str:
+        if not claims:
+            return "_None._"
+
+        return "\n\n".join(cls._claim(claim) for claim in claims)
+
+    @staticmethod
+    def _narrative_evidence(evidence: tuple[Any, ...]) -> str:
+        return "\n\n".join(
+            (
+                f"- **{item.id}** ({item.source_type}"
+                + (f", step: {item.source_step}" if item.source_step is not None else "")
+                + f"): {item.content}"
+            )
+            for item in evidence
         )
 
     @staticmethod

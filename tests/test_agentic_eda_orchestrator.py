@@ -32,7 +32,7 @@ class _FailingOutlierHandler(EDAAnalysisHandler):
 
 
 def test_run_agentic_eda_is_public_and_preserves_version() -> None:
-    assert edf.__version__ == "0.4.0"
+    assert edf.__version__ == "0.5.0"
     assert callable(edf.run_agentic_eda)
     assert "run_agentic_eda" in edf.__all__
     assert edf.AgenticEDAResult is AgenticEDAResult

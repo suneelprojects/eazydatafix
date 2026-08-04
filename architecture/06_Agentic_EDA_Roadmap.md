@@ -1,8 +1,8 @@
 # Agentic EDA Roadmap
 
-Deterministic notebook export and human approval checkpoints are delivered in
-EazyDataFix 0.4.0. Optional evidence-cited presentation is in development for
-0.5.0.
+Deterministic notebook export and human approval checkpoints were delivered in
+EazyDataFix 0.4.0. EazyDataFix 0.5.0 adds optional evidence-cited presentation
+grounded in completed deterministic workflows.
 
 ## Foundation: Deterministic EDA
 

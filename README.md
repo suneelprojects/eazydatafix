@@ -18,10 +18,9 @@ planning, modular execution, traceable findings, and reproducible reporting.
 The same package also supports data-quality assessment, validation, cleaning,
 preparation, and exploratory data analysis.
 
-> EazyDataFix v0.4.0 added reproducible notebook export and explicit human
-> approval checkpoints and remains the latest stable release.
-> The v0.5.0 development branch adds optional evidence-cited AI narratives to
-> completed deterministic Agentic EDA workflows.
+> EazyDataFix v0.5.0 adds optional evidence-cited AI narratives to completed
+> deterministic Agentic EDA workflows. Deterministic analysis remains the
+> authoritative source of metrics and continues to work without an LLM.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -128,10 +127,9 @@ Caller DataFrames are not mutated by the deterministic EDA workflow.
 
 ### AI Optional
 
-The current v0.4.0 release and the deterministic workflow do not require an LLM.
-The v0.5.0 development branch adds optional grounded narratives through a
-provider adapter; existing workflows continue to run without an API key or AI
-dependency.
+The deterministic workflow does not require an LLM. The v0.5.0 release adds
+optional grounded narratives through a provider adapter; existing workflows
+continue to run without an API key or AI dependency.
 
 ## Optional grounded AI narrative
 
@@ -313,8 +311,7 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v0.4.0
-- Version in development: v0.5.0
+- Current stable version: v0.5.0
 - Development status: Beta
 - Python support: 3.10–3.13
 - Licence: MIT
@@ -325,7 +322,7 @@ The public API may continue evolving before v1.0.
 
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
 - **v0.4.0 — Notebook Export and Human Approval — Released**
-- **v0.5.0 — Optional Grounded AI Narratives — In development**
+- **v0.5.0 — Optional Grounded AI Narratives — Released**
 - **v1.0.0 — Stable Production API — Goal**
 
 See the [full roadmap](ROADMAP.md) for milestone details.

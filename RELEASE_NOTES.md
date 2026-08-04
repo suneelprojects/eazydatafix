@@ -1,99 +1,76 @@
-# EazyDataFix 0.4.0 Release Notes
+# EazyDataFix 0.5.0 Release Notes
 
-EazyDataFix 0.4.0 adds reproducible Jupyter Notebook export and explicit human
-approval checkpoints to the deterministic Agentic EDA workflow. These features
-remain LLM-free, preserve existing public APIs, and support Python 3.10–3.13.
+EazyDataFix 0.5.0 adds optional, evidence-cited AI narratives to completed
+deterministic Agentic EDA workflows. Calculated metrics remain authoritative,
+existing non-AI workflows remain unchanged, and no API key or AI dependency is
+required unless the narrative feature is used.
 
-## Deterministic Jupyter Notebook export
+## Optional grounded AI narratives
 
-`edf.export_agentic_eda_notebook(...)` converts an existing
-`AgenticEDAResult` into an unexecuted, ready-to-run notebook-format v4 file.
-The notebook contains stable Markdown and executable code cells for dataset
-loading, understanding, planning, execution, orchestration, findings,
-recommendations, unresolved questions, and report export.
-
-Notebook documents are generated as deterministic JSON using the Python
-standard library, so Jupyter and `nbformat` are not required runtime
-dependencies. File-based datasets use portable path references. DataFrame
-inputs generate a deterministic JSON companion dataset beside the notebook,
-allowing the exported notebook to execute independently without mutating the
-caller-owned DataFrame.
+`edf.generate_agentic_eda_narrative(...)` converts a completed
+`AgenticEDAResult` into a concise, business-facing narrative. Providers receive
+an immutable compact evidence brief rather than the raw dataset, and every
+claim must cite evidence IDs supplied by EazyDataFix.
 
 ```python
 import eazydatafix as edf
+from eazydatafix.narratives import OpenAINarrativeProvider
 
 workflow = edf.run_agentic_eda("employees.csv")
-notebook = edf.export_agentic_eda_notebook(
+provider = OpenAINarrativeProvider(model="your-openai-model")
+
+narrative = edf.generate_agentic_eda_narrative(workflow, provider)
+
+report = edf.export_agentic_eda_report(
     workflow,
-    dataset="employees.csv",
-    output_path="agentic-eda.ipynb",
+    output_dir="eda-report",
+    formats=["html", "json", "markdown"],
+    narrative=narrative,
 )
-
-print(notebook.generated_files)
 ```
 
-The JSON-ready `AgenticEDANotebookResult` reports the notebook path, generated
-companion files, cell count, notebook format version, and export status.
+The narrative layer is provider-neutral. The built-in OpenAI Responses API
+adapter is optional and installed through the `openai` extra.
 
-## Human Approval Checkpoints
+## Grounding and integrity guardrails
 
-The new two-phase approval workflow separates deterministic understanding and
-planning from analysis execution:
+- Every claim must cite supplied deterministic evidence.
+- Unknown, duplicate, missing, or malformed citations are rejected.
+- Invented numbers, unsupported causal language, and insufficient lexical
+  support are rejected before a narrative result is returned.
+- Evidence is immutable while a provider runs.
+- A SHA-256 workflow fingerprint prevents a narrative generated for one
+  workflow from being attached to another.
+- HTML and Markdown reports include an evidence-reference section for human
+  review.
 
-- `edf.prepare_agentic_eda_approval(...)` creates a pending checkpoint without
-  executing analysis steps.
-- `edf.approve_agentic_eda_plan(...)` approves all selected steps or an
-  explicit subset.
-- `edf.reject_agentic_eda_plan(...)` records an explicit rejection that cannot
-  be resumed.
-- `edf.resume_agentic_eda(...)` executes only an approved plan and returns the
-  existing `AgenticEDAResult` type.
-
-```python
-checkpoint = edf.prepare_agentic_eda_approval("employees.csv")
-
-# Review checkpoint.eda_result and checkpoint.eda_plan.
-approved = edf.approve_agentic_eda_plan(
-    checkpoint,
-    approved_step_ids=None,
-    reviewer="Data owner",
-    notes="Approved for deterministic execution",
-)
-
-workflow = edf.resume_agentic_eda("employees.csv", approved)
-```
-
-Subset approval is constrained to steps selected by the original planner.
-Unknown, duplicate, skipped, and unplanned IDs fail clearly. Dependencies must
-be approved explicitly; incomplete subsets fail before execution and no
-additional steps are approved implicitly.
-
-Each frozen, JSON-ready `AgenticEDAApprovalCheckpoint` contains copied dataset
-understanding, the original plan, configuration, ordered decisions, reviewer
-metadata, and deterministic summaries. SHA-256 fingerprints protect the
-dataset and complete checkpoint decision state. Resume rejects changed
-datasets, modified snapshots, approval-field tampering, and pending or rejected
-checkpoints while reusing the stored understanding and approved plan.
-
-The existing `edf.run_agentic_eda(...)` one-call workflow remains unchanged for
-users who do not need an approval gate.
-
-## Install
-
-```bash
-pip install eazydatafix==0.4.0
-```
-
-Parquet support remains optional:
-
-```bash
-pip install "eazydatafix[parquet]==0.4.0"
-```
+These checks are deterministic guardrails, not proof that AI-written text is
+semantically true. Narratives should still be reviewed before they are used for
+decisions.
 
 ## Compatibility
 
 - Python 3.10, 3.11, 3.12, and 3.13 are supported.
 - No existing public APIs were removed or renamed.
-- Notebook and approval workflows preserve caller-owned DataFrames.
-- Notebook export remains compatible with existing deterministic report
-  export.
+- Deterministic EDA, reporting, notebook export, and approval checkpoints do
+  not require an LLM or API key.
+- Narrative generation does not rerun or modify the deterministic workflow.
+- Caller-owned DataFrames remain unmodified.
+
+## Install
+
+```bash
+pip install eazydatafix==0.5.0
+```
+
+Install the optional OpenAI adapter with:
+
+```bash
+pip install "eazydatafix[openai]==0.5.0"
+```
+
+Parquet support remains optional:
+
+```bash
+pip install "eazydatafix[parquet]==0.5.0"
+```

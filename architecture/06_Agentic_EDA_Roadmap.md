@@ -1,7 +1,8 @@
 # Agentic EDA Roadmap
 
-Deterministic notebook export and human approval checkpoints are delivered in
-EazyDataFix 0.4.0. The next milestone remains optional grounded presentation.
+Deterministic notebook export and human approval checkpoints were delivered in
+EazyDataFix 0.4.0. EazyDataFix 0.5.0 adds optional evidence-cited presentation
+grounded in completed deterministic workflows.
 
 ## Foundation: Deterministic EDA
 
@@ -90,13 +91,26 @@ follow-up decision pipeline.
 The original `eazydatafix.run_agentic_eda(...)` one-call workflow remains
 unchanged for callers that do not require an approval gate.
 
-## Next Milestone: Grounded Presentation
+## Milestone 8: Grounded Presentation
 
-The next phase will build optional presentation capabilities on deterministic
-workflow outputs without changing calculated metrics.
+`eazydatafix.generate_agentic_eda_narrative(...)` builds an optional
+business-facing presentation from a completed deterministic workflow without
+changing calculated metrics. Providers receive only a compact deterministic
+evidence brief, never the raw dataset. Every generated claim must cite supplied
+evidence IDs; malformed, uncited, duplicate, unknown, numerically unsupported,
+causally unsupported, or lexically unanchored claims fail before a narrative
+result is returned. Evidence is immutable during provider execution. A SHA-256
+fingerprint binds the narrative to the exact workflow, and HTML and Markdown
+reports expose cited evidence details. These deterministic checks are
+guardrails, not proof of semantic truth, so AI-written text requires review.
+The resulting JSON-ready narrative can be included in HTML, JSON, and Markdown
+Agentic EDA reports.
 
-## Future Milestone: LLM Narratives
+The built-in OpenAI Responses API adapter is optional and installed through
+`eazydatafix[openai]`. No API key or AI dependency is required for deterministic
+EDA, reports, notebooks, or approval checkpoints.
 
-LLM-generated explanations will be optional and will use the deterministic EDA
-result as their source of truth. Generated text will not replace calculated
-metrics.
+## Future Hardening
+
+Future releases may add provider-independent semantic verification while
+keeping generated text optional and calculated metrics authoritative.

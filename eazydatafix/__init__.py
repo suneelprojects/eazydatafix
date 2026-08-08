@@ -12,6 +12,13 @@ from .assessment.eda_planner import EDAPlanner
 from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
 from .console_report import Report
+from .exceptions import (
+    ConfigurationError,
+    DatasetNotFoundError,
+    EazyDataFixError,
+    InvalidDatasetError,
+    WorkflowError,
+)
 from .fix.engine import FixEngine
 from .models.agentic_eda_approval_checkpoint import (
     AgenticEDAApprovalCheckpoint,
@@ -38,6 +45,15 @@ from .models.agentic_eda_result import (
 )
 from .models.ai_readiness_report import AIReadinessReport
 from .models.assessment_report import AssessmentReport
+from .models.cleaning_change import CleaningChange
+from .models.column_cleaning_rule import ColumnCleaningRule
+from .models.data_contract import (
+    ContractCheckResult,
+    ContractValidationReport,
+    DataContract,
+    QualityRule,
+    SchemaField,
+)
 from .models.dataset_profile import DatasetProfile
 from .models.eda_execution_result import (
     EDAExecutionResult,
@@ -47,7 +63,10 @@ from .models.eda_plan import EDAPlan, EDAPlanStep
 from .models.eda_result import EDAResult
 from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
+from .models.preparation_report import PreparationReport
+from .models.prepare_config import PrepareConfig
 from .models.ready_result import ReadyResult
+from .models.run_result import RunResult
 from .narratives import GroundedNarrativeEngine
 from .narratives.provider import NarrativeProvider
 from .prepare.engine import PrepareEngine
@@ -55,6 +74,7 @@ from .reporting.agentic_eda import (
     AgenticEDANotebookExporter,
     AgenticEDAReportExporter,
 )
+from .validation.contracts import ContractEngine
 
 __all__ = [
     "__version__",
@@ -73,6 +93,14 @@ __all__ = [
     "AIReadinessReport",
     "AssessmentEngine",
     "AssessmentReport",
+    "CleaningChange",
+    "ColumnCleaningRule",
+    "ConfigurationError",
+    "ContractCheckResult",
+    "ContractEngine",
+    "ContractValidationReport",
+    "DataContract",
+    "DatasetNotFoundError",
     "DatasetProfiler",
     "DatasetProfile",
     "EDAEngine",
@@ -83,6 +111,7 @@ __all__ = [
     "EDAPlanner",
     "EDAPlanStep",
     "EDAResult",
+    "EazyDataFixError",
     "FixConfig",
     "FixEngine",
     "FixResult",
@@ -90,15 +119,22 @@ __all__ = [
     "GroundedNarrativeEngine",
     "GeneratedVisualisation",
     "PrepareEngine",
+    "PrepareConfig",
+    "PreparationReport",
     "PriorityFinding",
+    "QualityRule",
     "NarrativeClaim",
     "NarrativeEvidence",
     "NarrativeProvider",
+    "InvalidDatasetError",
     "ReadyResult",
     "Report",
+    "RunResult",
     "SkippedVisualisation",
+    "SchemaField",
     "UnresolvedQuestion",
     "VisualisationRecommendation",
+    "WorkflowError",
     "analysis_ready",
     "approve_agentic_eda_plan",
     "assess_ai_readiness",
@@ -111,11 +147,15 @@ __all__ = [
     "generate_agentic_eda_narrative",
     "plan_eda",
     "prepare",
+    "prepare_with_report",
     "prepare_agentic_eda_approval",
     "profile",
+    "infer_schema",
     "run_agentic_eda",
+    "run",
     "reject_agentic_eda_plan",
     "resume_agentic_eda",
+    "validate_contract",
 ]
 
 
@@ -133,6 +173,20 @@ def profile(
     """
     profiler = DatasetProfiler()
     return profiler.profile(dataset)
+
+
+def infer_schema(dataset: str | Path | pd.DataFrame) -> DataContract:
+    """Infer a deterministic data contract from a supported dataset."""
+    return ContractEngine().infer_schema(dataset)
+
+
+def validate_contract(
+    dataset: str | Path | pd.DataFrame,
+    contract: DataContract,
+    rules: tuple[QualityRule, ...] = (),
+) -> ContractValidationReport:
+    """Validate a dataset contract and explicit quality rules with pass/fail output."""
+    return ContractEngine().validate(dataset, contract, rules)
 
 
 def assess(
@@ -454,8 +508,45 @@ def fix(
     return engine.fix(dataset, config)
 
 
+def run(
+    dataset: str | Path | pd.DataFrame,
+    config: FixConfig | None = None,
+) -> RunResult:
+    """Run profile, assessment, controlled cleaning, and deterministic EDA.
+
+    A dry-run ``FixConfig`` returns the unmodified source dataset in
+    ``fix_result.dataset`` and keeps the proposed cleaned dataset separately
+    in ``fix_result.proposed_dataset``. EDA therefore remains aligned with the
+    dataset returned by the workflow.
+
+    Args:
+        dataset: A pandas DataFrame or path to a supported dataset file.
+        config: Optional configuration for the cleaning stage.
+
+    Returns:
+        A RunResult containing profile, assessment, fix, and EDA results.
+    """
+    profiler = DatasetProfiler()
+    assessment_engine = AssessmentEngine()
+    fix_engine = FixEngine()
+    eda_engine = EDAEngine()
+
+    dataset_profile = profiler.profile(dataset)
+    assessment = assessment_engine.assess(dataset)
+    fix_result = fix_engine.fix(dataset, config)
+    eda_result = eda_engine.analyze(fix_result.dataset)
+
+    return RunResult(
+        profile=dataset_profile,
+        assessment=assessment,
+        fix_result=fix_result,
+        eda_result=eda_result,
+    )
+
+
 def prepare(
     dataset: str | Path | pd.DataFrame,
+    config: PrepareConfig | None = None,
 ) -> pd.DataFrame:
     """
     Prepare a dataset for downstream analytics or machine learning.
@@ -467,7 +558,16 @@ def prepare(
         A prepared pandas DataFrame.
     """
     engine = PrepareEngine()
-    return engine.prepare(dataset)
+    return engine.prepare(dataset, config)
+
+
+def prepare_with_report(
+    dataset: str | Path | pd.DataFrame,
+    config: PrepareConfig | None = None,
+) -> PreparationReport:
+    """Prepare a dataset and return its deterministic preparation report."""
+    engine = PrepareEngine()
+    return engine.prepare_with_report(dataset, config)
 
 
 def analysis_ready(

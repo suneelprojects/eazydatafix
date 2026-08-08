@@ -26,9 +26,10 @@ class SmartStrategy(Plugin, MissingValueStrategy):
         self,
         df: pd.DataFrame,
         applied_fixes: list[str],
+        columns: list[str] | None = None,
     ) -> pd.DataFrame:
 
-        for column in df.columns:
+        for column in columns or list(df.columns):
 
             series = df[column]
 

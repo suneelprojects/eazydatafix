@@ -34,7 +34,7 @@ def _skipped_step(
 
 
 def test_plan_eda_is_exposed_as_a_public_api() -> None:
-    assert edf.__version__ == "0.5.0"
+    assert edf.__version__ == "1.0.0"
     assert callable(edf.plan_eda)
     assert edf.EDAPlan is EDAPlan
     assert edf.EDAPlanStep is EDAPlanStep

@@ -19,9 +19,10 @@ class MedianStrategy(Plugin, MissingValueStrategy):
         self,
         df: pd.DataFrame,
         applied_fixes: list[str],
+        columns: list[str] | None = None,
     ) -> pd.DataFrame:
 
-        for column in df.columns:
+        for column in columns or list(df.columns):
 
             if df[column].isna().sum() == 0:
                 continue

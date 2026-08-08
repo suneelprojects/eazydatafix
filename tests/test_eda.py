@@ -264,7 +264,7 @@ def test_eda_only_parses_date_shaped_or_date_named_text_as_datetime() -> None:
 
 
 def test_eda_preserves_existing_public_apis() -> None:
-    assert edf.__version__ == "0.5.0"
+    assert edf.__version__ == "1.0.0"
     assert callable(edf.profile)
     assert callable(edf.assess)
     assert callable(edf.assess_ai_readiness)

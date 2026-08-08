@@ -292,6 +292,8 @@ visualisation recommendations.
 | `edf.generate_agentic_eda_narrative(...)` | Generate a cited optional AI narrative from deterministic workflow evidence. |
 | `edf.fix(...)` | Apply controlled, configurable cleaning with optional dry-run audit records. |
 | `edf.run(...)` | Run profile → assess → fix → EDA as one deterministic workflow. |
+| `edf.prepare_with_report(...)` | Prepare data with deterministic change and readiness details. |
+| `edf.infer_schema(...)` / `edf.validate_contract(...)` | Infer and enforce pipeline data contracts. |
 | `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
 | `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
 
@@ -313,6 +315,7 @@ Detailed API documentation is maintained on the
 ## Project status
 
 - Current stable version: v0.5.0
+- Development release candidate: v1.0.0
 - Development status: Beta
 - Python support: 3.10–3.13
 - Licence: MIT
@@ -328,7 +331,7 @@ The public API may continue evolving before v1.0.
 - **v0.7.0 — Data Preparation and Feature Readiness — Planned**
 - **v0.8.0 — Data Validation and Contracts — Planned**
 - **v0.9.0 — Production Workflow — Planned**
-- **v1.0.0 — Stable Production API — Goal**
+- **v1.0.0 — Stable Production API — Release candidate**
 
 See the [full roadmap](ROADMAP.md) for milestone details.
 

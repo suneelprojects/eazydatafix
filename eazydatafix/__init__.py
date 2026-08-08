@@ -12,6 +12,13 @@ from .assessment.eda_planner import EDAPlanner
 from .assessment.engine import AssessmentEngine
 from .assessment.profiler import DatasetProfiler
 from .console_report import Report
+from .exceptions import (
+    ConfigurationError,
+    DatasetNotFoundError,
+    EazyDataFixError,
+    InvalidDatasetError,
+    WorkflowError,
+)
 from .fix.engine import FixEngine
 from .models.agentic_eda_approval_checkpoint import (
     AgenticEDAApprovalCheckpoint,
@@ -88,10 +95,12 @@ __all__ = [
     "AssessmentReport",
     "CleaningChange",
     "ColumnCleaningRule",
+    "ConfigurationError",
     "ContractCheckResult",
     "ContractEngine",
     "ContractValidationReport",
     "DataContract",
+    "DatasetNotFoundError",
     "DatasetProfiler",
     "DatasetProfile",
     "EDAEngine",
@@ -102,6 +111,7 @@ __all__ = [
     "EDAPlanner",
     "EDAPlanStep",
     "EDAResult",
+    "EazyDataFixError",
     "FixConfig",
     "FixEngine",
     "FixResult",
@@ -116,6 +126,7 @@ __all__ = [
     "NarrativeClaim",
     "NarrativeEvidence",
     "NarrativeProvider",
+    "InvalidDatasetError",
     "ReadyResult",
     "Report",
     "RunResult",
@@ -123,6 +134,7 @@ __all__ = [
     "SchemaField",
     "UnresolvedQuestion",
     "VisualisationRecommendation",
+    "WorkflowError",
     "analysis_ready",
     "approve_agentic_eda_plan",
     "assess_ai_readiness",

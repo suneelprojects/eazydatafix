@@ -1,3 +1,24 @@
+# EazyDataFix 1.0.0 Release Notes
+
+EazyDataFix 1.0.0 stabilizes the public API while preserving every v0.5.0
+workflow. It adds controlled cleaning, feature-readiness reports, data
+contracts, and a production CLI without introducing an LLM requirement.
+
+## Stable workflows
+
+- `edf.run(...)` composes profile, assessment, controlled cleaning, and EDA.
+- Dry-run cleaning, column rules, and before/after change records make fixes
+  auditable.
+- `edf.prepare_with_report(...)` provides deterministic preparation details.
+- `edf.infer_schema(...)` and `edf.validate_contract(...)` give pipelines
+  explicit schema and quality pass/fail results.
+- The `edf` CLI supports JSON/YAML configuration, batch processing, logs, and
+  deterministic exit codes.
+
+See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for compatibility guidance.
+
+---
+
 # EazyDataFix 0.5.0 Release Notes
 
 EazyDataFix 0.5.0 adds optional, evidence-cited AI narratives to completed

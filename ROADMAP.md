@@ -42,31 +42,31 @@
 ### Milestone 7: Grounded Presentation — Released in v0.5.0
 - [x] Optional LLM narratives grounded exclusively in deterministic metrics
 
-### Milestone 8: Controlled, Auditable Cleaning — Planned for v0.6.0
-- [ ] Configurable missing-value marker detection
-- [ ] Column-level cleaning rules and dry-run previews
-- [ ] Structured before/after cleaning change logs
-- [ ] Unified profile → assess → fix → EDA workflow
+### Milestone 8: Controlled, Auditable Cleaning — Ready for v1.0.0
+- [x] Configurable missing-value marker detection
+- [x] Column-level cleaning rules and dry-run previews
+- [x] Structured before/after cleaning change logs
+- [x] Unified profile → assess → fix → EDA workflow
 
-### Milestone 9: Preparation and Feature Readiness — Planned for v0.7.0
-- [ ] Reliable type and date conversion controls
-- [ ] Duplicate, outlier, text, and category preparation controls
-- [ ] Structured preparation reports
+### Milestone 9: Preparation and Feature Readiness — Ready for v1.0.0
+- [x] Reliable type and date conversion controls
+- [x] Duplicate, outlier, text, and category preparation controls
+- [x] Structured preparation reports
 
-### Milestone 10: Validation and Contracts — Planned for v0.8.0
-- [ ] Schema inference and expected-schema validation
-- [ ] Reusable quality rules with explicit pass/fail reports
-- [ ] Pipeline-friendly validation contracts
+### Milestone 10: Validation and Contracts — Ready for v1.0.0
+- [x] Schema inference and expected-schema validation
+- [x] Reusable quality rules with explicit pass/fail reports
+- [x] Pipeline-friendly validation contracts
 
-### Milestone 11: Production Workflows — Planned for v0.9.0
-- [ ] `edf` command-line interface with JSON/YAML configuration
-- [ ] Batch and multi-file processing with structured logs and exit codes
-- [ ] Lightweight extension interface for supported custom steps
+### Milestone 11: Production Workflows — Ready for v1.0.0
+- [x] `edf` command-line interface with JSON/YAML configuration
+- [x] Batch and multi-file processing with structured logs and exit codes
+- [x] Lightweight extension interface for supported custom steps
 
-### Milestone 12: Stable API — Planned for v1.0.0
-- [ ] Consolidated public API, formal result/report objects, and errors
-- [ ] Compatibility test suite and migration guidance for necessary breaks
-- [ ] Complete tutorials, reliability hardening, and release verification
+### Milestone 12: Stable API — Ready for v1.0.0
+- [x] Consolidated public API, formal result/report objects, and errors
+- [x] Compatibility test suite and migration guidance for necessary breaks
+- [x] Complete release verification
 
 ## Version 0.1
 

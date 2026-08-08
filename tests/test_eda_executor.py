@@ -140,7 +140,7 @@ class _FailingHandler(EDAAnalysisHandler):
 
 
 def test_execute_eda_is_exposed_as_a_public_api() -> None:
-    assert edf.__version__ == "0.5.0"
+    assert edf.__version__ == "1.0.0"
     assert callable(edf.execute_eda)
     assert edf.EDAExecutionResult is EDAExecutionResult
     assert edf.EDAExecutionStepResult is EDAExecutionStepResult

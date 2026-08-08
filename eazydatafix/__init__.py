@@ -49,6 +49,8 @@ from .models.eda_plan import EDAPlan, EDAPlanStep
 from .models.eda_result import EDAResult
 from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
+from .models.preparation_report import PreparationReport
+from .models.prepare_config import PrepareConfig
 from .models.ready_result import ReadyResult
 from .models.run_result import RunResult
 from .narratives import GroundedNarrativeEngine
@@ -95,6 +97,8 @@ __all__ = [
     "GroundedNarrativeEngine",
     "GeneratedVisualisation",
     "PrepareEngine",
+    "PrepareConfig",
+    "PreparationReport",
     "PriorityFinding",
     "NarrativeClaim",
     "NarrativeEvidence",
@@ -117,6 +121,7 @@ __all__ = [
     "generate_agentic_eda_narrative",
     "plan_eda",
     "prepare",
+    "prepare_with_report",
     "prepare_agentic_eda_approval",
     "profile",
     "run_agentic_eda",
@@ -499,6 +504,7 @@ def run(
 
 def prepare(
     dataset: str | Path | pd.DataFrame,
+    config: PrepareConfig | None = None,
 ) -> pd.DataFrame:
     """
     Prepare a dataset for downstream analytics or machine learning.
@@ -510,7 +516,16 @@ def prepare(
         A prepared pandas DataFrame.
     """
     engine = PrepareEngine()
-    return engine.prepare(dataset)
+    return engine.prepare(dataset, config)
+
+
+def prepare_with_report(
+    dataset: str | Path | pd.DataFrame,
+    config: PrepareConfig | None = None,
+) -> PreparationReport:
+    """Prepare a dataset and return its deterministic preparation report."""
+    engine = PrepareEngine()
+    return engine.prepare_with_report(dataset, config)
 
 
 def analysis_ready(

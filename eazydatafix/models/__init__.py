@@ -21,6 +21,9 @@ from eazydatafix.models.agentic_eda_result import (
     UnresolvedQuestion,
     VisualisationRecommendation,
 )
+from eazydatafix.models.cleaning_change import CleaningChange
+from eazydatafix.models.column_cleaning_rule import ColumnCleaningRule
+from eazydatafix.models.run_result import RunResult
 
 __all__ = [
     "AgenticEDAApprovalCheckpoint",
@@ -30,11 +33,14 @@ __all__ = [
     "AgenticEDANarrativeConfig",
     "AgenticEDAResult",
     "AgenticEDAReportResult",
+    "CleaningChange",
+    "ColumnCleaningRule",
     "FollowUpAction",
     "GeneratedVisualisation",
     "NarrativeClaim",
     "NarrativeEvidence",
     "PriorityFinding",
+    "RunResult",
     "SkippedVisualisation",
     "UnresolvedQuestion",
     "VisualisationRecommendation",

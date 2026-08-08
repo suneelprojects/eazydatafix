@@ -23,6 +23,8 @@ class WhitespaceTrimmer(FixStep):
         before = df.copy()
 
         for column in df.select_dtypes(include=["object", "string"]):
+            if not config.should_trim(column):
+                continue
             df[column] = df[column].astype(str).str.strip()
 
         if not before.equals(df):

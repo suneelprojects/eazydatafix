@@ -24,6 +24,30 @@ analysis_dataset = edf.analysis_ready("employees.csv")
 `analysis_ready` accept pandas DataFrames or supported dataset paths where
 applicable.
 
+## Controlled Cleaning Workflow
+
+Use `FixConfig` to make cleaning choices explicit and auditable. Rules refer
+to the normalized column name when column-name normalization is enabled.
+
+```python
+config = edf.FixConfig(
+    dry_run=True,
+    column_rules={
+        "salary": edf.ColumnCleaningRule(missing_value_strategy="median"),
+        "notes": edf.ColumnCleaningRule(trim_whitespace=False),
+    },
+)
+preview = edf.fix("employees.csv", config)
+
+# The caller's data and preview.dataset are unchanged in dry-run mode.
+# preview.proposed_dataset holds the deterministic result.
+for change in preview.change_log or []:
+    print(change.step, change.rows_before, change.rows_after)
+```
+
+Use `edf.run(...)` when the deterministic profile, assessment, cleaning, and
+EDA stages should be returned together in a `RunResult`.
+
 ## Deterministic EDA
 
 Each stage can be used independently:

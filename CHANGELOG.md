@@ -12,6 +12,20 @@ https://semver.org/
 
 ## [Unreleased]
 
+### Planned for v0.6.0
+
+- Controlled, auditable cleaning with configurable missing-value markers,
+  column-level rules, dry-run previews, and structured change logs.
+- A unified deterministic `edf.run(...)` workflow for profile, assessment,
+  cleaning, and EDA.
+
+### Planned release milestones
+
+- v0.7.0: preparation and feature readiness.
+- v0.8.0: validation, schema inference, and data contracts.
+- v0.9.0: CLI, configuration, batch processing, structured logs, and extensions.
+- v1.0.0: stable public API, migration support, compatibility, and hardening.
+
 ---
 
 ## [0.5.0] - 2026-08-04

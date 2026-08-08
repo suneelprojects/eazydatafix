@@ -290,7 +290,8 @@ visualisation recommendations.
 | `edf.export_agentic_eda_report(...)` | Export Agentic EDA reports and recommended visualisations. |
 | `edf.export_agentic_eda_notebook(...)` | Export a reproducible, ready-to-run Jupyter Notebook. |
 | `edf.generate_agentic_eda_narrative(...)` | Generate a cited optional AI narrative from deterministic workflow evidence. |
-| `edf.fix(...)` | Apply the existing configurable dataset-cleaning pipeline. |
+| `edf.fix(...)` | Apply controlled, configurable cleaning with optional dry-run audit records. |
+| `edf.run(...)` | Run profile → assess → fix → EDA as one deterministic workflow. |
 | `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
 | `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
 
@@ -323,6 +324,10 @@ The public API may continue evolving before v1.0.
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
 - **v0.4.0 — Notebook Export and Human Approval — Released**
 - **v0.5.0 — Optional Grounded AI Narratives — Released**
+- **v0.6.0 — Controlled, Auditable Cleaning — Planned**
+- **v0.7.0 — Data Preparation and Feature Readiness — Planned**
+- **v0.8.0 — Data Validation and Contracts — Planned**
+- **v0.9.0 — Production Workflow — Planned**
 - **v1.0.0 — Stable Production API — Goal**
 
 See the [full roadmap](ROADMAP.md) for milestone details.

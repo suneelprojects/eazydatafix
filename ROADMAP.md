@@ -42,6 +42,32 @@
 ### Milestone 7: Grounded Presentation — Released in v0.5.0
 - [x] Optional LLM narratives grounded exclusively in deterministic metrics
 
+### Milestone 8: Controlled, Auditable Cleaning — Planned for v0.6.0
+- [ ] Configurable missing-value marker detection
+- [ ] Column-level cleaning rules and dry-run previews
+- [ ] Structured before/after cleaning change logs
+- [ ] Unified profile → assess → fix → EDA workflow
+
+### Milestone 9: Preparation and Feature Readiness — Planned for v0.7.0
+- [ ] Reliable type and date conversion controls
+- [ ] Duplicate, outlier, text, and category preparation controls
+- [ ] Structured preparation reports
+
+### Milestone 10: Validation and Contracts — Planned for v0.8.0
+- [ ] Schema inference and expected-schema validation
+- [ ] Reusable quality rules with explicit pass/fail reports
+- [ ] Pipeline-friendly validation contracts
+
+### Milestone 11: Production Workflows — Planned for v0.9.0
+- [ ] `edf` command-line interface with JSON/YAML configuration
+- [ ] Batch and multi-file processing with structured logs and exit codes
+- [ ] Lightweight extension interface for supported custom steps
+
+### Milestone 12: Stable API — Planned for v1.0.0
+- [ ] Consolidated public API, formal result/report objects, and errors
+- [ ] Compatibility test suite and migration guidance for necessary breaks
+- [ ] Complete tutorials, reliability hardening, and release verification
+
 ## Version 0.1
 
 ### File Support

@@ -23,6 +23,13 @@ from eazydatafix.models.agentic_eda_result import (
 )
 from eazydatafix.models.cleaning_change import CleaningChange
 from eazydatafix.models.column_cleaning_rule import ColumnCleaningRule
+from eazydatafix.models.data_contract import (
+    ContractCheckResult,
+    ContractValidationReport,
+    DataContract,
+    QualityRule,
+    SchemaField,
+)
 from eazydatafix.models.preparation_report import PreparationReport
 from eazydatafix.models.prepare_config import PrepareConfig
 from eazydatafix.models.run_result import RunResult
@@ -37,11 +44,16 @@ __all__ = [
     "AgenticEDAReportResult",
     "CleaningChange",
     "ColumnCleaningRule",
+    "ContractCheckResult",
+    "ContractValidationReport",
+    "DataContract",
     "FollowUpAction",
     "GeneratedVisualisation",
     "NarrativeClaim",
     "NarrativeEvidence",
     "PriorityFinding",
+    "QualityRule",
+    "SchemaField",
     "PrepareConfig",
     "PreparationReport",
     "RunResult",

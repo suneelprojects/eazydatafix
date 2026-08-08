@@ -40,6 +40,13 @@ from .models.ai_readiness_report import AIReadinessReport
 from .models.assessment_report import AssessmentReport
 from .models.cleaning_change import CleaningChange
 from .models.column_cleaning_rule import ColumnCleaningRule
+from .models.data_contract import (
+    ContractCheckResult,
+    ContractValidationReport,
+    DataContract,
+    QualityRule,
+    SchemaField,
+)
 from .models.dataset_profile import DatasetProfile
 from .models.eda_execution_result import (
     EDAExecutionResult,
@@ -60,6 +67,7 @@ from .reporting.agentic_eda import (
     AgenticEDANotebookExporter,
     AgenticEDAReportExporter,
 )
+from .validation.contracts import ContractEngine
 
 __all__ = [
     "__version__",
@@ -80,6 +88,10 @@ __all__ = [
     "AssessmentReport",
     "CleaningChange",
     "ColumnCleaningRule",
+    "ContractCheckResult",
+    "ContractEngine",
+    "ContractValidationReport",
+    "DataContract",
     "DatasetProfiler",
     "DatasetProfile",
     "EDAEngine",
@@ -100,6 +112,7 @@ __all__ = [
     "PrepareConfig",
     "PreparationReport",
     "PriorityFinding",
+    "QualityRule",
     "NarrativeClaim",
     "NarrativeEvidence",
     "NarrativeProvider",
@@ -107,6 +120,7 @@ __all__ = [
     "Report",
     "RunResult",
     "SkippedVisualisation",
+    "SchemaField",
     "UnresolvedQuestion",
     "VisualisationRecommendation",
     "analysis_ready",
@@ -124,10 +138,12 @@ __all__ = [
     "prepare_with_report",
     "prepare_agentic_eda_approval",
     "profile",
+    "infer_schema",
     "run_agentic_eda",
     "run",
     "reject_agentic_eda_plan",
     "resume_agentic_eda",
+    "validate_contract",
 ]
 
 
@@ -145,6 +161,20 @@ def profile(
     """
     profiler = DatasetProfiler()
     return profiler.profile(dataset)
+
+
+def infer_schema(dataset: str | Path | pd.DataFrame) -> DataContract:
+    """Infer a deterministic data contract from a supported dataset."""
+    return ContractEngine().infer_schema(dataset)
+
+
+def validate_contract(
+    dataset: str | Path | pd.DataFrame,
+    contract: DataContract,
+    rules: tuple[QualityRule, ...] = (),
+) -> ContractValidationReport:
+    """Validate a dataset contract and explicit quality rules with pass/fail output."""
+    return ContractEngine().validate(dataset, contract, rules)
 
 
 def assess(

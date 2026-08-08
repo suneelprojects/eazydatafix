@@ -14,6 +14,27 @@ https://semver.org/
 
 ---
 
+### v1.0.0 release candidate
+
+### Added
+
+- Controlled, auditable cleaning with configurable missing markers,
+  column rules, dry-run previews, and structured change records.
+- Preparation controls and reports for reliable type/date conversion, text
+  normalization, duplicates, and IQR outliers.
+- Schema inference, expected-schema contracts, reusable quality rules, and
+  JSON-ready pass/fail validation reports.
+- The `edf` CLI with JSON/YAML configuration, batch input processing,
+  structured logs, exit codes, and lightweight workflow extensions.
+
+### Stability
+
+- Stable public exports, formal package-level errors, compatibility coverage,
+  and a v1 migration guide.
+- Existing v0.5.0 public APIs remain supported and deterministic.
+
+---
+
 ## [0.5.0] - 2026-08-04
 
 ### Added

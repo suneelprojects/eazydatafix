@@ -13,6 +13,7 @@ class MissingValueStrategy(ABC):
         self,
         df: pd.DataFrame,
         applied_fixes: list[str],
+        columns: list[str] | None = None,
     ) -> pd.DataFrame:
         """
         Apply the missing value strategy.

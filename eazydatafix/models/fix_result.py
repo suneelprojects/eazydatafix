@@ -4,6 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 from eazydatafix.models.assessment_report import AssessmentReport
+from eazydatafix.models.cleaning_change import CleaningChange
 from eazydatafix.rendering.console import Console
 
 
@@ -17,6 +18,9 @@ class FixResult:
     before_report: AssessmentReport
     after_report: AssessmentReport
     applied_fixes: list[str]
+    change_log: list[CleaningChange] | None = None
+    dry_run: bool = False
+    proposed_dataset: pd.DataFrame | None = None
 
     def __repr__(self) -> str:
         """
@@ -28,7 +32,7 @@ class FixResult:
 
         lines = [
             "",
-            "✅ EazyDataFix - Fix Completed",
+            "🔎 EazyDataFix - Fix Preview" if self.dry_run else "✅ EazyDataFix - Fix Completed",
             "=" * 45,
             "",
             "📊 Dataset",

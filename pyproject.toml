@@ -53,6 +53,10 @@ dependencies = [
 [project.optional-dependencies]
 parquet = ["pyarrow>=14.0.0"]
 openai = ["openai>=1.66.3,<3"]
+yaml = ["PyYAML>=6.0"]
+
+[project.scripts]
+edf = "eazydatafix.cli:main"
 
 [project.urls]
 Homepage = "https://eazydatafix.com"

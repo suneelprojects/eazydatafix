@@ -29,7 +29,7 @@ keywords = [
 ]
 
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
@@ -63,7 +63,7 @@ Homepage = "https://eazydatafix.com"
 Repository = "https://github.com/suneelprojects/eazydatafix"
 Documentation = "https://eazydatafix.com/docs"
 Issues = "https://github.com/suneelprojects/eazydatafix/issues"
-Changelog = "https://github.com/suneelprojects/eazydatafix/blob/develop/CHANGELOG.md"
+Changelog = "https://github.com/suneelprojects/eazydatafix/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["eazydatafix*"]

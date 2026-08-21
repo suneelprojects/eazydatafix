@@ -14,7 +14,7 @@ https://semver.org/
 
 ---
 
-### v1.0.0 release candidate
+## [1.0.0] - 2026-08-08
 
 ### Added
 

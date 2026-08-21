@@ -42,59 +42,40 @@
 ### Milestone 7: Grounded Presentation — Released in v0.5.0
 - [x] Optional LLM narratives grounded exclusively in deterministic metrics
 
-### Milestone 8: Controlled, Auditable Cleaning — Ready for v1.0.0
+### Milestone 8: Controlled, Auditable Cleaning — Released in v1.0.0
 - [x] Configurable missing-value marker detection
 - [x] Column-level cleaning rules and dry-run previews
 - [x] Structured before/after cleaning change logs
 - [x] Unified profile → assess → fix → EDA workflow
 
-### Milestone 9: Preparation and Feature Readiness — Ready for v1.0.0
+### Milestone 9: Preparation and Feature Readiness — Released in v1.0.0
 - [x] Reliable type and date conversion controls
 - [x] Duplicate, outlier, text, and category preparation controls
 - [x] Structured preparation reports
 
-### Milestone 10: Validation and Contracts — Ready for v1.0.0
+### Milestone 10: Validation and Contracts — Released in v1.0.0
 - [x] Schema inference and expected-schema validation
 - [x] Reusable quality rules with explicit pass/fail reports
 - [x] Pipeline-friendly validation contracts
 
-### Milestone 11: Production Workflows — Ready for v1.0.0
+### Milestone 11: Production Workflows — Released in v1.0.0
 - [x] `edf` command-line interface with JSON/YAML configuration
 - [x] Batch and multi-file processing with structured logs and exit codes
 - [x] Lightweight extension interface for supported custom steps
 
-### Milestone 12: Stable API — Ready for v1.0.0
+### Milestone 12: Stable API — Released in v1.0.0
 - [x] Consolidated public API, formal result/report objects, and errors
 - [x] Compatibility test suite and migration guidance for necessary breaks
 - [x] Complete release verification
 
-## Version 0.1
+## Current release
 
-### File Support
-- [ ] CSV
-- [ ] Excel
+EazyDataFix v1.0.0 is the current stable production release. The complete path
+from data-quality foundations through controlled cleaning, preparation, data
+contracts, Agentic EDA, reporting, and production CLI workflows is shipped.
 
-### Data Cleaning
-- [ ] Remove duplicate rows
-- [ ] Remove duplicate columns
-- [ ] Trim extra spaces
-- [ ] Standardize column names
-- [ ] Remove empty rows
-- [ ] Remove empty columns
-- [ ] Fix data types
-- [ ] Detect date columns
-- [ ] Standardize date formats
-- [ ] Detect boolean columns
-- [ ] Remove special characters
-- [ ] Normalize text
-- [ ] Handle missing values
-- [ ] Generate cleaning report
+## Post-v1.0 direction
 
-### Export
-- [ ] CSV
-- [ ] Excel
-
-### Reports
-- [ ] Summary
-- [ ] Changes made
-- [ ] Statistics
+Future milestones will be prioritized from real usage, GitHub issues, and
+contributor feedback. Documentation, worked examples, integrations, and
+workflow quality will continue to improve without breaking the stable v1 API.

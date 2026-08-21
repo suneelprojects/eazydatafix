@@ -71,9 +71,7 @@ def test_fix_rejects_numeric_conversion_below_confidence_threshold() -> None:
 
 def test_fix_uses_date_threshold_and_audits_new_missing_values() -> None:
     """Accepted partial date parsing exposes invalid values through the audit log."""
-    dataset = pd.DataFrame(
-        {"order_date": ["2026-08-01", "2026-08-02", "2026-08-03", "invalid"]}
-    )
+    dataset = pd.DataFrame({"order_date": ["2026-08-01", "2026-08-02", "2026-08-03", "invalid"]})
 
     result = edf.fix(
         dataset,

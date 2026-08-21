@@ -5,6 +5,7 @@ import pandas as pd
 from eazydatafix.assessment.engine import AssessmentEngine
 from eazydatafix.core.dataset_loader import DatasetLoader
 from eazydatafix.fix.column_normalizer import ColumnNormalizer
+from eazydatafix.fix.datatype_converter import DataTypeConverter
 from eazydatafix.fix.duplicate_remover import DuplicateRemover
 from eazydatafix.fix.empty_column_remover import EmptyColumnRemover
 from eazydatafix.fix.empty_row_remover import EmptyRowRemover
@@ -27,6 +28,7 @@ class FixEngine:
             ColumnNormalizer(),
             WhitespaceTrimmer(),
             MissingMarkerDetector(),
+            DataTypeConverter(),
             DuplicateRemover(),
             EmptyRowRemover(),
             EmptyColumnRemover(),

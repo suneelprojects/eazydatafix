@@ -12,6 +12,21 @@ https://semver.org/
 
 ## [Unreleased]
 
+### Added
+
+- Confidence thresholds for automatic numeric and datetime conversion through
+  `FixConfig.numeric_conversion_threshold` and
+  `FixConfig.date_parsing_threshold`.
+- Deterministic conversion of numeric text, currency values, percentages,
+  boolean tokens, and named date columns in the controlled cleaning pipeline.
+
+### Changed
+
+- `FixEngine` now executes the existing `DataTypeConverter` when
+  `FixConfig.convert_data_types` is enabled.
+- Identifier, email, and phone columns are protected from automatic numeric
+  conversion so labels and leading zeroes are preserved.
+
 ---
 
 ## [1.0.0] - 2026-08-08

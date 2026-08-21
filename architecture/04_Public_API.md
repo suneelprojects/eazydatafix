@@ -32,6 +32,8 @@ to the normalized column name when column-name normalization is enabled.
 ```python
 config = edf.FixConfig(
     dry_run=True,
+    numeric_conversion_threshold=0.95,
+    date_parsing_threshold=0.80,
     column_rules={
         "salary": edf.ColumnCleaningRule(missing_value_strategy="median"),
         "notes": edf.ColumnCleaningRule(trim_whitespace=False),
@@ -44,6 +46,11 @@ preview = edf.fix("employees.csv", config)
 for change in preview.change_log or []:
     print(change.step, change.rows_before, change.rows_after)
 ```
+
+When `convert_data_types=True`, the controlled pipeline converts numeric text,
+currency values, percentages, unambiguous boolean tokens, and date-named
+columns only when the corresponding confidence threshold is met. Identifier,
+email, and phone columns are protected from automatic numeric conversion.
 
 Use `edf.run(...)` when the deterministic profile, assessment, cleaning, and
 EDA stages should be returned together in a `RunResult`.

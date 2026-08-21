@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "eazydatafix"
 dynamic = ["version"]
-description = "Deterministic data quality, cleaning, and Agentic EDA workflows for Python."
+description = "Deterministic data transformation, quality, cleaning, and readiness workflows."
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -19,13 +19,15 @@ license-files = ["LICENSE"]
 keywords = [
     "data-quality",
     "data-cleaning",
+    "data-transformation",
     "data-validation",
     "data-profiling",
     "pandas",
     "etl",
     "data-analysis",
+    "business-intelligence",
+    "machine-learning",
     "exploratory-data-analysis",
-    "agentic-eda",
 ]
 
 classifiers = [

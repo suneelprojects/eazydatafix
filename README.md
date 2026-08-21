@@ -7,22 +7,21 @@
 [![GitHub release](https://img.shields.io/github/v/release/suneelprojects/eazydatafix)](https://github.com/suneelprojects/eazydatafix/releases)
 [![GitHub stars](https://img.shields.io/github/stars/suneelprojects/eazydatafix?style=social)](https://github.com/suneelprojects/eazydatafix)
 
-## Agentic EDA you can inspect, reproduce, and trust.
+## Deterministic data transformation you can inspect and trust
 
-EazyDataFix is a deterministic-first Python framework that understands datasets,
-plans appropriate analyses, executes them reproducibly, and generates traceable
-reports without requiring an LLM.
+EazyDataFix is a deterministic-first Python library for turning messy datasets
+into reliable, typed, auditable data for analysis and downstream tools.
 
-It combines dataset understanding, semantic-role detection, deterministic
-planning, modular execution, traceable findings, and reproducible reporting.
-The same package also supports data-quality assessment, validation, cleaning,
-preparation, and exploratory data analysis.
+It combines dataset profiling, quality assessment, controlled cleaning, safe
+type conversion, preparation, contracts, and before-and-after reporting. The
+active roadmap is focused on Analysis Ready, ML Ready, and Power BI Ready data
+profiles. Existing EDA and Agentic EDA APIs remain available for compatibility,
+but are not the current development focus.
 
 > EazyDataFix v1.0.0 is the current stable production release. It preserves
 > every v0.5 workflow and adds controlled cleaning, preparation reports, data
 > contracts, a unified `edf.run()` workflow, and a production command-line
-> interface. Deterministic analysis remains authoritative and works without an
-> LLM.
+> interface.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -30,73 +29,55 @@ Install with `pip install eazydatafix` ·
 
 ## Quick start
 
-Run the complete deterministic Agentic EDA workflow:
+Preview a controlled transformation without modifying the source dataset:
 
 ```python
 import eazydatafix as edf
 
-workflow = edf.run_agentic_eda("employees.csv")
-
-report = edf.export_agentic_eda_report(
-    workflow,
-    dataset="employees.csv",
-    output_dir="eda-report",
-)
-
-print(workflow.priority_findings)
-print(workflow.follow_up_actions)
-print(report.generated_files)
-```
-
-Export the same deterministic workflow as a ready-to-run Jupyter Notebook:
-
-```python
-notebook = edf.export_agentic_eda_notebook(
-    workflow,
-    dataset="employees.csv",
-    output_path="agentic-eda.ipynb",
-)
-
-print(notebook.generated_files)
-```
-
-Notebook generation uses the Python standard library and does not require
-Jupyter or `nbformat`. DataFrame inputs produce a deterministic JSON companion
-file so the notebook can reload the original analytical dataset.
-
-Require explicit human approval between planning and execution when needed:
-
-```python
-checkpoint = edf.prepare_agentic_eda_approval("employees.csv")
-
-# Review checkpoint.eda_result and checkpoint.eda_plan before approving.
-approved_checkpoint = edf.approve_agentic_eda_plan(
-    checkpoint,
-    approved_step_ids=None,
-    reviewer="Suneel Kumar Kola",
-    notes="Approved for execution",
-)
-
-workflow = edf.resume_agentic_eda(
+preview = edf.fix(
     "employees.csv",
-    approved_checkpoint,
+    edf.FixConfig(
+        dry_run=True,
+        numeric_conversion_threshold=0.95,
+        date_parsing_threshold=0.80,
+    ),
 )
+
+print(preview.proposed_dataset)
+print(preview.change_log)
 ```
 
-`approved_step_ids=None` approves every step selected by the original
-deterministic plan. A supplied list approves only those originally selected
-steps, in planner order. Changed datasets fail fingerprint validation before
-execution. Dependency steps must be included explicitly in subset approvals;
-missing dependencies fail approval and are never added automatically.
+Apply the same rules and continue with the prepared DataFrame:
 
-This workflow:
+```python
+result = edf.fix(
+    "employees.csv",
+    edf.FixConfig(
+        numeric_conversion_threshold=0.95,
+        date_parsing_threshold=0.80,
+    ),
+)
+preparation = edf.prepare_with_report(result.dataset)
 
-1. Understands the dataset
-2. Assigns semantic roles
-3. Plans relevant analyses
-4. Executes selected analyses
-5. Generates traceable findings and actions
-6. Exports reproducible reports and visualisations
+df = preparation.dataset
+print(preparation.changes)
+print(df.dtypes)
+```
+
+Or use the existing analysis-ready convenience workflow:
+
+```python
+df = edf.analysis_ready("employees.csv")
+```
+
+The controlled transformation pipeline can:
+
+1. Normalize column names and text whitespace
+2. Detect configured missing-value markers
+3. Convert safe numeric, currency, percentage, boolean, and date values
+4. Preserve identifiers, phone numbers, emails, and leading zeroes
+5. Remove configured duplicates and empty structures
+6. Record every applied or proposed change
 
 ## Installation
 

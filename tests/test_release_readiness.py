@@ -15,8 +15,9 @@ def test_release_documentation_matches_package_version() -> None:
     readme = (project_root / "README.md").read_text(encoding="utf-8")
     release_notes = (project_root / "RELEASE_NOTES.md").read_text(encoding="utf-8")
 
-    assert "### v1.0.0 release candidate" in changelog
-    assert "- Development release candidate: v1.0.0" in readme
+    assert "## [1.0.0] - 2026-08-08" in changelog
+    assert "- Current stable version: v1.0.0" in readme
+    assert "- Development status: Production/Stable" in readme
     assert release_notes.startswith("# EazyDataFix 1.0.0 Release Notes")
 
 

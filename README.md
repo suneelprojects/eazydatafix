@@ -18,9 +18,11 @@ planning, modular execution, traceable findings, and reproducible reporting.
 The same package also supports data-quality assessment, validation, cleaning,
 preparation, and exploratory data analysis.
 
-> EazyDataFix v0.5.0 adds optional evidence-cited AI narratives to completed
-> deterministic Agentic EDA workflows. Deterministic analysis remains the
-> authoritative source of metrics and continues to work without an LLM.
+> EazyDataFix v1.0.0 is the current stable production release. It preserves
+> every v0.5 workflow and adds controlled cleaning, preparation reports, data
+> contracts, a unified `edf.run()` workflow, and a production command-line
+> interface. Deterministic analysis remains authoritative and works without an
+> LLM.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -314,33 +316,35 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v0.5.0
-- Development release candidate: v1.0.0
-- Development status: Beta
+- Current stable version: v1.0.0
+- Development status: Production/Stable
+- Released: 8 August 2026
 - Python support: 3.10–3.13
 - Licence: MIT
 
-The public API may continue evolving before v1.0.
+The v1 public API follows Semantic Versioning. Backward-incompatible public API
+changes require a new major version.
 
 ## Roadmap preview
 
 - **v0.3.0 — Deterministic Agentic EDA Foundation — Released**
 - **v0.4.0 — Notebook Export and Human Approval — Released**
 - **v0.5.0 — Optional Grounded AI Narratives — Released**
-- **v0.6.0 — Controlled, Auditable Cleaning — Planned**
-- **v0.7.0 — Data Preparation and Feature Readiness — Planned**
-- **v0.8.0 — Data Validation and Contracts — Planned**
-- **v0.9.0 — Production Workflow — Planned**
-- **v1.0.0 — Stable Production API — Release candidate**
+- **v0.6.0 — Controlled, Auditable Cleaning — Shipped in v1.0.0**
+- **v0.7.0 — Data Preparation and Feature Readiness — Shipped in v1.0.0**
+- **v0.8.0 — Data Validation and Contracts — Shipped in v1.0.0**
+- **v0.9.0 — Production Workflow — Shipped in v1.0.0**
+- **v1.0.0 — Stable Production API — Current**
 
 See the [full roadmap](ROADMAP.md) for milestone details.
 
 ## Contributing
 
 Contributions, issue reports, and focused feature proposals are welcome.
-Contribution guidance is being prepared; use
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow, quality
+checks, and pull-request guidance. Use
 [GitHub Issues](https://github.com/suneelprojects/eazydatafix/issues) to report
-bugs or discuss a change for now.
+bugs or discuss a focused change.
 
 ## Licence
 

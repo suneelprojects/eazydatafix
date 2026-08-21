@@ -41,7 +41,7 @@ jobs:
         run: ruff check .
 
       - name: Check Formatting
-        run: black --check --diff .
+        run: black --check .
 
   test:
     name: Tests (Python ${{ matrix.python-version }})

@@ -21,6 +21,8 @@ class FixConfig:
     trim_whitespace: bool = True
     normalize_column_names: bool = True
     convert_data_types: bool = True
+    numeric_conversion_threshold: float = 0.95
+    date_parsing_threshold: float = 0.80
 
     def __post_init__(self) -> None:
         """Validate deterministic cleaning options and column-level overrides."""
@@ -28,6 +30,14 @@ class FixConfig:
             raise TypeError("missing_value_strategy must be a string.")
         if not isinstance(self.dry_run, bool):
             raise TypeError("dry_run must be a boolean.")
+        if not isinstance(self.convert_data_types, bool):
+            raise TypeError("convert_data_types must be a boolean.")
+        for name, value in (
+            ("numeric_conversion_threshold", self.numeric_conversion_threshold),
+            ("date_parsing_threshold", self.date_parsing_threshold),
+        ):
+            if not isinstance(value, float) or not 0.0 < value <= 1.0:
+                raise ValueError(f"{name} must be a float between 0 and 1.")
         if any(not isinstance(marker, str) for marker in self.missing_markers):
             raise TypeError("missing_markers must contain only strings.")
         if any(

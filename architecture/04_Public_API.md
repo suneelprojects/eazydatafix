@@ -81,6 +81,41 @@ extra, `artifact.to_sklearn()` provides a scikit-learn `FunctionTransformer`.
 Neither the engine nor the artifact trains, ranks, predicts with, or evaluates
 a machine-learning model.
 
+## Power BI Ready Workflow
+
+```python
+config = edf.PowerBIReadyConfig(
+    keys=(edf.PowerBIKey("customers", ("customer_id",)),),
+    relationships=(
+        edf.PowerBIRelationship(
+            "sales",
+            ("customer_id",),
+            "customers",
+            ("customer_id",),
+            "many_to_one",
+        ),
+    ),
+    generate_date_table=True,
+    date_columns={"sales": ("order_date",)},
+)
+result = edf.powerbi_ready(
+    {"sales": "sales.csv", "customers": "customers.csv"},
+    config,
+)
+```
+
+`powerbi_ready` accepts a single dataset or an insertion-ordered mapping of
+named datasets. Each table passes through the composed Analysis Ready engine
+before Power BI-specific naming, field typing, nested-record flattening, key
+checks, and relationship validation. A configured date dimension spans the
+minimum through maximum selected date and creates auditable many-to-one
+relationship declarations.
+
+`PowerBIReadyResult.save(...)` supports CSV and Excel using core dependencies,
+plus Parquet through the existing `parquet` extra. Every export includes a
+deterministic JSON readiness report. The API does not create `.pbix` files,
+reports, measures, or dashboards.
+
 ## Controlled Cleaning Workflow
 
 Use `FixConfig` to make cleaning choices explicit and auditable. Rules refer

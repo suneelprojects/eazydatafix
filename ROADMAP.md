@@ -131,10 +131,11 @@ The following milestones are released and remain supported.
 
 ## Current release
 
-EazyDataFix v1.0.0 is the current stable production release. The complete path
-from data-quality foundations through controlled cleaning, preparation, data
-contracts, Agentic EDA, reporting, and production CLI workflows is shipped.
+EazyDataFix v1.4.0 is the current stable production release. It preserves the
+v1 API and ships the complete Analysis Ready, ML Ready, and Power BI Ready
+profiles alongside the existing data-quality, cleaning, preparation, contract,
+EDA, reporting, and CLI workflows.
 
-The next release line follows the transformation-first milestones defined at
-the top of this roadmap. Hackathon and user feedback will refine priorities
-within those milestones without breaking the stable v1 API.
+The unchecked transformation-foundation and cross-release quality items remain
+active backlog. Hackathon and user feedback will refine those priorities
+without breaking the stable v1 API.

@@ -12,6 +12,10 @@ https://semver.org/
 
 ## [Unreleased]
 
+---
+
+## [1.4.0] - 2026-08-26
+
 ### Added
 
 - Confidence thresholds for automatic numeric and datetime conversion through

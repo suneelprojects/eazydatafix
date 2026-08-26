@@ -41,12 +41,12 @@ and contract components. They will not duplicate transformation engines.
 
 ## v1.4.0: Power BI Ready profile
 
-- [ ] Enforce consistent Power BI-compatible field types and names
-- [ ] Validate keys and relationship cardinality
-- [ ] Flatten supported nested records deterministically
-- [ ] Generate an optional canonical date table
-- [ ] Export validated CSV, Excel, and Parquet datasets with a readiness report
-- [ ] Do not generate `.pbix` reports or dashboards
+- [x] Enforce consistent Power BI-compatible field types and names
+- [x] Validate keys and relationship cardinality
+- [x] Flatten supported nested records deterministically
+- [x] Generate an optional canonical date table
+- [x] Export validated CSV, Excel, and Parquet datasets with a readiness report
+- [x] Do not generate `.pbix` reports or dashboards
 
 ## Release quality requirements
 

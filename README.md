@@ -125,6 +125,47 @@ high-cardinality features, unsupported datetimes, and likely leakage fields are
 reported and safely excluded by default. Missing target rows are dropped before
 splitting; the target itself is never imputed, encoded, or scaled.
 
+Prepare a validated multi-table Power BI model input:
+
+```python
+tables = {
+    "sales": "sales.csv",
+    "customers": "customers.csv",
+}
+
+result = edf.powerbi_ready(
+    tables,
+    edf.PowerBIReadyConfig(
+        keys=(edf.PowerBIKey("customers", ("customer_id",)),),
+        relationships=(
+            edf.PowerBIRelationship(
+                "sales",
+                ("customer_id",),
+                "customers",
+                ("customer_id",),
+                "many_to_one",
+            ),
+        ),
+        generate_date_table=True,
+        date_columns={"sales": ("order_date",)},
+    ),
+)
+
+print(result.readiness_score, result.is_ready)
+print(result.field_types)
+print(result.issues)
+
+result.save("powerbi_output", formats=("csv", "excel"))
+```
+
+`powerbi_ready(...)` also accepts a single DataFrame or file. It composes the
+Analysis Ready workflow, normalizes collision-free names and supported field
+types, flattens record-valued fields, validates keys and relationship
+cardinality, and can generate a continuous date dimension. Exports include a
+JSON readiness report; Parquet uses the existing `parquet` extra. EazyDataFix
+prepares model inputs but intentionally does not generate `.pbix` reports,
+visuals, measures, or dashboards.
+
 The controlled transformation pipeline can:
 
 1. Normalize column names and text whitespace

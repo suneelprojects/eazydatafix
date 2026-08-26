@@ -36,6 +36,16 @@ https://semver.org/
   categories.
 - An optional `ml` extra for scikit-learn `FunctionTransformer`
   interoperability; the core ML Ready workflow requires no new dependency.
+- A `powerbi_ready(...)` workflow for one dataset or a mapping of model tables,
+  with Power BI-compatible field names, field types, and deterministic ordering.
+- Power BI model diagnostics for null or duplicate keys, missing relationship
+  fields, incompatible relationship types, cardinality violations, and orphan
+  dimension keys.
+- Deterministic nested-record flattening, safe JSON serialization for repeating
+  collections, and an optional continuous canonical date table.
+- CSV, Excel, and optional Parquet table exports accompanied by a deterministic
+  JSON readiness report. The workflow does not create `.pbix` reports or
+  dashboards.
 
 ### Changed
 

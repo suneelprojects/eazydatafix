@@ -71,6 +71,12 @@ from .models.ml_ready_result import (
     MLReadyIssue,
     MLReadyResult,
 )
+from .models.powerbi_ready_config import (
+    PowerBIKey,
+    PowerBIReadyConfig,
+    PowerBIRelationship,
+)
+from .models.powerbi_ready_result import PowerBIReadyIssue, PowerBIReadyResult
 from .models.preparation_report import PreparationReport
 from .models.prepare_config import PrepareConfig
 from .models.ready_result import ReadyResult
@@ -80,6 +86,7 @@ from .narratives.provider import NarrativeProvider
 from .prepare.engine import PrepareEngine
 from .readiness.analysis import AnalysisReadyEngine
 from .readiness.ml import MLReadyEngine
+from .readiness.powerbi import PowerBIInput, PowerBIReadyEngine
 from .reporting.agentic_eda import (
     AgenticEDANotebookExporter,
     AgenticEDAReportExporter,
@@ -146,6 +153,12 @@ __all__ = [
     "MLReadyEngine",
     "MLReadyIssue",
     "MLReadyResult",
+    "PowerBIKey",
+    "PowerBIReadyConfig",
+    "PowerBIReadyEngine",
+    "PowerBIReadyIssue",
+    "PowerBIReadyResult",
+    "PowerBIRelationship",
     "ReadyResult",
     "Report",
     "RunResult",
@@ -172,6 +185,7 @@ __all__ = [
     "profile",
     "infer_schema",
     "ml_ready",
+    "powerbi_ready",
     "run_agentic_eda",
     "run",
     "reject_agentic_eda_plan",
@@ -656,3 +670,22 @@ def ml_ready(
         An MLReadyResult containing transformed splits and a reusable artifact.
     """
     return MLReadyEngine().run(dataset, target=target, config=config)
+
+
+def powerbi_ready(
+    dataset: PowerBIInput,
+    config: PowerBIReadyConfig | None = None,
+) -> PowerBIReadyResult:
+    """Prepare validated tables and exports for a Power BI semantic model.
+
+    The workflow accepts one dataset or a mapping of table names to datasets.
+    It never creates a ``.pbix`` report or dashboard.
+
+    Args:
+        dataset: One supported dataset or a mapping of named datasets.
+        config: Optional Power BI readiness and model-contract configuration.
+
+    Returns:
+        A PowerBIReadyResult containing typed tables and readiness evidence.
+    """
+    return PowerBIReadyEngine().run(dataset, config)

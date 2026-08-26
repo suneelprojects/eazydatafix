@@ -70,6 +70,31 @@ Or use the existing analysis-ready convenience workflow:
 df = edf.analysis_ready("employees.csv")
 ```
 
+Return the same prepared dataset with readiness evidence:
+
+```python
+result = edf.analysis_ready_with_report(
+    "employees.csv",
+    edf.AnalysisReadyConfig(
+        prepare_config=edf.PrepareConfig(
+            outlier_action="flag",
+            derive_date_parts=("year", "month", "day_of_week"),
+        ),
+    ),
+)
+
+print(result.before_score, result.after_score, result.is_ready)
+print(result.changes)
+print(result.warnings)
+print(result.validations)
+
+df = result.dataset
+```
+
+The detailed workflow composes assessment, controlled fixing, preparation,
+and final validation. It also reports constant, nearly empty, invalid, and
+inconsistently labelled category columns without hiding them from the user.
+
 The controlled transformation pipeline can:
 
 1. Normalize column names and text whitespace

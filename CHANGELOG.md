@@ -19,6 +19,12 @@ https://semver.org/
   `FixConfig.date_parsing_threshold`.
 - Deterministic conversion of numeric text, currency values, percentages,
   boolean tokens, and named date columns in the controlled cleaning pipeline.
+- A composed `analysis_ready_with_report(...)` workflow with before/after
+  scores, transformations, warnings, diagnostics, and final validation.
+- Opt-in date-part derivation and non-destructive IQR outlier flags through
+  `PrepareConfig`.
+- Analysis diagnostics for constant, nearly empty, invalid, and inconsistent
+  category columns.
 
 ### Changed
 
@@ -26,6 +32,8 @@ https://semver.org/
   `FixConfig.convert_data_types` is enabled.
 - Identifier, email, and phone columns are protected from automatic numeric
   conversion so labels and leading zeroes are preserved.
+- `analysis_ready(...)` continues to return a pandas DataFrame while delegating
+  to the same auditable Analysis Ready engine.
 
 ---
 

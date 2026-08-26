@@ -175,7 +175,8 @@ class PrepareEngine:
             self._normalize_text(df, changes)
         if config.remove_duplicates:
             self._remove_duplicates(df, changes)
-        self._handle_outliers(df, config, changes)
+        self._handle_outliers(df, config, changes, warnings)
+        self._derive_date_parts(df, config, changes, warnings)
 
         return PreparationReport(
             dataset=df,
@@ -204,6 +205,8 @@ class PrepareEngine:
     ) -> bool:
         """Parse date-like columns only when their conversion is sufficiently reliable."""
         series = df[column]
+        if pd.api.types.is_datetime64_any_dtype(series):
+            return True
         parsed = pd.to_datetime(series, errors="coerce", format="mixed")
         ratio = self._conversion_ratio(series, parsed)
         if ratio >= config.date_parsing_threshold:
@@ -236,11 +239,18 @@ class PrepareEngine:
             changes.append(f"Removed {count} duplicate row(s).")
 
     @staticmethod
-    def _handle_outliers(df: pd.DataFrame, config: PrepareConfig, changes: list[str]) -> None:
+    def _handle_outliers(
+        df: pd.DataFrame,
+        config: PrepareConfig,
+        changes: list[str],
+        warnings: list[str],
+    ) -> None:
         """Apply deterministic IQR outlier controls without touching identifiers."""
         if config.outlier_action == "none":
             return
         for column in df.select_dtypes(include="number"):
+            if ColumnProfiler.detect(column, df[column]) == "IDENTIFIER":
+                continue
             series = df[column].dropna()
             if len(series) < 4:
                 continue
@@ -250,9 +260,57 @@ class PrepareEngine:
             count = int(mask.sum())
             if not count:
                 continue
-            if config.outlier_action == "cap":
+            if config.outlier_action == "flag":
+                flag_column = f"{column}_is_outlier"
+                if flag_column in df.columns:
+                    warnings.append(
+                        f"Skipped outlier flag for '{column}' because "
+                        f"'{flag_column}' already exists."
+                    )
+                    continue
+                df[flag_column] = mask.astype("boolean")
+                changes.append(f"Flagged {count} IQR outlier(s) in '{column}'.")
+            elif config.outlier_action == "cap":
                 df[column] = df[column].clip(lower=lower, upper=upper)
                 changes.append(f"Capped {count} IQR outlier(s) in '{column}'.")
             else:
                 df.drop(index=df.index[mask], inplace=True)
                 changes.append(f"Dropped {count} row(s) with IQR outliers in '{column}'.")
+
+    @staticmethod
+    def _derive_date_parts(
+        df: pd.DataFrame,
+        config: PrepareConfig,
+        changes: list[str],
+        warnings: list[str],
+    ) -> None:
+        """Derive configured analytical fields from parsed datetime columns."""
+        if not config.derive_date_parts:
+            return
+
+        extractors = {
+            "year": lambda series: series.dt.year.astype("Int16"),
+            "quarter": lambda series: series.dt.quarter.astype("Int8"),
+            "month": lambda series: series.dt.month.astype("Int8"),
+            "month_name": lambda series: series.dt.month_name().astype("string"),
+            "week": lambda series: series.dt.isocalendar().week.astype("Int16"),
+            "day": lambda series: series.dt.day.astype("Int8"),
+            "day_of_week": lambda series: series.dt.day_name().astype("string"),
+            "is_weekend": lambda series: series.dt.dayofweek.ge(5).astype("boolean"),
+        }
+
+        date_columns = list(df.select_dtypes(include=["datetime", "datetimetz"]).columns)
+        for column in date_columns:
+            created: list[str] = []
+            for part in config.derive_date_parts:
+                derived_column = f"{column}_{part}"
+                if derived_column in df.columns:
+                    warnings.append(
+                        f"Skipped date part '{part}' for '{column}' because "
+                        f"'{derived_column}' already exists."
+                    )
+                    continue
+                df[derived_column] = extractors[part](df[column])
+                created.append(derived_column)
+            if created:
+                changes.append(f"Derived date parts from '{column}': " + ", ".join(created) + ".")

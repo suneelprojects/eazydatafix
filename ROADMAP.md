@@ -24,11 +24,11 @@ and contract components. They will not duplicate transformation engines.
 
 ## v1.2.0: Analysis Ready profile
 
-- [ ] Compose assess, fix, prepare, and validate as one readiness workflow
-- [ ] Return before/after readiness scores, changes, warnings, and validation
-- [ ] Detect constant, nearly empty, invalid, and inconsistent category columns
-- [ ] Add configurable date-part derivation and outlier flagging
-- [ ] Preserve the existing `analysis_ready(...)` DataFrame return contract
+- [x] Compose assess, fix, prepare, and validate as one readiness workflow
+- [x] Return before/after readiness scores, changes, warnings, and validation
+- [x] Detect constant, nearly empty, invalid, and inconsistent category columns
+- [x] Add configurable date-part derivation and outlier flagging
+- [x] Preserve the existing `analysis_ready(...)` DataFrame return contract
 
 ## v1.3.0: ML Ready profile
 

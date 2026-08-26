@@ -95,6 +95,36 @@ The detailed workflow composes assessment, controlled fixing, preparation,
 and final validation. It also reports constant, nearly empty, invalid, and
 inconsistently labelled category columns without hiding them from the user.
 
+Prepare leakage-safe supervised machine-learning inputs:
+
+```python
+result = edf.ml_ready(
+    "customer_churn.csv",
+    target="churned",
+    config=edf.MLReadyConfig(
+        test_size=0.20,
+        categorical_encoding="one_hot",
+        scaling="standard",
+    ),
+)
+
+X_train, X_test = result.X_train, result.X_test
+y_train, y_test = result.y_train, result.y_test
+
+print(result.readiness_score, result.is_ready)
+print(result.feature_names)
+print(result.issues)
+
+# Reuse parameters fitted only from X_train.
+result.artifact.to_json("churn_preprocessing.json")
+```
+
+`ml_ready(...)` requires an explicit target, splits rows before fitting learned
+transformations, and never trains or evaluates a model. Identifiers, constants,
+high-cardinality features, unsupported datetimes, and likely leakage fields are
+reported and safely excluded by default. Missing target rows are dropped before
+splitting; the target itself is never imputed, encoded, or scaled.
+
 The controlled transformation pipeline can:
 
 1. Normalize column names and text whitespace
@@ -114,6 +144,12 @@ For Parquet support:
 
 ```bash
 pip install "eazydatafix[parquet]"
+```
+
+For optional scikit-learn transformer interoperability:
+
+```bash
+pip install "eazydatafix[ml]"
 ```
 
 Requires Python 3.10 or later. Tested with Python 3.10–3.13.

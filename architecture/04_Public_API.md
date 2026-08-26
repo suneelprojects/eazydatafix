@@ -50,6 +50,37 @@ cleaning pipeline. With a dry-run `FixConfig`, the source remains in
 `result.dataset` and the complete candidate is returned in
 `result.proposed_dataset`.
 
+## ML Ready Workflow
+
+```python
+config = edf.MLReadyConfig(
+    test_size=0.20,
+    random_state=42,
+    numeric_imputation="median",
+    categorical_imputation="most_frequent",
+    categorical_encoding="one_hot",
+    scaling="standard",
+)
+result = edf.ml_ready("customer_churn.csv", target="churned", config=config)
+
+X_train, X_test = result.X_train, result.X_test
+y_train, y_test = result.y_train, result.y_test
+artifact = result.artifact
+```
+
+`ml_ready` first composes the Analysis Ready workflow using the non-imputing
+`keep` strategy. It then splits rows before fitting numeric/categorical
+imputation, category vocabularies, or scaling parameters. The target is
+required and remains untouched. Identifiers, constants, high-cardinality
+features, unsupported datetimes, and leakage risks are diagnosed and excluded
+by default.
+
+`MLPreprocessingArtifact` applies the exact training-fitted parameters to new
+Analysis Ready data and supports JSON round trips. With the optional `ml`
+extra, `artifact.to_sklearn()` provides a scikit-learn `FunctionTransformer`.
+Neither the engine nor the artifact trains, ranks, predicts with, or evaluates
+a machine-learning model.
+
 ## Controlled Cleaning Workflow
 
 Use `FixConfig` to make cleaning choices explicit and auditable. Rules refer

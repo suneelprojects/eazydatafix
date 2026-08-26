@@ -1,6 +1,7 @@
 from .base import MissingValueStrategy
 from .drop import DropStrategy
 from .factory import StrategyFactory
+from .keep import KeepStrategy
 from .mean import MeanStrategy
 from .median import MedianStrategy
 from .mode import ModeStrategy
@@ -12,6 +13,7 @@ __all__ = [
     "MedianStrategy",
     "MissingValueStrategy",
     "ModeStrategy",
+    "KeepStrategy",
     "SmartStrategy",
     "StrategyFactory",
 ]

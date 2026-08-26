@@ -32,12 +32,12 @@ and contract components. They will not duplicate transformation engines.
 
 ## v1.3.0: ML Ready profile
 
-- [ ] Require explicit target selection for supervised workflows
-- [ ] Split training and test data before fitting learned transformations
-- [ ] Add numeric and categorical imputation, encoding, and optional scaling
-- [ ] Detect identifiers, constant features, high cardinality, and leakage risks
-- [ ] Return reusable preprocessing artifacts through an optional `ml` extra
-- [ ] Do not train, rank, or evaluate machine-learning models
+- [x] Require explicit target selection for supervised workflows
+- [x] Split training and test data before fitting learned transformations
+- [x] Add numeric and categorical imputation, encoding, and optional scaling
+- [x] Detect identifiers, constant features, high cardinality, and leakage risks
+- [x] Return reusable preprocessing artifacts through an optional `ml` extra
+- [x] Do not train, rank, or evaluate machine-learning models
 
 ## v1.4.0: Power BI Ready profile
 

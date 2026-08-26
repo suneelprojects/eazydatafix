@@ -25,6 +25,17 @@ https://semver.org/
   `PrepareConfig`.
 - Analysis diagnostics for constant, nearly empty, invalid, and inconsistent
   category columns.
+- A supervised `ml_ready(...)` workflow with explicit target selection,
+  deterministic train/test splitting, training-only fitted preprocessing, and
+  an ML readiness score.
+- Reusable `MLPreprocessingArtifact` JSON parameters for numeric and categorical
+  imputation, one-hot or ordinal encoding, and optional standard or min-max
+  scaling.
+- ML diagnostics for identifiers, constant features, high cardinality,
+  unsupported datetimes, target leakage, class imbalance, and unseen test
+  categories.
+- An optional `ml` extra for scikit-learn `FunctionTransformer`
+  interoperability; the core ML Ready workflow requires no new dependency.
 
 ### Changed
 
@@ -34,6 +45,8 @@ https://semver.org/
   conversion so labels and leading zeroes are preserved.
 - `analysis_ready(...)` continues to return a pandas DataFrame while delegating
   to the same auditable Analysis Ready engine.
+- The controlled cleaning pipeline supports `missing_value_strategy="keep"`
+  so ML imputation can be fitted after the train/test split.
 
 ---
 

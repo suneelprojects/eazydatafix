@@ -1,5 +1,6 @@
 from eazydatafix.fix.strategies.base import MissingValueStrategy
 from eazydatafix.fix.strategies.drop import DropStrategy
+from eazydatafix.fix.strategies.keep import KeepStrategy
 from eazydatafix.fix.strategies.mean import MeanStrategy
 from eazydatafix.fix.strategies.median import MedianStrategy
 from eazydatafix.fix.strategies.mode import ModeStrategy
@@ -25,6 +26,7 @@ class StrategyFactory:
             "median": MedianStrategy,
             "mode": ModeStrategy,
             "drop": DropStrategy,
+            "keep": KeepStrategy,
         }
 
         if strategy not in strategies:

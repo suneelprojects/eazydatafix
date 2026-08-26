@@ -18,11 +18,37 @@ ai_readiness = edf.assess_ai_readiness("employees.csv")
 fixed = edf.fix("employees.csv")
 prepared = edf.prepare(fixed.dataset)
 analysis_dataset = edf.analysis_ready("employees.csv")
+analysis_result = edf.analysis_ready_with_report("employees.csv")
 ```
 
 `profile`, `assess`, `assess_ai_readiness`, `fix`, `prepare`, and
-`analysis_ready` accept pandas DataFrames or supported dataset paths where
-applicable.
+the Analysis Ready workflows accept pandas DataFrames or supported dataset
+paths where applicable. `analysis_ready` preserves the original DataFrame-only
+return contract, while `analysis_ready_with_report` returns scores, changes,
+warnings, diagnostics, and validation results.
+
+## Analysis Ready Workflow
+
+```python
+config = edf.AnalysisReadyConfig(
+    nearly_empty_threshold=0.80,
+    minimum_readiness_score=80.0,
+    prepare_config=edf.PrepareConfig(
+        outlier_action="flag",
+        derive_date_parts=("year", "month", "day_of_week"),
+    ),
+)
+result = edf.analysis_ready_with_report("employees.csv", config)
+
+dataset = result.dataset
+ready = result.is_ready
+```
+
+The engine composes the existing `FixEngine`, `PrepareEngine`,
+`AssessmentEngine`, and `ValidationEngine`. It does not implement a parallel
+cleaning pipeline. With a dry-run `FixConfig`, the source remains in
+`result.dataset` and the complete candidate is returned in
+`result.proposed_dataset`.
 
 ## Controlled Cleaning Workflow
 

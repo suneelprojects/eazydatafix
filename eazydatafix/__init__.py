@@ -44,6 +44,8 @@ from .models.agentic_eda_result import (
     VisualisationRecommendation,
 )
 from .models.ai_readiness_report import AIReadinessReport
+from .models.analysis_ready_config import AnalysisReadyConfig
+from .models.analysis_ready_result import AnalysisReadyIssue, AnalysisReadyResult
 from .models.assessment_report import AssessmentReport
 from .models.cleaning_change import CleaningChange
 from .models.column_cleaning_rule import ColumnCleaningRule
@@ -70,6 +72,7 @@ from .models.run_result import RunResult
 from .narratives import GroundedNarrativeEngine
 from .narratives.provider import NarrativeProvider
 from .prepare.engine import PrepareEngine
+from .readiness.analysis import AnalysisReadyEngine
 from .reporting.agentic_eda import (
     AgenticEDANotebookExporter,
     AgenticEDAReportExporter,
@@ -91,6 +94,10 @@ __all__ = [
     "AgenticEDAResult",
     "AIReadinessEngine",
     "AIReadinessReport",
+    "AnalysisReadyConfig",
+    "AnalysisReadyEngine",
+    "AnalysisReadyIssue",
+    "AnalysisReadyResult",
     "AssessmentEngine",
     "AssessmentReport",
     "CleaningChange",
@@ -136,6 +143,7 @@ __all__ = [
     "VisualisationRecommendation",
     "WorkflowError",
     "analysis_ready",
+    "analysis_ready_with_report",
     "approve_agentic_eda_plan",
     "assess_ai_readiness",
     "assess",
@@ -573,6 +581,8 @@ def prepare_with_report(
 def analysis_ready(
     dataset: str | Path | pd.DataFrame,
     config: FixConfig | None = None,
+    *,
+    prepare_config: PrepareConfig | None = None,
 ) -> pd.DataFrame:
     """
     Clean and prepare a dataset for exploratory data analysis (EDA).
@@ -580,18 +590,34 @@ def analysis_ready(
     Args:
         dataset: A pandas DataFrame or path to a supported dataset file.
         config: Optional configuration for the cleaning operation.
+        prepare_config: Optional configuration for preparation transformations.
 
     Returns:
         A cleaned and prepared pandas DataFrame.
     """
 
-    cleaned = fix(
+    result = analysis_ready_with_report(
         dataset,
-        config=config,
+        AnalysisReadyConfig(
+            fix_config=config or FixConfig(),
+            prepare_config=prepare_config or PrepareConfig(),
+        ),
     )
 
-    engine = PrepareEngine()
+    return result.dataset
 
-    return engine.prepare(
-        cleaned.dataset,
-    )
+
+def analysis_ready_with_report(
+    dataset: str | Path | pd.DataFrame,
+    config: AnalysisReadyConfig | None = None,
+) -> AnalysisReadyResult:
+    """Return an Analysis Ready dataset with scores, changes, and diagnostics.
+
+    Args:
+        dataset: A pandas DataFrame or path to a supported dataset file.
+        config: Optional configuration for the composed readiness workflow.
+
+    Returns:
+        An AnalysisReadyResult containing the dataset and auditable evidence.
+    """
+    return AnalysisReadyEngine().run(dataset, config)

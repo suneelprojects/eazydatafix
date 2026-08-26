@@ -9,6 +9,7 @@ Its only responsibility is plugin registration.
 """
 
 from eazydatafix.fix.strategies.drop import DropStrategy
+from eazydatafix.fix.strategies.keep import KeepStrategy
 from eazydatafix.fix.strategies.mean import MeanStrategy
 from eazydatafix.fix.strategies.median import MedianStrategy
 from eazydatafix.fix.strategies.mode import ModeStrategy
@@ -49,4 +50,9 @@ def register_plugins(registry: PluginRegistry) -> None:
     registry.register(
         category="strategy",
         plugin=DropStrategy,
+    )
+
+    registry.register(
+        category="strategy",
+        plugin=KeepStrategy,
     )

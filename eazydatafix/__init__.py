@@ -65,6 +65,12 @@ from .models.eda_plan import EDAPlan, EDAPlanStep
 from .models.eda_result import EDAResult
 from .models.fix_config import FixConfig
 from .models.fix_result import FixResult
+from .models.ml_ready_config import MLReadyConfig
+from .models.ml_ready_result import (
+    MLPreprocessingArtifact,
+    MLReadyIssue,
+    MLReadyResult,
+)
 from .models.preparation_report import PreparationReport
 from .models.prepare_config import PrepareConfig
 from .models.ready_result import ReadyResult
@@ -73,6 +79,7 @@ from .narratives import GroundedNarrativeEngine
 from .narratives.provider import NarrativeProvider
 from .prepare.engine import PrepareEngine
 from .readiness.analysis import AnalysisReadyEngine
+from .readiness.ml import MLReadyEngine
 from .reporting.agentic_eda import (
     AgenticEDANotebookExporter,
     AgenticEDAReportExporter,
@@ -134,6 +141,11 @@ __all__ = [
     "NarrativeEvidence",
     "NarrativeProvider",
     "InvalidDatasetError",
+    "MLPreprocessingArtifact",
+    "MLReadyConfig",
+    "MLReadyEngine",
+    "MLReadyIssue",
+    "MLReadyResult",
     "ReadyResult",
     "Report",
     "RunResult",
@@ -159,6 +171,7 @@ __all__ = [
     "prepare_agentic_eda_approval",
     "profile",
     "infer_schema",
+    "ml_ready",
     "run_agentic_eda",
     "run",
     "reject_agentic_eda_plan",
@@ -621,3 +634,25 @@ def analysis_ready_with_report(
         An AnalysisReadyResult containing the dataset and auditable evidence.
     """
     return AnalysisReadyEngine().run(dataset, config)
+
+
+def ml_ready(
+    dataset: str | Path | pd.DataFrame,
+    *,
+    target: str,
+    config: MLReadyConfig | None = None,
+) -> MLReadyResult:
+    """Prepare leakage-safe train/test inputs for supervised machine learning.
+
+    This workflow never trains, ranks, or evaluates a model. Imputation,
+    encoding, and scaling parameters are fitted using training rows only.
+
+    Args:
+        dataset: A pandas DataFrame or path to a supported dataset file.
+        target: Required supervised target column.
+        config: Optional ML readiness configuration.
+
+    Returns:
+        An MLReadyResult containing transformed splits and a reusable artifact.
+    """
+    return MLReadyEngine().run(dataset, target=target, config=config)

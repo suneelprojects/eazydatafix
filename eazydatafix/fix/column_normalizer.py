@@ -23,19 +23,7 @@ class ColumnNormalizer(FixStep):
 
         original_columns = list(df.columns)
 
-        columns = []
-
-        for column in df.columns:
-
-            name = str(column).strip().lower()
-
-            name = re.sub(r"[^\w]+", "_", name)
-
-            name = re.sub(r"_+", "_", name)
-
-            name = name.strip("_")
-
-            columns.append(name)
+        columns = [self.normalize_name(column) for column in df.columns]
 
         df.columns = columns
 
@@ -43,3 +31,11 @@ class ColumnNormalizer(FixStep):
             applied_fixes.append("Normalized column names.")
 
         return df
+
+    @staticmethod
+    def normalize_name(column: object) -> str:
+        """Return the deterministic normalized representation of one column name."""
+        name = str(column).strip().lower()
+        name = re.sub(r"[^\w]+", "_", name)
+        name = re.sub(r"_+", "_", name)
+        return name.strip("_")

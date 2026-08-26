@@ -1,3 +1,68 @@
+# EazyDataFix 1.4.0 Release Notes
+
+EazyDataFix 1.4.0 is the transformation-first release. It turns the stable v1
+data-quality foundation into explicit Analysis Ready, ML Ready, and Power BI
+Ready workflows while preserving existing public APIs.
+
+## Analysis Ready
+
+- Composes assessment, controlled cleaning, preparation, and validation.
+- Returns before/after scores, changes, warnings, and readiness diagnostics.
+- Detects constant, nearly empty, invalid, and inconsistent category fields.
+- Supports opt-in date-part derivation and non-destructive outlier flags.
+- Preserves the existing `analysis_ready(...)` DataFrame return contract.
+
+## ML Ready
+
+- Requires an explicit supervised target and splits data before fitting learned
+  transformations.
+- Fits numeric/categorical imputation, encoding, and optional scaling using
+  training rows only.
+- Detects identifiers, constant fields, high cardinality, unsupported dates,
+  target leakage, class imbalance, and unseen test categories.
+- Produces reusable JSON preprocessing artifacts with optional scikit-learn
+  interoperability through the `ml` extra.
+- Never trains, ranks, predicts with, or evaluates a machine-learning model.
+
+## Power BI Ready
+
+- Accepts a single dataset or an ordered mapping of model tables.
+- Produces collision-free Power BI field names and compatible field types.
+- Flattens record-valued fields and safely serializes repeating collections.
+- Validates candidate keys, relationship fields and types, cardinality, and
+  orphan keys.
+- Optionally generates a continuous canonical date table with fiscal fields.
+- Exports CSV, Excel, and optional Parquet tables with a deterministic JSON
+  readiness report.
+- Does not generate `.pbix` files, dashboards, visuals, or DAX measures.
+
+## Transformation and compatibility
+
+- Numeric text, currency, percentage, boolean, and date conversion now runs
+  through the controlled cleaning pipeline with confidence thresholds.
+- Identifier, email, phone, and leading-zero values remain protected.
+- Caller-owned DataFrames remain unchanged across the readiness workflows.
+- The public Python and CLI APIs remain backward compatible with v1.0.0.
+- Python 3.10, 3.11, 3.12, and 3.13 are supported.
+
+## Install
+
+```bash
+pip install eazydatafix==1.4.0
+```
+
+Optional integrations:
+
+```bash
+pip install "eazydatafix[ml]==1.4.0"
+pip install "eazydatafix[parquet]==1.4.0"
+```
+
+See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for the stable v1 compatibility
+contract.
+
+---
+
 # EazyDataFix 1.0.0 Release Notes
 
 EazyDataFix 1.0.0 stabilizes the public API while preserving every v0.5.0

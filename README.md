@@ -18,10 +18,9 @@ active roadmap is focused on Analysis Ready, ML Ready, and Power BI Ready data
 profiles. Existing EDA and Agentic EDA APIs remain available for compatibility,
 but are not the current development focus.
 
-> EazyDataFix v1.0.0 is the current stable production release. It preserves
-> every v0.5 workflow and adds controlled cleaning, preparation reports, data
-> contracts, a unified `edf.run()` workflow, and a production command-line
-> interface.
+> EazyDataFix v1.4.0 is the current stable production release. It preserves
+> the v1 API and adds deterministic Analysis Ready, leakage-safe ML Ready, and
+> validated Power BI Ready workflows.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -381,6 +380,9 @@ visualisation recommendations.
 | `edf.infer_schema(...)` / `edf.validate_contract(...)` | Infer and enforce pipeline data contracts. |
 | `edf.prepare(...)` | Prepare types and columns for downstream analysis. |
 | `edf.analysis_ready(...)` | Clean and prepare a dataset in one workflow. |
+| `edf.analysis_ready_with_report(...)` | Return Analysis Ready data with scores, changes, warnings, and validation. |
+| `edf.ml_ready(...)` | Create leakage-safe train/test inputs and reusable preprocessing artifacts. |
+| `edf.powerbi_ready(...)` | Prepare validated single-table or multi-table Power BI model inputs and exports. |
 
 Detailed API documentation is maintained on the
 [documentation website](https://eazydatafix.com/docs).
@@ -399,9 +401,9 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v1.0.0
+- Current stable version: v1.4.0
 - Development status: Production/Stable
-- Released: 8 August 2026
+- Released: 26 August 2026
 - Python support: 3.10–3.13
 - Licence: MIT
 
@@ -417,7 +419,10 @@ changes require a new major version.
 - **v0.7.0 — Data Preparation and Feature Readiness — Shipped in v1.0.0**
 - **v0.8.0 — Data Validation and Contracts — Shipped in v1.0.0**
 - **v0.9.0 — Production Workflow — Shipped in v1.0.0**
-- **v1.0.0 — Stable Production API — Current**
+- **v1.0.0 — Stable Production API — Released**
+- **v1.2.0 profile — Analysis Ready — Shipped in v1.4.0**
+- **v1.3.0 profile — ML Ready — Shipped in v1.4.0**
+- **v1.4.0 — Power BI Ready and transformation-first release — Current**
 
 See the [full roadmap](ROADMAP.md) for milestone details.
 

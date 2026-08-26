@@ -1,3 +1,3 @@
 """Package version for EazyDataFix."""
 
-__version__ = "1.0.0"
+__version__ = "1.4.0"

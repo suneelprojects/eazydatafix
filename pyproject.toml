@@ -57,6 +57,13 @@ parquet = ["pyarrow>=14.0.0"]
 openai = ["openai>=1.66.3,<3"]
 yaml = ["PyYAML>=6.0"]
 ml = ["scikit-learn>=1.5"]
+dev = [
+    "black>=24.0",
+    "build>=1.2",
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "twine>=5.0",
+]
 
 [project.scripts]
 edf = "eazydatafix.cli:main"

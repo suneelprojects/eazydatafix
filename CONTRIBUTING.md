@@ -66,7 +66,8 @@ optional extra:
 python -m pip install -e ".[parquet]"
 ```
 
-The `dev` extra installs the test, lint, formatting, package-build, and package-validation tools used by the project.\n
+The `dev` extra installs the test, lint, formatting, package-build, and package-validation tools used by the project.
+
 ## Branch workflow
 
 Start from the latest `develop` branch. Do not develop directly on `main`, and

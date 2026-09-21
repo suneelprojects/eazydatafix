@@ -43,8 +43,7 @@ cd eazydatafix
 python -m venv venv
 source venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e .
-python -m pip install pytest ruff black build
+python -m pip install -e ".[dev]"
 ```
 
 On Windows PowerShell, activate the environment with:
@@ -67,8 +66,7 @@ optional extra:
 python -m pip install -e ".[parquet]"
 ```
 
-The project does not currently define a combined development dependency extra,
-so the test, lint, formatting, and build tools are installed explicitly.
+The `dev` extra installs the test, lint, formatting, package-build, and package-validation tools used by the project.
 
 ## Branch workflow
 

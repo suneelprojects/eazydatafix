@@ -68,7 +68,7 @@ class SmartStrategy(Plugin, MissingValueStrategy):
             # Category
             # -----------------------------
 
-            if pd.api.types.is_categorical_dtype(series):
+            if isinstance(series.dtype, pd.CategoricalDtype):
 
                 mode = series.mode()
 

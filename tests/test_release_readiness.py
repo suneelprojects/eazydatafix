@@ -5,7 +5,7 @@ from eazydatafix._version import __version__ as package_version
 
 
 def test_release_version_has_one_public_value() -> None:
-    assert package_version == "1.4.0"
+    assert package_version == "1.4.1"
     assert edf.__version__ == package_version
 
 
@@ -16,9 +16,9 @@ def test_release_documentation_matches_package_version() -> None:
     release_notes = (project_root / "RELEASE_NOTES.md").read_text(encoding="utf-8")
 
     assert "## [1.4.0] - 2026-08-26" in changelog
-    assert "- Current stable version: v1.4.0" in readme
+    assert "- Current stable version: v1.4.1" in readme
     assert "- Development status: Production/Stable" in readme
-    assert release_notes.startswith("# EazyDataFix 1.4.0 Release Notes")
+    assert release_notes.startswith("# EazyDataFix 1.4.1 Release Notes")
 
 
 def test_required_public_functions_are_exported() -> None:

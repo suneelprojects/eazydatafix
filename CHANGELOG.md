@@ -14,6 +14,22 @@ https://semver.org/
 
 ---
 
+## [1.4.1] - 2026-09-21
+
+### Fixed
+
+- Source distributions now include the sample dataset and all test fixtures,
+  so the packaged test suite is reproducible outside the Git checkout.
+- Replaced the deprecated pandas categorical dtype check with the supported
+  `CategoricalDtype` API.
+
+### Changed
+
+- Added a documented `dev` dependency extra containing the complete local
+  quality, test, build, and package-validation toolchain.
+
+---
+
 ## [1.4.0] - 2026-08-26
 
 ### Added

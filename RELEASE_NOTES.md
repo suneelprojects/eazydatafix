@@ -1,3 +1,32 @@
+# EazyDataFix 1.4.1 Release Notes
+
+EazyDataFix 1.4.1 is a maintenance release for reproducible source packages
+and clean development installs. The Analysis Ready, ML Ready, and Power BI
+Ready public APIs remain unchanged from 1.4.0.
+
+## Reliability and packaging
+
+- Source distributions include `employees.csv` and every Python/CSV test
+  fixture required to run the packaged test suite.
+- The new `dev` extra installs pytest, Ruff, Black, build, and Twine.
+- The deprecated pandas categorical dtype check now uses `CategoricalDtype`.
+- Python 3.10, 3.11, 3.12, and 3.13 remain supported.
+
+## Install
+
+```bash
+pip install eazydatafix==1.4.1
+```
+
+Optional integrations:
+
+```bash
+pip install "eazydatafix[ml]==1.4.1"
+pip install "eazydatafix[parquet]==1.4.1"
+```
+
+---
+
 # EazyDataFix 1.4.0 Release Notes
 
 EazyDataFix 1.4.0 is the transformation-first release. It turns the stable v1

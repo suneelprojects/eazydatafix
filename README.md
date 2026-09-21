@@ -18,7 +18,7 @@ active roadmap is focused on Analysis Ready, ML Ready, and Power BI Ready data
 profiles. Existing EDA and Agentic EDA APIs remain available for compatibility,
 but are not the current development focus.
 
-> EazyDataFix v1.4.0 is the current stable production release. It preserves
+> EazyDataFix v1.4.1 is the current stable production release. It preserves
 > the v1 API and adds deterministic Analysis Ready, leakage-safe ML Ready, and
 > validated Power BI Ready workflows.
 
@@ -401,7 +401,7 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v1.4.0
+- Current stable version: v1.4.1
 - Development status: Production/Stable
 - Released: 26 August 2026
 - Python support: 3.10–3.13
@@ -422,7 +422,8 @@ changes require a new major version.
 - **v1.0.0 — Stable Production API — Released**
 - **v1.2.0 profile — Analysis Ready — Shipped in v1.4.0**
 - **v1.3.0 profile — ML Ready — Shipped in v1.4.0**
-- **v1.4.0 — Power BI Ready and transformation-first release — Current**
+- **v1.4.0 — Power BI Ready and transformation-first release — Shipped**
+- **v1.4.1 — Reproducible packaging maintenance release — Current**
 
 See the [full roadmap](ROADMAP.md) for milestone details.
 

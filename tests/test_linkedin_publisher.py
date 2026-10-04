@@ -63,9 +63,7 @@ def test_exhausted_queue_fails_closed(files: Path, monkeypatch: pytest.MonkeyPat
     """No caption should silently repeat when the queue ends."""
     monkeypatch.setattr(publisher, "india_date", lambda: "2026-10-05")
     files.write_text(
-        json.dumps(
-            {"entries": [{"date": "2026-10-04", "id": "post-one", "status": "published"}]}
-        )
+        json.dumps({"entries": [{"date": "2026-10-04", "id": "post-one", "status": "published"}]})
     )
     with pytest.raises(RuntimeError, match="queue exhausted"):
         publisher.reserve()

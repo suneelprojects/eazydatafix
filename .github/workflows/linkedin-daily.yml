@@ -1,0 +1,63 @@
+name: EazyDataFix LinkedIn Daily
+
+on:
+  schedule:
+    - cron: '17 9 * * *'
+      timezone: 'Asia/Kolkata'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish the next queued post (leave off to preview)'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: eazydatafix-linkedin-daily
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Preview next caption
+        if: github.event_name == 'workflow_dispatch' && inputs.publish != true
+        run: python linkedin_publisher.py preview
+      - name: Reserve next caption
+        id: reserve
+        if: github.event_name == 'schedule' || inputs.publish == true
+        env:
+          LINKEDIN_ENABLED: ${{ vars.LINKEDIN_ENABLED }}
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python linkedin_publisher.py reserve
+          if git diff --quiet -- linkedin_published.json; then
+            echo 'reserved=false' >> "$GITHUB_OUTPUT"
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add linkedin_published.json
+            git commit -m 'Reserve daily LinkedIn post'
+            git push
+            echo 'reserved=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish reserved caption
+        if: steps.reserve.outputs.reserved == 'true'
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: |
+          python linkedin_publisher.py publish
+          git add linkedin_published.json
+          git commit -m 'Record daily LinkedIn post'
+          git push

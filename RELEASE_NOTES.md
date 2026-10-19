@@ -1,3 +1,37 @@
+# EazyDataFix 2.0.0 Release Notes
+
+Version 2.0.0 adds versioned preparation recipes, explicit column conversion,
+preview/apply review plans, transformation evidence, reusable ML inference
+artifacts and recipe-enabled command-line workflows. Existing v1 APIs retain
+their defaults and return types.
+
+Install with `pip install --upgrade eazydatafix==2.0.0`.
+For YAML recipes use `pip install 'eazydatafix[yaml]==2.0.0'`.
+
+## New features
+
+- Versioned JSON/YAML recipes with strict schema validation and no executable config.
+- Declared string, integer, number, boolean, date and category conversions.
+- Explicit numeric separators, currency tokens, date formats and category mappings.
+- Preserve, reject or quarantine invalid conversions with source-value evidence.
+- Preview, select stages and apply with source, recipe and output integrity checks.
+- Transformation counts, dtype changes, bounded examples and optional detailed audits.
+- Common reports and gated data exports across Analysis Ready, ML Ready and Power BI Ready.
+- Recipe-bound ML inference artifacts using training-fitted preprocessing parameters.
+- Multi-table Power BI recipes with existing key, relationship and date-table validation.
+- CLI recipe previews, named tables, exports and readiness exit codes.
+- CSV/Excel token preservation and duplicate-heading validation before inference.
+
+Existing profiling, assessment, cleaning, contracts, EDA, reporting and v1 readiness
+APIs remain available. See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for adoption guidance.
+
+See [the recipe guide](docs/pipeline_recipes.md) for runnable examples, compatibility
+and scope. Browser Studio integration, streaming, SQL connectors and persistent
+cross-process approval plans remain future work. Review plans currently live in
+the Python process; recipes and ML artifacts can be saved and reloaded.
+
+---
+
 # EazyDataFix 1.4.1 Release Notes
 
 EazyDataFix 1.4.1 is a maintenance release for reproducible source packages

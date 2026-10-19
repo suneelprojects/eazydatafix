@@ -6,6 +6,7 @@ import pandas as pd
 import pytest
 
 import eazydatafix as edf
+from eazydatafix._version import __version__ as package_version
 from eazydatafix.assessment.eda_execution.base import EDAAnalysisHandler
 from eazydatafix.models.eda_execution_result import (
     EDAExecutionResult,
@@ -140,7 +141,7 @@ class _FailingHandler(EDAAnalysisHandler):
 
 
 def test_execute_eda_is_exposed_as_a_public_api() -> None:
-    assert edf.__version__ == "1.4.1"
+    assert edf.__version__ == package_version
     assert callable(edf.execute_eda)
     assert edf.EDAExecutionResult is EDAExecutionResult
     assert edf.EDAExecutionStepResult is EDAExecutionStepResult

@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from pathlib import Path
 
 import pandas as pd
@@ -38,6 +39,8 @@ class FixEngine:
         self,
         file_path: str | Path | pd.DataFrame,
         config: FixConfig | None = None,
+        *,
+        observer: Callable[[str, pd.DataFrame, pd.DataFrame], None] | None = None,
     ) -> FixResult:
         """
         Clean a supported dataset using the configured cleaning pipeline.
@@ -70,6 +73,7 @@ class FixEngine:
         # Cleaning Pipeline
         # -----------------------------
         for step in self.steps:
+            before_step = cleaned_df.copy() if observer is not None else None
             cleaned_df = self._run_step(
                 step=step,
                 dataframe=cleaned_df,
@@ -77,16 +81,21 @@ class FixEngine:
                 applied_fixes=applied_fixes,
                 change_log=change_log,
             )
+            if observer is not None:
+                observer(type(step).__name__, before_step, cleaned_df.copy())
 
         # -----------------------------
         # Missing Value Strategy
         # -----------------------------
+        before_missing = cleaned_df.copy() if observer is not None else None
         cleaned_df = self._apply_missing_value_strategies(
             dataframe=cleaned_df,
             config=config,
             applied_fixes=applied_fixes,
             change_log=change_log,
         )
+        if observer is not None:
+            observer("MissingValueStrategy", before_missing, cleaned_df.copy())
 
         # -----------------------------
         # Final Assessment

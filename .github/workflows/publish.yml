@@ -1,12 +1,21 @@
 name: Publish to PyPI
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - eazydatafix/_version.py
   release:
     types:
       - published
 
 permissions:
   contents: read
+
+concurrency:
+  group: pypi-publish
+  cancel-in-progress: false
 
 jobs:
   publish:
@@ -16,6 +25,7 @@ jobs:
       name: pypi
       url: https://pypi.org/p/eazydatafix
     permissions:
+      contents: write
       id-token: write
 
     steps:
@@ -31,6 +41,28 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install build twine
+          python -m pip install -e ".[yaml,parquet]" pytest
+
+      - name: Validate release version
+        id: version
+        env:
+          RELEASE_EVENT_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          python - <<'PYCODE'
+          import os
+          from packaging.version import Version
+          from eazydatafix._version import __version__
+          version = Version(__version__)
+          if version.is_devrelease or version.is_prerelease:
+              raise SystemExit("Stable publishing requires a final version.")
+          if os.environ.get("RELEASE_EVENT_TAG") not in (None, "", f"v{version}"):
+              raise SystemExit("Release tag and package version differ.")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              print(f"version={version}", file=output)
+          PYCODE
+
+      - name: Run release tests
+        run: python -m pytest -q
 
       - name: Build Package
         run: python -m build
@@ -40,3 +72,18 @@ jobs:
 
       - name: Publish Package
         uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Create GitHub release after publishing
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: v${{ steps.version.outputs.version }}
+        run: |
+          python - <<'PYCODE'
+          from pathlib import Path
+          notes = Path("RELEASE_NOTES.md").read_text(encoding="utf-8").split("\n---", 1)[0]
+          Path("release-body.md").write_text(notes, encoding="utf-8")
+          PYCODE
+          gh release create "$RELEASE_TAG" --target "$GITHUB_SHA" \
+            --title "EazyDataFix $RELEASE_TAG" --notes-file release-body.md

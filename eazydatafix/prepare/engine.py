@@ -59,6 +59,9 @@ class PrepareEngine:
 
         for column in df.columns:
 
+            if not config.infer_types or column in config.protected_columns:
+                continue
+
             series = df[column]
 
             semantic_type = ColumnProfiler.detect(

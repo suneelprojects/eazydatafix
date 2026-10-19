@@ -30,6 +30,8 @@ class DataTypeConverter(FixStep):
 
         converted: list[str] = []
         for column in df.select_dtypes(include=["object", "string", "category"]):
+            if column in config.protected_columns:
+                continue
             series = df[column]
             semantic_type = ColumnProfiler.detect(column, series)
 

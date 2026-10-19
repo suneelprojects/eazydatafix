@@ -6,6 +6,7 @@ import pandas as pd
 import pytest
 
 import eazydatafix as edf
+from eazydatafix._version import __version__ as package_version
 from eazydatafix.agentic_eda import AgenticEDAOrchestrator
 from eazydatafix.assessment.eda_execution import EDAExecutor
 from eazydatafix.assessment.eda_execution.base import EDAAnalysisHandler
@@ -32,7 +33,7 @@ class _FailingOutlierHandler(EDAAnalysisHandler):
 
 
 def test_run_agentic_eda_is_public_and_preserves_version() -> None:
-    assert edf.__version__ == "1.4.1"
+    assert edf.__version__ == package_version
     assert callable(edf.run_agentic_eda)
     assert "run_agentic_eda" in edf.__all__
     assert edf.AgenticEDAResult is AgenticEDAResult

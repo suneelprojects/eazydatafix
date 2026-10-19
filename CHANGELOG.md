@@ -10,7 +10,27 @@ https://semver.org/
 
 ---
 
-## [Unreleased]
+## [2.0.0] - 2026-10-19
+
+### Added
+
+- Versioned JSON/YAML `PipelineRecipe` rules and composable `Pipeline` workflows.
+- Explicit string, integer, number, boolean, datetime and category rules, locale
+  separators, literal category mappings, and constant-fill controls.
+- Preserve/reject/quarantine conversion policies with bounded invalid-value evidence.
+- Source/recipe/output-bound review plans, selected operations, and protected exports.
+- Detailed transformation counts, dtype changes, source row positions and optional full audits.
+- Shared reporting/export interface for Analysis Ready, ML Ready and Power BI Ready.
+- Recipe-bound ML inference artifacts with training-only fitted preprocessing.
+- Recipe CLI previews, named Power BI tables, validation gates and data/report exports.
+- Legacy CLI cleaning/preparation configuration is now forwarded to the engines;
+  all three native readiness workflows are also available through CLI configuration.
+- Optional protected-column and type-inference controls, with unchanged v1 defaults.
+- CSV/Excel recipe loading preserves textual identifiers before type inference.
+
+Existing Python convenience APIs retain their v1 defaults and return contracts.
+CSV and Excel duplicate headings are rejected before pandas can rename them;
+the audit regression suite supports both pandas 2 and pandas 3 text dtypes.
 
 ---
 

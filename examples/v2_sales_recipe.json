@@ -1,0 +1,11 @@
+{
+  "recipe_format_version": 1,
+  "name": "monthly_sales",
+  "workflow": "analysis_ready",
+  "columns": {
+    "customer_id": {"dtype": "string"},
+    "amount": {"dtype": "number", "currency_symbols": ["₹"]},
+    "order_date": {"dtype": "datetime", "date_format": "%d/%m/%Y"},
+    "city": {"dtype": "string", "category_mapping": {"HYD": "Hyderabad", "BLR": "Bengaluru"}}
+  }
+}

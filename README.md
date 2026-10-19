@@ -1,5 +1,37 @@
 # EazyDataFix
 
+## v2.0.0: reusable, reviewable preparation
+
+**2.0.0** adds reusable recipes, explicit types and reviewed data preparation.
+The new recipe API is additive; existing `fix`, `analysis_ready`, `ml_ready`,
+`powerbi_ready`, EDA and reporting calls remain supported.
+
+```python
+import eazydatafix as edf
+
+recipe = edf.PipelineRecipe(
+    name="monthly_sales",
+    columns={
+        "customer_id": edf.ColumnRule(dtype="string"),
+        "amount": edf.ColumnRule(dtype="number", currency_symbols=("₹",)),
+        "order_date": edf.ColumnRule(dtype="datetime", date_format="%d/%m/%Y"),
+    },
+)
+recipe.save("monthly_sales.json")
+pipeline = edf.Pipeline(recipe)
+plan = pipeline.preview("sales.csv")
+print(plan.result.report())
+result = pipeline.apply("sales.csv", plan)
+if result.is_ready:
+    result.save("sales_output")
+```
+
+Recipes support explicit conversion rules, quarantine evidence, JSON/YAML replay,
+ML inference artifacts and multi-table Power BI validation. See the
+[recipe guide](docs/pipeline_recipes.md) for review steps, error policies, CLI use,
+compatibility and scope. Run the synthetic example with
+`python examples/v2_sales_pipeline.py` from the repository root.
+
 [![PyPI version](https://img.shields.io/pypi/v/eazydatafix)](https://pypi.org/project/eazydatafix/)
 [![Python versions](https://img.shields.io/pypi/pyversions/eazydatafix)](https://pypi.org/project/eazydatafix/)
 [![License](https://img.shields.io/github/license/suneelprojects/eazydatafix)](LICENSE)
@@ -18,9 +50,9 @@ active roadmap is focused on Analysis Ready, ML Ready, and Power BI Ready data
 profiles. Existing EDA and Agentic EDA APIs remain available for compatibility,
 but are not the current development focus.
 
-> EazyDataFix v1.4.1 is the current stable production release. It preserves
-> the v1 API and adds deterministic Analysis Ready, leakage-safe ML Ready, and
-> validated Power BI Ready workflows.
+> EazyDataFix v2.0.0 adds repeatable preparation recipes and transformation
+> evidence to Analysis Ready, leakage-safe ML Ready, and validated Power BI
+> Ready workflows. Existing v1 convenience APIs remain supported.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -401,7 +433,7 @@ Detailed API documentation is maintained on the
 
 ## Project status
 
-- Current stable version: v1.4.1
+- Current stable version: v2.0.0
 - Development status: Production/Stable
 - Released: 26 August 2026
 - Python support: 3.10–3.13
@@ -423,7 +455,12 @@ changes require a new major version.
 - **v1.2.0 profile — Analysis Ready — Shipped in v1.4.0**
 - **v1.3.0 profile — ML Ready — Shipped in v1.4.0**
 - **v1.4.0 — Power BI Ready and transformation-first release — Shipped**
-- **v1.4.1 — Reproducible packaging maintenance release — Current**
+- **v2.0.0 — Reusable, reviewable preparation recipes — Current**
+  - Explicit column rules, invalid-value policies and transformation audits.
+  - Recipe-backed Analysis Ready, ML Ready and Power BI Ready workflows.
+  - Preview/apply integrity checks, reusable ML inference and CLI recipe exports.
+
+- **v1.4.1 — Reproducible packaging maintenance release**
 
 See the [full roadmap](ROADMAP.md) for milestone details.
 

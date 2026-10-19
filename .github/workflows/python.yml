@@ -44,7 +44,7 @@ jobs:
         run: black --check .
 
   test:
-    name: Tests (Python ${{ matrix.python-version }})
+    name: Tests (Python ${{ matrix.python-version }}, ${{ matrix.pandas-spec }})
     runs-on: ubuntu-latest
 
     strategy:
@@ -55,6 +55,11 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+        pandas-spec:
+          - latest
+        include:
+          - python-version: "3.13"
+            pandas-spec: "pandas>=2,<3"
 
     steps:
       - name: Checkout Repository
@@ -68,8 +73,14 @@ jobs:
       - name: Install Package and Test Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
+          pip install -e ".[yaml,parquet]"
           pip install pytest
+
+      - name: Install pandas compatibility version
+        if: matrix.pandas-spec != 'latest'
+        env:
+          PANDAS_SPEC: ${{ matrix.pandas-spec }}
+        run: pip install "$PANDAS_SPEC"
 
       - name: Run Tests
         run: python -m pytest

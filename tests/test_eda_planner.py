@@ -2,6 +2,7 @@ import pandas as pd
 import pytest
 
 import eazydatafix as edf
+from eazydatafix._version import __version__ as package_version
 from eazydatafix.models.eda_plan import EDAPlan, EDAPlanStep
 
 _SUPPORTED_STEPS = {
@@ -34,7 +35,7 @@ def _skipped_step(
 
 
 def test_plan_eda_is_exposed_as_a_public_api() -> None:
-    assert edf.__version__ == "1.4.1"
+    assert edf.__version__ == package_version
     assert callable(edf.plan_eda)
     assert edf.EDAPlan is EDAPlan
     assert edf.EDAPlanStep is EDAPlanStep

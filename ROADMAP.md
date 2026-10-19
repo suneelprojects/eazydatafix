@@ -2,6 +2,24 @@
 
 ## Active product direction
 
+### v2.0.0: reusable, reviewable preparation
+
+- [x] Versioned JSON/YAML recipes with strict declarative schema validation
+- [x] Explicit per-column types, date formats and numeric separators
+- [x] Invalid-value preservation, rejection and quarantine evidence
+- [x] Source/recipe/output-bound preview and apply, with selectable preparation stages
+- [x] Transformation counts, dtype changes and optional detailed audits
+- [x] Shared results and protected exports across the three readiness workflows
+- [x] Recipe-bound, training-only fitted ML inference artifacts
+- [x] CLI recipe previews, named model tables, exports and readiness exit codes
+- [ ] Ongoing real-user pilot feedback and performance benchmarks
+- [ ] Browser Studio integration using the Python recipe engine
+- [ ] Streaming/performance expansion and optional SQL connectors
+- [ ] Persistent approval-plan interchange across processes
+- [x] Stable v2.0.0 package and release documentation
+
+Version 2.0.0 adds the recipe API alongside compatible v1 workflows.
+
 EazyDataFix is now focused on deterministic data transformation that produces
 Analysis Ready, ML Ready, and Power BI Ready datasets. AI narratives, AI
 readiness, and Agentic EDA remain available for v1 compatibility, but active

@@ -2,6 +2,10 @@ include README.md
 include LICENSE
 include CHANGELOG.md
 include RELEASE_NOTES.md
+include ROADMAP.md
+include MIGRATION_GUIDE.md
+recursive-include docs *.md
+recursive-include examples *.py *.csv *.json
 include employees.csv
 
 recursive-include eazydatafix/reporting/templates *.html

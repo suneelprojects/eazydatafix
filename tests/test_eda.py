@@ -4,6 +4,7 @@ import pandas as pd
 import pytest
 
 import eazydatafix as edf
+from eazydatafix._version import __version__ as package_version
 from eazydatafix.models.eda_result import EDAResult
 
 
@@ -264,7 +265,7 @@ def test_eda_only_parses_date_shaped_or_date_named_text_as_datetime() -> None:
 
 
 def test_eda_preserves_existing_public_apis() -> None:
-    assert edf.__version__ == "1.4.1"
+    assert edf.__version__ == package_version
     assert callable(edf.profile)
     assert callable(edf.assess)
     assert callable(edf.assess_ai_readiness)

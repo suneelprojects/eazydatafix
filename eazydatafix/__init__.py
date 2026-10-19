@@ -83,6 +83,16 @@ from .models.ready_result import ReadyResult
 from .models.run_result import RunResult
 from .narratives import GroundedNarrativeEngine
 from .narratives.provider import NarrativeProvider
+from .pipeline import (
+    ColumnRule,
+    Pipeline,
+    PipelineIssue,
+    PipelinePlan,
+    PipelineRecipe,
+    PipelineResult,
+    RecipeMLArtifact,
+    TransformationAudit,
+)
 from .prepare.engine import PrepareEngine
 from .readiness.analysis import AnalysisReadyEngine
 from .readiness.ml import MLReadyEngine
@@ -94,6 +104,14 @@ from .reporting.agentic_eda import (
 from .validation.contracts import ContractEngine
 
 __all__ = [
+    "ColumnRule",
+    "Pipeline",
+    "PipelineIssue",
+    "PipelinePlan",
+    "PipelineRecipe",
+    "PipelineResult",
+    "RecipeMLArtifact",
+    "TransformationAudit",
     "__version__",
     "AgenticEDAApprovalCheckpoint",
     "AgenticEDAApprovalEngine",

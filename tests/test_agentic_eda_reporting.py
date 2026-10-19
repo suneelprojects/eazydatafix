@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 
 import eazydatafix as edf
+from eazydatafix._version import __version__ as package_version
 from eazydatafix.models.agentic_eda_report_result import AgenticEDAReportResult
 from eazydatafix.models.agentic_eda_result import (
     AgenticEDAResult,
@@ -56,7 +57,7 @@ class _FailingMissingChartHandler(ChartHandler):
 
 
 def test_export_agentic_eda_report_is_public() -> None:
-    assert edf.__version__ == "1.4.1"
+    assert edf.__version__ == package_version
     assert callable(edf.export_agentic_eda_report)
     assert "export_agentic_eda_report" in edf.__all__
     assert edf.AgenticEDAReportResult is AgenticEDAReportResult

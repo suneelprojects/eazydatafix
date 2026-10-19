@@ -12,9 +12,17 @@ class PrepareConfig:
     normalize_text: bool = False
     categorize_low_cardinality: bool = True
     derive_date_parts: tuple[str, ...] = ()
+    infer_types: bool = True
+    protected_columns: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         """Validate deterministic thresholds and supported actions."""
+        if not isinstance(self.infer_types, bool):
+            raise TypeError("infer_types must be a boolean.")
+        if not isinstance(self.protected_columns, tuple) or any(
+            not isinstance(column, str) for column in self.protected_columns
+        ):
+            raise TypeError("protected_columns must be a tuple of column names.")
         for name, value in (
             ("numeric_conversion_threshold", self.numeric_conversion_threshold),
             ("date_parsing_threshold", self.date_parsing_threshold),

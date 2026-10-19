@@ -23,6 +23,7 @@ class FixConfig:
     convert_data_types: bool = True
     numeric_conversion_threshold: float = 0.95
     date_parsing_threshold: float = 0.80
+    protected_columns: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         """Validate deterministic cleaning options and column-level overrides."""
@@ -32,6 +33,10 @@ class FixConfig:
             raise TypeError("dry_run must be a boolean.")
         if not isinstance(self.convert_data_types, bool):
             raise TypeError("convert_data_types must be a boolean.")
+        if not isinstance(self.protected_columns, tuple) or any(
+            not isinstance(column, str) for column in self.protected_columns
+        ):
+            raise TypeError("protected_columns must be a tuple of column names.")
         for name, value in (
             ("numeric_conversion_threshold", self.numeric_conversion_threshold),
             ("date_parsing_threshold", self.date_parsing_threshold),

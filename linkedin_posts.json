@@ -1,0 +1,60 @@
+{
+  "posts": [
+    {
+      "id": "quality-before-dashboard",
+      "text": "A polished dashboard cannot repair an unreliable source table.\n\nBefore I build a visual, I check missing values, duplicate rows, data types and keys. EazyDataFix helps make those checks visible before the dataset moves into analysis or Power BI.\n\nWhich data issue has cost you the most time in a recent project?\n\nhttps://eazydatafix.com\n#DataQuality #PowerBI #EazyDataFix"
+    },
+    {
+      "id": "dry-run-first",
+      "text": "When a cleaning tool changes a dataset, I want to know exactly what it plans to change.\n\nEazyDataFix supports a dry run: inspect the proposed dataset and change log before applying the transformation. It is a practical way to review conversions and cleaning rules while the source remains intact.\n\nA small habit, but a useful one for auditable work.\n\nhttps://eazydatafix.com/docs\n#DataCleaning #Python #EazyDataFix"
+    },
+    {
+      "id": "leading-zeroes",
+      "text": "A customer ID such as 00127 looks numeric. Treat it as a number and you can silently lose the leading zeroes.\n\nThis is why data preparation needs more than a blanket 'convert every column' step. EazyDataFix is designed to preserve identifiers while handling safe type conversions.\n\nWhat other columns in your datasets look numeric but are really labels?\n\nhttps://github.com/suneelprojects/eazydatafix\n#DataEngineering #DataQuality #EazyDataFix"
+    },
+    {
+      "id": "analysis-ready-evidence",
+      "text": "A clean DataFrame is useful. A clean DataFrame with a record of what changed is more useful.\n\nWith analysis_ready_with_report(), EazyDataFix returns the prepared dataset along with before and after scores, changes, warnings and validations. That gives an analyst a starting point for review, not just another output file.\n\nhttps://eazydatafix.com/docs\n#DataAnalytics #Pandas #EazyDataFix"
+    },
+    {
+      "id": "missing-markers",
+      "text": "Missing data does not always arrive as an empty cell.\n\nIt can appear as 'N/A', a dash or a team-specific placeholder. If those markers are left as ordinary text, completeness checks and type conversion become misleading.\n\nEazyDataFix can detect configured missing-value markers as part of a controlled cleaning workflow. What placeholder do you see most often?\n\nhttps://eazydatafix.com\n#DataCleaning #DataQuality #EazyDataFix"
+    },
+    {
+      "id": "split-before-fit",
+      "text": "For a machine learning dataset, the order of operations matters.\n\nIf you fit a scaler or encoder before the train/test split, information from the test set can leak into training. EazyDataFix's ML Ready workflow splits first and fits learned transformations on the training data. It prepares inputs; it does not train or evaluate a model.\n\nhttps://eazydatafix.com/docs\n#MachineLearning #DataLeakage #EazyDataFix"
+    },
+    {
+      "id": "target-required",
+      "text": "A supervised ML preparation workflow should know what the target is.\n\nIn EazyDataFix, ml_ready() requires an explicit target. The workflow keeps the target out of feature preprocessing and reports potential leakage fields. This makes the boundary between the label and the predictors easier to inspect.\n\nhttps://github.com/suneelprojects/eazydatafix\n#MachineLearning #DataPreparation #EazyDataFix"
+    },
+    {
+      "id": "powerbi-keys",
+      "text": "Before connecting two tables in Power BI, check whether the join keys behave the way the model assumes.\n\nEazyDataFix's Power BI Ready workflow can validate keys, relationship cardinality and orphan values while preparing model inputs. Finding those problems before dashboard work saves a lot of confusing visual debugging.\n\nhttps://eazydatafix.com/docs\n#PowerBI #DataModeling #EazyDataFix"
+    },
+    {
+      "id": "no-pbix-claim",
+      "text": "What does 'Power BI Ready' actually mean in EazyDataFix?\n\nIt prepares and validates data tables for modeling, can create a date dimension, and exports readiness evidence. It does not create a .pbix file, DAX measures or dashboard visuals.\n\nI want the boundary of the tool to be as clear as the output.\n\nhttps://eazydatafix.com\n#PowerBI #DataPreparation #EazyDataFix"
+    },
+    {
+      "id": "before-after",
+      "text": "'The dataset looks cleaner' is difficult to audit.\n\nA before and after report gives a better conversation: what was wrong, which rules were applied, and which warnings remain? EazyDataFix includes change records and readiness evidence so the outcome can be reviewed.\n\nWhat evidence do you keep after a cleaning step?\n\nhttps://eazydatafix.com\n#DataQuality #AnalyticsEngineering #EazyDataFix"
+    },
+    {
+      "id": "date-dimension",
+      "text": "A date column in a fact table and a proper date dimension serve different purposes.\n\nWhen configured, EazyDataFix's Power BI Ready workflow can generate a continuous date dimension from the model's date columns. It also prepares the tables and reports relationship issues before they reach the BI layer.\n\nhttps://eazydatafix.com/docs\n#PowerBI #DataModeling #EazyDataFix"
+    },
+    {
+      "id": "schema-contract",
+      "text": "A pipeline can run successfully and still deliver the wrong shape of data.\n\nColumn names, types and expected fields deserve their own checks. EazyDataFix includes schema inference and contract validation so changes in incoming data can be identified before they flow downstream.\n\nhttps://github.com/suneelprojects/eazydatafix\n#DataPipelines #DataValidation #EazyDataFix"
+    },
+    {
+      "id": "reusable-ml-artifact",
+      "text": "Preparing training data is only half the job. The same learned transformations need to be applied later.\n\nEazyDataFix's ML Ready workflow returns a reusable preprocessing artifact fitted on the training split. That helps keep training and later inference aligned without fitting on the test set.\n\nhttps://eazydatafix.com/docs\n#MachineLearning #MLOps #EazyDataFix"
+    },
+    {
+      "id": "auditable-by-design",
+      "text": "I am building EazyDataFix around a simple question: can someone else understand how this dataset became ready for analysis?\n\nProfiling, controlled cleaning, preparation and validation should leave evidence. The goal is to make changes inspectable so analysts and teams can decide whether the output is suitable for their work.\n\nThe Python library is open source: https://github.com/suneelprojects/eazydatafix\n#OpenSource #DataQuality #EazyDataFix"
+    }
+  ]
+}

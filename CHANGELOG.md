@@ -10,6 +10,35 @@ https://semver.org/
 
 ---
 
+## [2.1.0] - Unreleased
+
+### Changed
+
+- `matplotlib` and `reportlab` are no longer installed by `pip install eazydatafix`.
+  Plotting and PDF reports are the optional `reports` extra:
+  `pip install "eazydatafix[reports]"`.
+- `eazydatafix[all]` installs `reports` together with `ml`, `openai`, `parquet`,
+  and `yaml`. It does not install development tools.
+- `AssessmentReport.to_pdf(...)` and Agentic EDA PNG charts raise `ImportError`
+  with that install command when the extra is missing. The error is not turned
+  into a skipped chart.
+- Profiling, controlled cleaning, recipes, and the Analysis Ready, ML Ready,
+  and Power BI Ready workflows do not import `matplotlib` or `reportlab`.
+  HTML, JSON, Markdown, CSV, and Excel assessment reports still work without
+  the extra. An Agentic EDA export that recommends charts does need it,
+  because chart generation runs before the report files are written.
+
+### Repository
+
+- Sample `employees.csv` used by the Agentic EDA tests now lives at
+  `examples/employees.csv`. Root `employees_clean.csv` and
+  `test_analysis_ready.py` were unused leftovers and are removed.
+- `legacy/easydatafix/` can build a final `easydatafix` 0.3.0 package that
+  depends on `eazydatafix` and warns on import. The publish workflow does not
+  upload it.
+
+---
+
 ## [2.0.0] - 2026-10-19
 
 ### Added

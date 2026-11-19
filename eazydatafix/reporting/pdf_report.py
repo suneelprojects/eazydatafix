@@ -1,13 +1,12 @@
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
-
 from eazydatafix.models.assessment_report import AssessmentReport
 
 
 class PdfReport:
     """
     Exports an AssessmentReport as a PDF report.
+
+    PDF writing needs the optional reports extra:
+    ``pip install "eazydatafix[reports]"``.
     """
 
     @staticmethod
@@ -15,6 +14,29 @@ class PdfReport:
         report: AssessmentReport,
         output_file: str,
     ) -> None:
+        """
+        Write an assessment report to a PDF file.
+
+        Args:
+            report: Assessment report to render.
+            output_file: Destination path for the PDF report.
+
+        Raises:
+            ImportError: If reportlab is not installed. The message names the
+                ``eazydatafix[reports]`` extra.
+        """
+        from eazydatafix._optional import require_extra
+
+        require_extra("reportlab", "reports", "PDF export")
+        from reportlab.lib import colors
+        from reportlab.lib.styles import getSampleStyleSheet
+        from reportlab.platypus import (
+            Paragraph,
+            SimpleDocTemplate,
+            Spacer,
+            Table,
+            TableStyle,
+        )
 
         document = SimpleDocTemplate(str(output_file))
         styles = getSampleStyleSheet()

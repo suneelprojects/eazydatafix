@@ -1,8 +1,10 @@
 # Reusable preparation recipes (v2.0.0)
 
-Install with `pip install --upgrade eazydatafix==2.0.0`.
-YAML recipes require `pip install 'eazydatafix[yaml]==2.0.0'`.
-For development, install a local checkout with `pip install -e '.[dev,yaml]'`.
+Install with `pip install --upgrade eazydatafix`.
+YAML recipes require `pip install "eazydatafix[yaml]"`.
+PDF reports and PNG charts require `pip install "eazydatafix[reports]"`.
+Recipe preview, apply, profiling, cleaning, and the readiness workflows do not.
+For development, install a local checkout with `pip install -e ".[dev,yaml,reports]"`.
 
 ## Prepare a sales file
 

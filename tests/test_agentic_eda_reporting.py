@@ -34,7 +34,7 @@ def matplotlib_cache(
 
 @pytest.fixture
 def employees_path() -> Path:
-    return Path(__file__).parents[1] / "employees.csv"
+    return Path(__file__).parents[1] / "examples" / "employees.csv"
 
 
 @pytest.fixture

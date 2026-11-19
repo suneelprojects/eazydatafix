@@ -18,6 +18,9 @@ def test_release_documentation_matches_package_version() -> None:
     assert "## [1.4.0] - 2026-08-26" in changelog
     assert "- Current stable version: v2.0.0" in readme
     assert "- Development status: Production/Stable" in readme
+    assert "- Released: 19 October 2026" in readme
+    assert "Released: 26 August 2026" not in readme
+    assert "## Try it" in readme
     assert release_notes.startswith("# EazyDataFix 2.0.0 Release Notes")
 
 

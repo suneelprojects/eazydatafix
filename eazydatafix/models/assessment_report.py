@@ -153,6 +153,10 @@ class AssessmentReport:
 
         Returns:
             None.
+
+        Raises:
+            ImportError: If the optional reports extra is not installed.
+                The message includes ``pip install "eazydatafix[reports]"``.
         """
         from eazydatafix.reporting.pdf_report import PdfReport
 

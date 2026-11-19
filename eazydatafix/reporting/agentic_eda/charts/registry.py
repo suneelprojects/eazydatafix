@@ -1,6 +1,7 @@
 from collections.abc import Iterable
 from pathlib import Path
 
+from eazydatafix._optional import OptionalDependencyError
 from eazydatafix.models.agentic_eda_report_result import (
     GeneratedVisualisation,
     SkippedVisualisation,
@@ -93,6 +94,8 @@ class ChartRegistry:
 
             try:
                 handler.generate(recommendation, context, output_path)
+            except OptionalDependencyError:
+                raise
             except ChartDataUnavailableError as exc:
                 result.skipped.append(
                     SkippedVisualisation(

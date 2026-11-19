@@ -12,6 +12,13 @@ https://semver.org/
 
 ## [2.1.0] - Unreleased
 
+### Added
+
+- `notebooks/quickstart.ipynb` installs the package and walks through profile,
+  preview, apply, save, and replay.
+- `examples/power_bi_ready/` is a messy sales file, a saved Power BI recipe,
+  and a script that exports typed tables, a date dimension, and a change log.
+
 ### Changed
 
 - `matplotlib` and `reportlab` are no longer installed by `pip install eazydatafix`.

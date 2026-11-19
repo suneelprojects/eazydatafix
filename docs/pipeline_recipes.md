@@ -6,6 +6,11 @@ PDF reports and PNG charts require `pip install "eazydatafix[reports]"`.
 Recipe preview, apply, profiling, cleaning, and the readiness workflows do not.
 For development, install a local checkout with `pip install -e ".[dev,yaml,reports]"`.
 
+Open [the quickstart notebook](../notebooks/quickstart.ipynb) to run a short
+preview, apply, and replay. The
+[Power BI example](../examples/power_bi_ready/README.md) is a saved recipe for
+one messy sales file.
+
 ## Prepare a sales file
 
 ```python
@@ -191,6 +196,10 @@ result = edf.Pipeline(recipe).run({"sales": "sales.csv", "customers": "customers
 if result.is_ready:
     result.save("bi_output", formats=("csv", "excel"))
 ```
+
+A runnable single-table version, with ₹ amounts, mixed city names, and a
+declared day-first date format, is
+[examples/power_bi_ready](../examples/power_bi_ready/README.md).
 
 `columns` applies to every input table; `table_columns` overrides specific table
 rules. Table-rule keys use normalized table names. Table order is sorted for

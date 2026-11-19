@@ -41,7 +41,7 @@ def test_run_agentic_eda_is_public_and_preserves_version() -> None:
 
 
 def test_run_agentic_eda_employees_csv_end_to_end() -> None:
-    dataset_path = Path(__file__).parents[1] / "employees.csv"
+    dataset_path = Path(__file__).parents[1] / "examples" / "employees.csv"
 
     result = edf.run_agentic_eda(dataset_path)
 

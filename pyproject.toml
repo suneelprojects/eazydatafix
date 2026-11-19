@@ -47,9 +47,7 @@ classifiers = [
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.26.0",
-    "matplotlib>=3.8.0",
     "openpyxl>=3.1.5",
-    "reportlab>=4.0.0",
 ]
 
 [project.optional-dependencies]
@@ -57,6 +55,13 @@ parquet = ["pyarrow>=14.0.0"]
 openai = ["openai>=1.66.3,<3"]
 yaml = ["PyYAML>=6.0"]
 ml = ["scikit-learn>=1.5"]
+reports = [
+    "matplotlib>=3.8.0",
+    "reportlab>=4.0.0",
+]
+all = [
+    "eazydatafix[ml,openai,parquet,reports,yaml]",
+]
 dev = [
     "black>=24.0",
     "build>=1.2",

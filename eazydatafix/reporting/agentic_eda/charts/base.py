@@ -56,11 +56,13 @@ class ChartHandler(ABC):
         figure: Any,
         output_path: Path,
     ) -> None:
-        """Save a PNG atomically and always close its matplotlib figure."""
-        import matplotlib
+        """Save a PNG atomically and always close its matplotlib figure.
 
-        matplotlib.use("Agg", force=True)
-        import matplotlib.pyplot as plt
+        Raises:
+            ImportError: If matplotlib is not installed. The message names the
+                ``eazydatafix[reports]`` extra.
+        """
+        plt = _pyplot()
 
         temporary_path = output_path.with_name(f".{output_path.stem}.tmp.png")
 
@@ -81,10 +83,23 @@ class ChartHandler(ABC):
 
     @staticmethod
     def pyplot() -> Any:
-        """Return matplotlib pyplot configured for non-interactive rendering."""
-        import matplotlib
+        """Return matplotlib pyplot configured for non-interactive rendering.
 
-        matplotlib.use("Agg", force=True)
-        import matplotlib.pyplot as plt
+        Raises:
+            ImportError: If matplotlib is not installed. The message names the
+                ``eazydatafix[reports]`` extra.
+        """
+        return _pyplot()
 
-        return plt
+
+def _pyplot() -> Any:
+    """Return pyplot, or raise a message naming the reports extra."""
+    from eazydatafix._optional import require_extra
+
+    require_extra("matplotlib", "reports", "PNG charts")
+    import matplotlib
+
+    matplotlib.use("Agg", force=True)
+    import matplotlib.pyplot as plt
+
+    return plt

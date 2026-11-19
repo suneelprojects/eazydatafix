@@ -1,3 +1,32 @@
+# EazyDataFix 2.1 packaging note
+
+This change is not on PyPI yet. It will ship as 2.1.0. Version 2.0.0 still
+installs `matplotlib` and `reportlab` with the base package.
+
+From 2.1.0, `pip install eazydatafix` no longer installs those libraries.
+Profiling, controlled cleaning, JSON/YAML recipes, and the Analysis Ready,
+ML Ready, and Power BI Ready workflows behave as before and do not need them.
+
+Install plotting and PDF support when you call it:
+
+```bash
+pip install "eazydatafix[reports]"
+```
+
+`eazydatafix[all]` installs `reports` plus `ml`, `openai`, `parquet`, and `yaml`.
+
+`AssessmentReport.to_pdf(...)` and Agentic EDA PNG charts raise `ImportError`
+naming `eazydatafix[reports]` when the extra is absent. HTML, JSON, Markdown,
+CSV, and Excel assessment reports do not need it. If an Agentic EDA workflow
+recommends charts, `export_agentic_eda_report(...)` raises the same error
+before writing report files, including HTML-only exports. Install the extra
+or ignore chart recommendations only by not calling that export.
+
+Existing environments that already have `matplotlib` and `reportlab` installed
+keep working without the extra until those packages are removed.
+
+---
+
 # EazyDataFix 2.0 Migration Guide
 
 Upgrade with `pip install --upgrade eazydatafix==2.0.0`.

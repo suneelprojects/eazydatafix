@@ -66,7 +66,15 @@ optional extra:
 python -m pip install -e ".[parquet]"
 ```
 
-The `dev` extra installs the test, lint, formatting, package-build, and package-validation tools used by the project.
+PDF reports and PNG charts need the `reports` extra. CI installs
+`eazydatafix[yaml,parquet,reports]` before pytest, because those tests do not
+skip when the extra is missing:
+
+```bash
+python -m pip install -e ".[dev,yaml,parquet,reports]"
+```
+
+The `dev` extra installs the test, lint, formatting, package-build, and package-validation tools used by the project. It does not install plotting or PDF libraries.
 
 ## Branch workflow
 

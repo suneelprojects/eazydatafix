@@ -1,10 +1,28 @@
 # EazyDataFix
 
-## v2.0.0: reusable, reviewable preparation
+Reusable JSON and YAML preparation recipes with preview, approve, and replay,
+for Analysis Ready, ML Ready, and Power BI Ready data.
 
-**2.0.0** adds reusable recipes, explicit types and reviewed data preparation.
-The new recipe API is additive; existing `fix`, `analysis_ready`, `ml_ready`,
-`powerbi_ready`, EDA and reporting calls remain supported.
+**2.0.0** (released 19 October 2026) is the current stable release. The recipe
+API is additive. Existing `fix`, `analysis_ready`, `ml_ready`,
+`powerbi_ready`, EDA, and reporting calls remain supported. Agentic EDA stays
+available for compatibility and is not the current development focus.
+
+[![PyPI version](https://img.shields.io/pypi/v/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![Python versions](https://img.shields.io/pypi/pyversions/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![License](https://img.shields.io/github/license/suneelprojects/eazydatafix)](LICENSE)
+[![Monthly downloads](https://img.shields.io/pypi/dm/eazydatafix)](https://pypi.org/project/eazydatafix/)
+[![GitHub release](https://img.shields.io/github/v/release/suneelprojects/eazydatafix)](https://github.com/suneelprojects/eazydatafix/releases)
+[![GitHub stars](https://img.shields.io/github/stars/suneelprojects/eazydatafix?style=social)](https://github.com/suneelprojects/eazydatafix)
+
+## Try it
+
+Install the core library. Profiling, cleaning, recipes, and the readiness
+workflows do not need plotting or PDF libraries.
+
+```bash
+pip install eazydatafix
+```
 
 ```python
 import eazydatafix as edf
@@ -17,7 +35,6 @@ recipe = edf.PipelineRecipe(
         "order_date": edf.ColumnRule(dtype="datetime", date_format="%d/%m/%Y"),
     },
 )
-recipe.save("monthly_sales.json")
 pipeline = edf.Pipeline(recipe)
 plan = pipeline.preview("sales.csv")
 print(plan.result.report())
@@ -26,33 +43,23 @@ if result.is_ready:
     result.save("sales_output")
 ```
 
-Recipes support explicit conversion rules, quarantine evidence, JSON/YAML replay,
-ML inference artifacts and multi-table Power BI validation. See the
-[recipe guide](docs/pipeline_recipes.md) for review steps, error policies, CLI use,
-compatibility and scope. Run the synthetic example with
-`python examples/v2_sales_pipeline.py` from the repository root.
+`preview` does not modify the source file. Apply only after the printed plan is
+the transformation you want. `recipe.save(...)` writes JSON. YAML needs
+`pip install "eazydatafix[yaml]"`. PDF reports and PNG charts need
+`pip install "eazydatafix[reports]"`.
 
-[![PyPI version](https://img.shields.io/pypi/v/eazydatafix)](https://pypi.org/project/eazydatafix/)
-[![Python versions](https://img.shields.io/pypi/pyversions/eazydatafix)](https://pypi.org/project/eazydatafix/)
-[![License](https://img.shields.io/github/license/suneelprojects/eazydatafix)](LICENSE)
-[![Monthly downloads](https://img.shields.io/pypi/dm/eazydatafix)](https://pypi.org/project/eazydatafix/)
-[![GitHub release](https://img.shields.io/github/v/release/suneelprojects/eazydatafix)](https://github.com/suneelprojects/eazydatafix/releases)
-[![GitHub stars](https://img.shields.io/github/stars/suneelprojects/eazydatafix?style=social)](https://github.com/suneelprojects/eazydatafix)
+From a checkout, run `python examples/v2_sales_pipeline.py`. Review steps,
+error policies, CLI use, and current limits are in the
+[recipe guide](docs/pipeline_recipes.md).
 
-## Deterministic data transformation you can inspect and trust
+## Deterministic preparation you can inspect
 
-EazyDataFix is a deterministic-first Python library for turning messy datasets
-into reliable, typed, auditable data for analysis and downstream tools.
-
-It combines dataset profiling, quality assessment, controlled cleaning, safe
-type conversion, preparation, contracts, and before-and-after reporting. The
-active roadmap is focused on Analysis Ready, ML Ready, and Power BI Ready data
-profiles. Existing EDA and Agentic EDA APIs remain available for compatibility,
-but are not the current development focus.
-
-> EazyDataFix v2.0.0 adds repeatable preparation recipes and transformation
-> evidence to Analysis Ready, leakage-safe ML Ready, and validated Power BI
-> Ready workflows. Existing v1 convenience APIs remain supported.
+EazyDataFix profiles a dataset, scores quality, applies controlled cleaning and
+type conversion, and records what changed. Current work is Analysis Ready,
+ML Ready, and Power BI Ready data, including repeatable recipes and
+transformation evidence. It prepares inputs for those uses. It does not train
+models, and it does not generate Power BI `.pbix` files, visuals, measures,
+or dashboards.
 
 Install with `pip install eazydatafix` ·
 [Documentation](https://eazydatafix.com/docs) ·
@@ -224,7 +231,20 @@ For optional scikit-learn transformer interoperability:
 pip install "eazydatafix[ml]"
 ```
 
-Requires Python 3.10 or later. Tested with Python 3.10–3.13.
+For PDF reports and PNG charts:
+
+```bash
+pip install "eazydatafix[reports]"
+```
+
+For every optional integration (`reports`, Parquet, scikit-learn, YAML, and OpenAI):
+
+```bash
+pip install "eazydatafix[all]"
+```
+
+The `all` extra does not install development tools. Requires Python 3.10 or
+later. Tested with Python 3.10–3.13.
 
 ## Why EazyDataFix
 
@@ -338,12 +358,12 @@ flowchart LR
 
 - Console
 - HTML
-- PDF
+- PDF, with the optional `reports` extra
 - Excel
 - CSV
 - JSON
 - Markdown
-- Deterministic PNG visualisations
+- Deterministic PNG visualisations, with the optional `reports` extra
 - Ready-to-run Jupyter Notebook export
 
 ### Input Support
@@ -435,12 +455,14 @@ Detailed API documentation is maintained on the
 
 - Current stable version: v2.0.0
 - Development status: Production/Stable
-- Released: 26 August 2026
+- Released: 19 October 2026
 - Python support: 3.10–3.13
 - Licence: MIT
 
-The v1 public API follows Semantic Versioning. Backward-incompatible public API
-changes require a new major version.
+v2.0.0 added reusable preparation recipes and kept the v1 convenience APIs.
+The public API follows Semantic Versioning. Backward-incompatible public API
+changes require a new major version. The 26 August 2026 date was the v1.4.0
+release, not v2.0.0.
 
 ## Roadmap preview
 

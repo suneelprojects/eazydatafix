@@ -32,6 +32,9 @@ dist/
 # Jupyter
 .ipynb_checkpoints/
 
+# Generated example output
+examples/power_bi_ready/output/
+
 # Generated Reports (project root only)
 /report.html
 /report.pdf

@@ -1,0 +1,30 @@
+{
+  "recipe_format_version": 1,
+  "name": "india_sales_powerbi",
+  "workflow": "powerbi_ready",
+  "columns": {
+    "order_id": {"dtype": "string"},
+    "customer_id": {"dtype": "string"},
+    "city": {
+      "dtype": "string",
+      "category_mapping": {
+        "HYD": "Hyderabad",
+        "Hyd": "Hyderabad",
+        "BLR": "Bengaluru",
+        "Bangalore": "Bengaluru",
+        "mumbai": "Mumbai",
+        "DEL": "New Delhi"
+      }
+    },
+    "order_date": {"dtype": "datetime", "date_format": "%d/%m/%Y", "on_error": "quarantine"},
+    "amount": {"dtype": "number", "currency_symbols": ["₹"]},
+    "channel": {"dtype": "string"}
+  },
+  "powerbi_config": {
+    "table_name": "sales",
+    "keys": [{"table": "sales", "columns": ["order_id"]}],
+    "generate_date_table": true,
+    "date_columns": {"sales": ["order_date"]},
+    "fiscal_year_start_month": 4
+  }
+}

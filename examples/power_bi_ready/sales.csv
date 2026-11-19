@@ -1,0 +1,12 @@
+Order ID,Customer ID,City,Order Date,Amount,Channel
+1001,001,HYD,15/01/2025,"₹1,250.50",Store
+1001,001,HYD,15/01/2025,"₹1,250.50",Store
+1002,002,Bangalore,02/02/2025,₹800,Online
+1003,003, Hyd ,03/02/2025,"₹2,300",Store
+1004,004,BLR,2025-03-01,₹450,Online
+1005,005,Mumbai,15-Jan-2025,₹100,Store
+1006,006,mumbai,16/01/2025,₹999.00,Online
+1007,001,Hyderabad,20/01/2025,,Store
+1008,007,Chennai,21/01/2025,n/a,Online
+1009,008,DEL,22/01/2025,"₹12,000",Store
+1010,009,New Delhi,23/01/2025,₹75.5,Online

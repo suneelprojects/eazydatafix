@@ -48,6 +48,15 @@ the transformation you want. `recipe.save(...)` writes JSON. YAML needs
 `pip install "eazydatafix[yaml]"`. PDF reports and PNG charts need
 `pip install "eazydatafix[reports]"`.
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/suneelprojects/eazydatafix/blob/main/notebooks/quickstart.ipynb)
+
+The [quickstart notebook](notebooks/quickstart.ipynb) installs the package,
+profiles a small sales file, previews a recipe, applies it, and replays the
+saved recipe on a second file. The
+[Power BI example](examples/power_bi_ready/README.md) turns a messy sales file
+into typed tables, a date dimension, and a change log. It does not create a
+`.pbix` file.
+
 From a checkout, run `python examples/v2_sales_pipeline.py`. Review steps,
 error policies, CLI use, and current limits are in the
 [recipe guide](docs/pipeline_recipes.md).
@@ -447,6 +456,8 @@ Detailed API documentation is maintained on the
 - [API Reference](https://eazydatafix.com/docs/reference)
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)
+- [Quickstart notebook](notebooks/quickstart.ipynb)
+- [Power BI example](examples/power_bi_ready/README.md)
 - [PyPI](https://pypi.org/project/eazydatafix/)
 - [GitHub Repository](https://github.com/suneelprojects/eazydatafix)
 - [GitHub Issues](https://github.com/suneelprojects/eazydatafix/issues)
